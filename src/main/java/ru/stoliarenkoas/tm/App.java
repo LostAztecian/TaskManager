@@ -10,13 +10,14 @@ public class App {
 
     public static void main(String[] args) {
 
-        final TaskRepository taskRepository = new TaskRepository();
         final ProjectRepository projectRepository = new ProjectRepository();
+        final TaskRepository taskRepository = new TaskRepository(projectRepository);
 
         System.out.println("*** WELCOME TO TASK-MANAGER ***");
         try {
-            String inputLine = null;
+            String inputLine;
             while ((inputLine = InputHelper.requestLine("enter command", true)) != null) {
+
                 if ("exit".equals(inputLine.toLowerCase())) break;
                 if ("help".equals(inputLine.toLowerCase())) {
                     InputHelper.printHelp();
@@ -63,6 +64,7 @@ public class App {
                 
                 System.out.println("INVALID COMMAND, TYPE EXIT TO END PROGRAM");
                 System.out.println();
+
             }
 
         } catch (IOException e) {

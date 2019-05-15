@@ -1,19 +1,25 @@
 package ru.stoliarenkoas.tm.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
 public class Task {
 
     private final String id = UUID.randomUUID().toString();
     private Project project;
     private String name;
     private String description;
+    private Date startDate;
 
+    @Override
+    public String toString() {
+        return String.format("Task: %s (%s) for project %s.", name, description, project.getName());
+    }
 }

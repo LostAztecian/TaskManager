@@ -13,14 +13,11 @@ public class ProjectRepository {
     public void createProject() throws IOException {
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
-        if (input == null) {
-            System.out.println("[CANCELLED]");
-            System.out.println();
-            return;
-        }
+        if (input == null) return;
         final String putType = projectMap.containsKey(input.toLowerCase()) ? "UPDATED" : "CREATED";
         final Project project = new Project();
         project.setName(input);
+        project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
         projectMap.put(project.getName().toLowerCase(), project);
         System.out.printf("[PROJECT %s %s] %n%n", project.getName().toUpperCase(), putType);
     }
@@ -47,7 +44,7 @@ public class ProjectRepository {
         System.out.println("PROJECT LIST");
         int index = 1;
         for (final Project project : projectMap.values()) {
-            System.out.printf("%d. %s %n", index++, project.getName());
+            System.out.printf("%d. %s %n", index++, project);
         }
         System.out.println();
     }
@@ -56,6 +53,14 @@ public class ProjectRepository {
         projectMap.clear();
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();
+    }
+
+    boolean containsProject(final String projectName) {
+        return projectMap.containsKey(projectName.toLowerCase());
+    }
+
+    Project getProjectByName(final String projectName) {
+        return projectMap.get(projectName.toLowerCase());
     }
     
 }
