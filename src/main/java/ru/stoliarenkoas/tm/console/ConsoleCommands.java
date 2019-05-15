@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm;
+package ru.stoliarenkoas.tm.console;
 
 public enum ConsoleCommands {
     

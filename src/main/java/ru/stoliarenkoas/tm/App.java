@@ -1,5 +1,6 @@
 package ru.stoliarenkoas.tm;
 
+import ru.stoliarenkoas.tm.console.ConsoleCommands;
 import ru.stoliarenkoas.tm.console.ConsoleHelper;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
