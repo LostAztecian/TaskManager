@@ -46,10 +46,10 @@ public class InputHelper {
         System.out.println("project-create: Create new project.");
         System.out.println("project-list: Show all projects.");
         System.out.println("project-remove: Remove selected project.");
-        System.out.println("task-clear: Remove all tasks.");
-        System.out.println("task-create: Create new task.");
-        System.out.println("task-list: Show all tasks.");
-        System.out.println("task-remove: Remove selected task.");
+        System.out.println("task-clear: Remove all tasks from a project.");
+        System.out.println("task-create: Create new task in a project.");
+        System.out.println("task-list: Show all tasks for a project.");
+        System.out.println("task-remove: Remove selected task for a project.");
         System.out.println();
     }
 
