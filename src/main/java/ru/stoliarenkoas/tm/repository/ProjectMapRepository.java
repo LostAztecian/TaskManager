@@ -3,41 +3,54 @@ package ru.stoliarenkoas.tm.repository;
 import ru.stoliarenkoas.tm.api.ProjectRepository;
 import ru.stoliarenkoas.tm.entity.Project;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ProjectMapRepository implements ProjectRepository {
 
     private final Map<String, Project> map = new LinkedHashMap<>();
 
     @Override
-    public List<Project> findAll() {
-        return null;
+    public Collection<Project> findAll() {
+        return map.values();
     }
 
     @Override
-    public List<Project> findByName() {
-        return null;
+    public Collection<Project> findByName(final String name) {
+        return map.values().stream().filter(p -> p.getName().equals(name)).collect(Collectors.toSet());
     }
 
     @Override
-    public Project findById(String id) {
-        return null;
+    public Project findOne(String id) {
+        return map.values().stream().filter(p -> p.getId().equals(id)).findAny().orElse(null);
+    }
+
+    @Override
+    public void persist(Project project) {
+        map.putIfAbsent(project.getId(), project);
+    }
+
+    @Override
+    public void merge(Project project) {
+        map.put(project.getId(), project);
     }
 
     @Override
     public void removeByName(String name, boolean allMatches) {
-
+        Stream<Project> stream = map.values().stream().filter(p -> p.getName().equals(name));
+        if (!allMatches) stream = stream.limit(1);
+        stream.forEachOrdered(p -> map.remove(p.getName()));
     }
 
     @Override
-    public void removeById(String id) {
-
+    public void remove(final String id) {
+        map.remove(id);
     }
 
     @Override
     public void removeAll() {
-
+        map.clear();
     }
+
 }

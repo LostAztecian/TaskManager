@@ -2,19 +2,23 @@ package ru.stoliarenkoas.tm.api;
 
 import ru.stoliarenkoas.tm.entity.Project;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface ProjectRepository {
 
-    List<Project> findAll();
+    Collection<Project> findAll();
 
-    List<Project> findByName();
+    Collection<Project> findByName(final String name);
 
-    Project findById(final String id);
+    Project findOne(final String id);
+
+    void persist(final Project project);
+
+    void merge(final Project project);
+
+    void remove(final String id);
 
     void removeByName(final String name, boolean allMatches);
-
-    void removeById(final String id);
 
     void removeAll();
 
