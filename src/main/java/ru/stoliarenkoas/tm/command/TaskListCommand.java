@@ -12,8 +12,14 @@ public class TaskListCommand extends Command {
     private static final String DESCRIPTION = "show all tasks for all projects";
 
     public TaskListCommand(final Bootstrap bootstrap) {
-        super(bootstrap, NAME, DESCRIPTION);
+        super(bootstrap);
     }
+
+    @Override
+    public String getName() { return NAME; }
+
+    @Override
+    public String getDescription() { return DESCRIPTION; }
 
     @Override
     public void execute() throws IOException {

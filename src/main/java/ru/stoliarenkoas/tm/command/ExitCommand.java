@@ -8,11 +8,18 @@ public class ExitCommand extends Command {
     private static final String DESCRIPTION = "end program";
 
     public ExitCommand(final Bootstrap bootstrap) {
-        super(bootstrap, NAME, DESCRIPTION);
+        super(bootstrap);
     }
+
+    @Override
+    public String getName() { return NAME; }
+
+    @Override
+    public String getDescription() { return DESCRIPTION; }
 
     @Override
     public void execute() {
         getBootstrap().terminate();
     }
+
 }

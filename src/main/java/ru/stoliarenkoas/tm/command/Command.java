@@ -14,10 +14,12 @@ import java.util.Collection;
 public abstract class Command {
 
     private final Bootstrap bootstrap;
-    private final String name;
-    private final String description;
 
     public abstract void execute() throws IOException;
+
+    public abstract String getName();
+
+    public abstract String getDescription();
 
     protected Project requestProject() throws IOException {
         final String taskProjectName = InputHelper.requestLine("ENTER PROJECT NAME", false);
@@ -34,7 +36,7 @@ public abstract class Command {
 
     @Override
     public String toString() {
-        return String.format("%s: %s.", name, description);
+        return String.format("%s: %s.", getName(), getDescription());
     }
 
 }

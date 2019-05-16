@@ -11,8 +11,14 @@ public class TaskClearCommand extends Command {
     private static final String DESCRIPTION = "removes all tasks from a selected project";
 
     public TaskClearCommand(final Bootstrap bootstrap) {
-        super(bootstrap, NAME, DESCRIPTION);
+        super(bootstrap);
     }
+
+    @Override
+    public String getName() { return NAME; }
+
+    @Override
+    public String getDescription() { return DESCRIPTION; }
 
     @Override
     public void execute() throws IOException {

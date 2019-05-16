@@ -10,8 +10,14 @@ public class ProjectClearCommand extends Command {
     private static final String DESCRIPTION = "remove all projects";
 
     public ProjectClearCommand(final Bootstrap bootstrap) {
-        super(bootstrap, NAME, DESCRIPTION);
+        super(bootstrap);
     }
+
+    @Override
+    public String getName() { return NAME; }
+
+    @Override
+    public String getDescription() { return DESCRIPTION; }
 
     @Override
     public void execute() throws IOException {
