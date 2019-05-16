@@ -2,53 +2,69 @@ package ru.stoliarenkoas.tm.console;
 
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
+import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
+import ru.stoliarenkoas.tm.repository.TaskMapRepository;
+import ru.stoliarenkoas.tm.service.ProjectService;
+import ru.stoliarenkoas.tm.service.TaskService;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class ConsoleHelper {
 
-    private final Map<String, Project> projectMap = new LinkedHashMap<>();
+    private TaskService tasks = new TaskService(new TaskMapRepository());
+    private ProjectService projects = new ProjectService(new ProjectMapRepository(), tasks);
 
     //region ProjectMethods
     public void createProject() throws IOException {
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
         if (input == null) return;
-        final String putType = projectMap.containsKey(input.toLowerCase()) ? "UPDATED" : "CREATED";
         final Project project = new Project();
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
-        projectMap.put(project.getName().toLowerCase(), project);
-        System.out.printf("[PROJECT %s %s] %n%n", project.getName().toUpperCase(), putType);
+        projects.save(project);
+        System.out.printf("[PROJECT %s CREATED] %n%n", project.getName().toUpperCase());
     }
 
     public void removeProject() throws IOException {
         System.out.println("[PROJECT DELETE]");
-        final Project project = requestProject();
-        if (project == null) return;
-        projectMap.remove(project.getName());
-        System.out.printf("[PROJECT %s DELETED] %n%n", project.getName().toUpperCase());
+        final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
+        if (projectName == null || projectName.isEmpty()) return;
+        projects.deleteByName(projectName, true);
+        System.out.printf("[PROJECTS WITH NAME %s DELETED] %n%n", projectName.toUpperCase());
     }
 
     public void showProjects() {
-        if (projectMap.isEmpty()) {
+        Collection<Project> allProjects = projects.getAll();
+        if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();
             return;
         }
         System.out.println("PROJECT LIST");
         int index = 1;
-        for (final Project project : projectMap.values()) {
+        for (final Project project : allProjects) {
             System.out.printf("%d. %s %n", index++, project);
         }
         System.out.println();
     }
 
+    public void showProjectTasks() throws IOException {
+        final Project project = requestProject();
+        if (project == null) return;
+        final Collection<Task> projectTasks = tasks.getByIds(project.getTaskIds());
+        if (projectTasks.isEmpty()) {
+            System.out.println("[PROJECT HAS NO TASKS]");
+            System.out.println();
+            return;
+        }
+        projectTasks.forEach(System.out::println);
+    }
+
     public void clearProjects() {
-        projectMap.clear();
+        projects.deleteAll();
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();
     }
@@ -73,7 +89,8 @@ public class ConsoleHelper {
         }
 
         final Task task = new Task(taskProject, taskName, taskDescription, taskStartDate);
-        taskProject.getTasks().add(task);
+        tasks.save(task);
+        taskProject.getTaskIds().add(task.getId());
         System.out.printf("[TASK %s CREATED] %n%n", task.getName().toUpperCase());
     }
 
@@ -83,32 +100,35 @@ public class ConsoleHelper {
         if (taskProject == null) return;
 
         final String input = InputHelper.requestLine("ENTER NAME:", true);
-        if (input == null || input.isEmpty()
-            || taskProject.getTasks().stream().anyMatch(t -> t.getName().equals(input.toLowerCase()))) {
+        if (input == null || input.isEmpty()) {
+            System.out.println("[NO SUCH TASK]");
+            System.out.println("[END]");
+            System.out.println();
+            return;
+        }
+        Collection<Task> tasksWithName = tasks.getAllByName(input);
+        tasksWithName.retainAll(tasks.getByIds(taskProject.getTaskIds()));
+        if (tasksWithName.isEmpty()) {
             System.out.println("[NO SUCH TASK]");
             System.out.println("[END]");
             System.out.println();
             return;
         }
 
-        taskProject.getTasks().remove(taskProject.getTasks()
-                .stream().filter(t -> t.getName().equals(input.toLowerCase())).findAny().get());
-
+        tasksWithName.forEach(t -> taskProject.getTaskIds().removeIf(id -> id == t.getId()));
         System.out.printf("[TASK %s DELETED] %n%n", input.toUpperCase());
     }
 
     public void showTasks() throws IOException {
-        final Project taskProject = requestProject();
-        if (taskProject == null) return;
-
-        if (taskProject.getTasks().isEmpty()) {
+        final Collection<Task> allTasks = tasks.getAll();
+        if (allTasks.isEmpty()) {
             System.out.println("[TASK LIST IS EMPTY]");
             System.out.println();
             return;
         }
         System.out.println("TASK LIST");
         int index = 1;
-        for (final Task task : taskProject.getTasks()) {
+        for (final Task task : allTasks) {
             System.out.printf("%d. %s %n", index++, task);
         }
         System.out.println();
@@ -117,22 +137,22 @@ public class ConsoleHelper {
     public void clearTasks() throws IOException {
         final Project taskProject = requestProject();
         if (taskProject == null) return;
-        taskProject.getTasks().clear();
-        System.out.println("[ALL PROJECTS REMOVED]");
-        System.out.println();
+        tasks.deleteByIds(taskProject.getTaskIds());
+        System.out.printf("[ALL PROJECT %s TASKS REMOVED] %n%n", taskProject.getName());
     }
     //endregion
 
     private Project requestProject() throws IOException {
         final String taskProjectName = InputHelper.requestLine("ENTER PROJECT NAME", false);
         if (taskProjectName == null) throw new IllegalArgumentException("null request name");
-        if (!projectMap.containsKey(taskProjectName)) {
-            System.out.println("[INVALID PROJECT]");
+        final Collection<Project> projectsWithGivenName = projects.getAllByName(taskProjectName);
+        if (projectsWithGivenName.isEmpty()) {
+            System.out.println("[NO SUCH PROJECT]");
             System.out.println("[END]");
             System.out.println();
             return null;
         }
-        return projectMap.get(taskProjectName);
+        return projectsWithGivenName.iterator().next();
     }
 
 }
