@@ -43,7 +43,7 @@ public class ProjectService {
 
     public void delete(final String id) {
         if (id == null || id.isEmpty()) return;
-
+        taskService.deleteByIds(repository.findOne(id).getTaskIds());
         repository.remove(id);
     }
 

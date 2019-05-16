@@ -32,7 +32,7 @@ public class InputHelper {
         return input;
     }
 
-    static Date requestDate() throws IOException {
+    public static Date requestDate() throws IOException {
         final String pattern = "DD.MM.YYYY";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         System.out.println("ENTER DATE("+ pattern + "):");

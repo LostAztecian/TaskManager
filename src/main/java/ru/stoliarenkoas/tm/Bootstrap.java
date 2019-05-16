@@ -1,77 +1,59 @@
 package ru.stoliarenkoas.tm;
 
-import ru.stoliarenkoas.tm.console.ConsoleCommands;
-import ru.stoliarenkoas.tm.console.ConsoleHelper;
+import lombok.Getter;
+import ru.stoliarenkoas.tm.command.*;
 import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
+import ru.stoliarenkoas.tm.repository.TaskMapRepository;
+import ru.stoliarenkoas.tm.service.ProjectService;
+import ru.stoliarenkoas.tm.service.TaskService;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Bootstrap {
 
-    public static void init() {
-        final ConsoleHelper consoleHelper = new ConsoleHelper();
+    @Getter
+    private final Map<String, Command> commands = new LinkedHashMap<>();
+    private boolean isTerminated = false;
+
+    @Getter
+    private ProjectService projectService;
+    @Getter
+    private TaskService taskService;
+
+    public void terminate() { isTerminated = true; }
+
+    public void init() {
+        taskService = new TaskService(new TaskMapRepository());
+        projectService = new ProjectService(new ProjectMapRepository(), taskService);
+
+        commands.put(HelpCommand.NAME, new HelpCommand(this));
+        commands.put(ExitCommand.NAME, new ExitCommand(this));
+        commands.put(ProjectCreateCommand.NAME, new ProjectCreateCommand(this));
+        commands.put(ProjectRemoveCommand.NAME, new ProjectRemoveCommand(this));
+        commands.put(ProjectListCommand.NAME, new ProjectListCommand(this));
+        commands.put(ProjectTaskListCommand.NAME, new ProjectTaskListCommand(this));
+        commands.put(ProjectClearCommand.NAME, new ProjectClearCommand(this));
+        commands.put(TaskCreateCommand.NAME, new TaskCreateCommand(this));
+        commands.put(TaskRemoveCommand.NAME, new TaskRemoveCommand(this));
+        commands.put(TaskListCommand.NAME, new TaskListCommand(this));
+        commands.put(TaskClearCommand.NAME, new TaskClearCommand(this));
 
         System.out.println("*** WELCOME TO TASK-MANAGER ***");
         try {
-            String inputLine;
-            MainCycle:
-            while ((inputLine = InputHelper.requestLine("enter command", true)) != null) {
-                ConsoleCommands command;
-                try {
-                    command = ConsoleCommands.valueOf(inputLine.toUpperCase().replace('-', '_'));
-                    switch (command) {
-                        case EXIT: { break MainCycle; }
-                        case HELP: {
-                            InputHelper.printHelp();
-                            continue;
-                        }
-                        //region ProjectCommands
-                        case PROJECT_CREATE: {
-                            consoleHelper.createProject();
-                            continue;
-                        }
-                        case PROJECT_REMOVE: {
-                            consoleHelper.removeProject();
-                            continue;
-                        }
-                        case PROJECT_LIST: {
-                            consoleHelper.showProjects();
-                            continue;
-                        }
-                        case PROJECT_TASK_LIST: {
-                            consoleHelper.showProjectTasks();
-                            continue;
-                        }
-                        case PROJECT_CLEAR: {
-                            consoleHelper.clearProjects();
-                            continue;
-                        }
-                        //endregion
-                        //region TaskCommands
-                        case TASK_CREATE: {
-                            consoleHelper.createTask();
-                            continue;
-                        }
-                        case TASK_REMOVE: {
-                            consoleHelper.removeTask();
-                            continue;
-                        }
-                        case TASK_LIST: {
-                            consoleHelper.showTasks();
-                            continue;
-                        }
-                        case TASK_CLEAR: {
-                            consoleHelper.clearTasks();
-                            continue;
-                        }
-                        //endregion
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("INVALID COMMAND, TYPE EXIT TO END PROGRAM");
+            while (!isTerminated) {
+                final String input = InputHelper.requestLine("enter command", true);
+                if (input == null || input.isEmpty()) continue;
+
+                final Command command = commands.get(input);
+                if (command == null) {
+                    System.out.println("COMMAND IS NOT SUPPORTED");
                     System.out.println();
                     continue;
                 }
-
+                command.execute();
             }
 
         } catch (IOException e) {

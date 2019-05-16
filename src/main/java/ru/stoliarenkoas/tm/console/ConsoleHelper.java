@@ -33,7 +33,7 @@ public class ConsoleHelper {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null || projectName.isEmpty()) return;
         projects.deleteByName(projectName, true);
-        System.out.printf("[PROJECTS WITH NAME %s DELETED] %n%n", projectName.toUpperCase());
+        System.out.printf("[PROJECTS WITH NAME \'%s\' DELETED] %n%n", projectName.toUpperCase());
     }
 
     public void showProjects() {
@@ -115,11 +115,11 @@ public class ConsoleHelper {
             return;
         }
 
-        tasksWithName.forEach(t -> taskProject.getTaskIds().removeIf(id -> id == t.getId()));
+        tasksWithName.forEach(t -> taskProject.getTaskIds().removeIf(id -> id.equals(t.getId())));
         System.out.printf("[TASK %s DELETED] %n%n", input.toUpperCase());
     }
 
-    public void showTasks() throws IOException {
+    public void showTasks() {
         final Collection<Task> allTasks = tasks.getAll();
         if (allTasks.isEmpty()) {
             System.out.println("[TASK LIST IS EMPTY]");
