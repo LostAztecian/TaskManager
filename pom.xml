@@ -40,7 +40,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ru.stoliarenkoas.tm.App</mainClass>
+                            <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

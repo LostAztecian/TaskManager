@@ -8,6 +8,7 @@ public enum ConsoleCommands {
     PROJECT_CREATE,
     PROJECT_REMOVE,
     PROJECT_LIST,
+    PROJECT_TASK_LIST,
     PROJECT_CLEAR, 
     
     TASK_CREATE,

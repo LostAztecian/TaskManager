@@ -38,9 +38,11 @@ public class ProjectMapRepository implements ProjectRepository {
 
     @Override
     public void removeByName(String name, boolean allMatches) {
+        Collection<String> ids = new HashSet<>();
         Stream<Project> stream = map.values().stream().filter(p -> p.getName().equals(name));
         if (!allMatches) stream = stream.limit(1);
-        stream.forEachOrdered(p -> map.remove(p.getName()));
+        stream.forEach(p -> ids.add(p.getId()));
+        ids.forEach(map::remove);
     }
 
     @Override
