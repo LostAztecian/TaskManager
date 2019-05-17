@@ -8,7 +8,7 @@ public final class HelpCommand extends Command {
     private static final String DESCRIPTION = "show all commands";
 
     public HelpCommand(final Bootstrap bootstrap) {
-        super(bootstrap);
+        super(bootstrap, false);
     }
 
     @Override
@@ -18,8 +18,9 @@ public final class HelpCommand extends Command {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void execute() {
-        getBootstrap().getCommands().values().forEach(System.out::println);
+    public void run() {
+        final boolean loggedIn = getBootstrap().getCurrentUser() != null;
+        getBootstrap().getCommands().values().forEach(c -> {if (!c.isPrivate() || loggedIn) System.out.println(c);});
     }
 
 }

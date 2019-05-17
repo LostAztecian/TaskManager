@@ -6,6 +6,7 @@ import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 
 public class ProjectTaskListCommand extends Command {
 
@@ -13,7 +14,7 @@ public class ProjectTaskListCommand extends Command {
     private static final String DESCRIPTION = "show all tasks for selected project";
 
     public ProjectTaskListCommand(final Bootstrap bootstrap) {
-        super(bootstrap);
+        super(bootstrap, true);
     }
 
     @Override
@@ -23,16 +24,22 @@ public class ProjectTaskListCommand extends Command {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void execute() throws IOException {
-        final Project project = requestProject();
-        if (project == null) return;
-        final Collection<Task> projectTasks = getBootstrap().getTaskService().getByIds(project.getTaskIds());
-        if (projectTasks.isEmpty()) {
+    public void run() throws IOException {
+        final Collection<Project> projects = requestProjectsByName();
+        if (projects == null) return;
+        final Collection<Task> tasks = new LinkedHashSet<>();
+        for (final Project project : projects) {
+            tasks.addAll(getBootstrap().getTaskService().getByIds(project.getTaskIds()));
+        }
+        if (tasks.isEmpty()) {
             System.out.println("[PROJECT HAS NO TASKS]");
             System.out.println();
             return;
         }
-        projectTasks.forEach(System.out::println);
+        int index = 1;
+        for (final Task task : tasks) {
+            System.out.printf("%d. %s.%n", index, task);
+        }
     }
 
 }

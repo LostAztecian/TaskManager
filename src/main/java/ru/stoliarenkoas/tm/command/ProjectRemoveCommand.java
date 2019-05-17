@@ -1,9 +1,11 @@
 package ru.stoliarenkoas.tm.command;
 
 import ru.stoliarenkoas.tm.Bootstrap;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.entity.Project;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ProjectRemoveCommand extends Command {
 
@@ -11,7 +13,7 @@ public class ProjectRemoveCommand extends Command {
     private static final String DESCRIPTION = "remove project and all associated tasks";
 
     public ProjectRemoveCommand(final Bootstrap bootstrap) {
-        super(bootstrap);
+        super(bootstrap, true);
     }
 
     @Override
@@ -21,12 +23,15 @@ public class ProjectRemoveCommand extends Command {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void execute() throws IOException {
+    public void run() throws IOException {
         System.out.println("[PROJECT DELETE]");
-        final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
-        if (projectName == null || projectName.isEmpty()) return;
-        getBootstrap().getProjectService().deleteByName(projectName, true);
-        System.out.printf("[PROJECTS WITH NAME \'%s\' DELETED] %n%n", projectName.toUpperCase());
+        final Collection<Project> projects = requestProjectsByName();
+        if (projects == null) return;
+        final Collection<String> ids = projects.stream().map(Project::getId).collect(Collectors.toSet());
+        getBootstrap().getCurrentUser().getProjectIds().removeAll(ids);
+        getBootstrap().getProjectService().deleteByIds(ids);
+        System.out.println("[PROJECT(S) DELETED");
+        System.out.println();
     }
 
 }

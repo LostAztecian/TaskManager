@@ -8,7 +8,7 @@ public class ExitCommand extends Command {
     private static final String DESCRIPTION = "end program";
 
     public ExitCommand(final Bootstrap bootstrap) {
-        super(bootstrap);
+        super(bootstrap, false);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class ExitCommand extends Command {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void execute() {
+    public void run() {
         getBootstrap().terminate();
     }
 

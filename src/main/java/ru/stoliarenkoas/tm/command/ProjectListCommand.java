@@ -2,6 +2,7 @@ package ru.stoliarenkoas.tm.command;
 
 import ru.stoliarenkoas.tm.Bootstrap;
 import ru.stoliarenkoas.tm.entity.Project;
+import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -12,7 +13,7 @@ public class ProjectListCommand extends Command {
     private static final String DESCRIPTION = "show all projects";
 
     public ProjectListCommand(final Bootstrap bootstrap) {
-        super(bootstrap);
+        super(bootstrap, true);
     }
 
     @Override
@@ -22,8 +23,9 @@ public class ProjectListCommand extends Command {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void execute() throws IOException {
-        Collection<Project> allProjects = getBootstrap().getProjectService().getAll();
+    public void run() throws IOException {
+        final User user = getBootstrap().getCurrentUser();
+        final Collection<Project> allProjects = getBootstrap().getProjectService().getByIds(user.getProjectIds());
         if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();

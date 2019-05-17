@@ -47,6 +47,11 @@ public class ProjectService {
         repository.remove(id);
     }
 
+    public void deleteByIds(final Collection<String> ids) {
+        if (ids == null || ids.isEmpty()) return;
+        ids.forEach(repository::remove);
+    }
+
     public void deleteByName(final String name, boolean allMatches) {
         if (name == null || name.isEmpty()) return;
         repository.removeByName(name, allMatches);

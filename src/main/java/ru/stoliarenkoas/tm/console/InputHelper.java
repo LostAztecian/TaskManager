@@ -22,7 +22,7 @@ public class InputHelper {
                     System.out.println();
                     return null;
                 }
-                System.out.println("EMPTY NAMES ARE NOT ALLOWED");
+                System.out.println("EMPTY FIELDS ARE NOT ALLOWED");
                 System.out.println("type \"END\" TO RETURN");
                 System.out.println();
                 System.out.println(requestText);
@@ -39,4 +39,18 @@ public class InputHelper {
         return formatter.parse(READER.readLine(), new ParsePosition(0));
     }
 
+    public static String getMd5(final String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
