@@ -25,7 +25,8 @@ public class ProjectListCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         final User user = getServiceLocator().getCurrentUser();
-        final Collection<Project> allProjects = getServiceLocator().getProjectService().getByIds(user.getProjectIds());
+        final Collection<Project> allProjects = getServiceLocator().getProjectService()
+            .getAllByParentId(user.getId());
         if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();

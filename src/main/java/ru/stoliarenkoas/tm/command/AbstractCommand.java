@@ -36,9 +36,11 @@ public abstract class AbstractCommand implements ru.stoliarenkoas.tm.api.Command
     protected Collection<Project> requestProjectsByName() throws IOException {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) throw new IllegalArgumentException("null request name");
-        final Collection<Project> userProjects = getServiceLocator().getProjectService().getByIds(getServiceLocator().getCurrentUser().getProjectIds());
-        final Collection<Project> projectsWithName = userProjects.stream()
-                .filter(p -> p.getName().equals(projectName))
+        final Collection<Project> projectsWithName = getServiceLocator()
+                .getProjectService()
+                .getAllByParentId(getServiceLocator().getCurrentUser().getId())
+                .stream()
+                .filter(p -> projectName.equals(p.getName()))
                 .collect(Collectors.toSet());
         if (projectsWithName.isEmpty()) {
             System.out.println("[NO PROJECTS MATCH GIVEN NAME]");

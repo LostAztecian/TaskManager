@@ -28,9 +28,9 @@ public class ProjectRemoveCommand extends AbstractCommand {
         final Collection<Project> projects = requestProjectsByName();
         if (projects == null) return;
         final Collection<String> ids = projects.stream().map(Project::getId).collect(Collectors.toSet());
-        getServiceLocator().getCurrentUser().getProjectIds().removeAll(ids);
+        getServiceLocator().getProjectService().getAllByParentId(getServiceLocator().getCurrentUser().getId());
         getServiceLocator().getProjectService().deleteByIds(ids);
-        System.out.println("[PROJECT(S) DELETED");
+        System.out.println("[PROJECT(S) DELETED]");
         System.out.println();
     }
 

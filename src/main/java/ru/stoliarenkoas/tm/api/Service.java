@@ -10,11 +10,17 @@ public interface Service<T extends Entity> {
 
     Collection<T> getByIds(Collection<String> ids);
 
+    Collection<T> getAllByParentId(final String id);
+
     T get(String id);
 
     void save(T project);
 
     void delete(String id);
+
+    void delete(T object);
+
+    void deleteChildrenByParentId(final String id);
 
     void deleteByIds(Collection<String> ids);
 

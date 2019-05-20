@@ -29,7 +29,7 @@ public class ProjectTaskListCommand extends AbstractCommand {
         if (projects == null) return;
         final Collection<Task> tasks = new LinkedHashSet<>();
         for (final Project project : projects) {
-            tasks.addAll(getServiceLocator().getTaskService().getByIds(project.getTaskIds()));
+            tasks.addAll(getServiceLocator().getTaskService().getAllByParentId(project.getId()));
         }
         if (tasks.isEmpty()) {
             System.out.println("[PROJECT HAS NO TASKS]");

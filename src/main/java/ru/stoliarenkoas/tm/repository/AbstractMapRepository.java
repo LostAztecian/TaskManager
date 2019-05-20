@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class AbstractMapRepository<T extends Entity> implements Repository {
 
@@ -21,6 +20,11 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     @Override
     public Collection<T> findByName(final String name) {
         return map.values().stream().filter(e -> e.getName().equals(name)).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Collection findByParentId(String id) {
+        return map.values().stream().filter(e -> e.getParentId().equals(id)).collect(Collectors.toSet());
     }
 
     @Override
@@ -55,6 +59,11 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     @Override
     public void remove(final String id) {
         map.remove(id);
+    }
+
+    @Override
+    public void remove(Entity object) {
+        map.remove(object.getId());
     }
 
     @Override

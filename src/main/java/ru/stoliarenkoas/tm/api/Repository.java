@@ -6,6 +6,8 @@ public interface Repository<T extends Entity> {
 
     Collection<T> findAll();
 
+    Collection<T> findByParentId(final String id);
+
     Collection<T> findByName(final String name);
 
     T findOne(final String id);
@@ -15,6 +17,8 @@ public interface Repository<T extends Entity> {
     void merge(final T object);
 
     void remove(final String id);
+
+    void remove(final T object);
 
 //    void removeByName(final String name, boolean allMatches);
 

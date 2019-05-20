@@ -27,28 +27,22 @@ public class TaskRemoveCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[TASK DELETE]");
-        final Collection<Project> projects = getServiceLocator().getProjectService()
-                .getByIds(getServiceLocator().getCurrentUser().getProjectIds());
-        final Collection<String> taskIds = projects.stream()
-                .map(Project::getTaskIds)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
+        final Collection<String> projectsIds = getServiceLocator().getProjectService()
+                .getAllByParentId(getServiceLocator().getCurrentUser().getId())
+                .stream().map(Project::getId).collect(Collectors.toSet());
 
         final String taskName = InputHelper.requestLine("ENTER TASK NAME:", true);
         if (taskName == null || taskName.isEmpty()) {
             printNoSuchTask();
             return;
         }
-        final Collection<Task> tasks = getServiceLocator().getTaskService().getByIds(taskIds).stream()
-                .filter(t -> t.getName().equals(taskName)).collect(Collectors.toSet());
+        final Collection<Task> tasks = getServiceLocator().getTaskService().getAllByName(taskName)
+                .stream().filter(t -> projectsIds.contains(t.getParentId())).collect(Collectors.toSet());
         if (tasks.isEmpty()) {
             printNoSuchTask();
             return;
         }
-        tasks.forEach(t -> {
-            getServiceLocator().getTaskService().delete(t.getId());
-            t.getProject().getTaskIds().remove(t.getId());
-        });
+        tasks.forEach(t -> getServiceLocator().getTaskService().delete(t.getId()));
         System.out.println("[TASKS REMOVED]");
         System.out.println();
     }

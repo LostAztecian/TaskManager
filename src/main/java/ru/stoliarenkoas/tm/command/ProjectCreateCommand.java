@@ -26,11 +26,10 @@ public class ProjectCreateCommand extends AbstractCommand {
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
         if (input == null) return;
-        final Project project = new Project();
+        final Project project = new Project(getServiceLocator().getCurrentUser().getId());
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
         getServiceLocator().getProjectService().save(project);
-        getServiceLocator().getCurrentUser().getProjectIds().add(project.getId());
         System.out.printf("[PROJECT \'%s\' CREATED] %n%n", project.getName().toUpperCase());
     }
 

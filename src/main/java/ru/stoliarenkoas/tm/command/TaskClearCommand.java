@@ -24,14 +24,11 @@ public class TaskClearCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Collection<Project> projects = getServiceLocator().getProjectService()
-                .getByIds(getServiceLocator().getCurrentUser().getProjectIds());
-        final Collection<String> taskIds = projects.stream()
-                .map(Project::getTaskIds)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
-        getServiceLocator().getTaskService().deleteByIds(taskIds);
-        projects.forEach(p -> p.getTaskIds().clear());
+        getServiceLocator().getProjectService()
+            .getAllByParentId(getServiceLocator().getCurrentUser().getId())
+            .forEach(p ->
+                getServiceLocator().getTaskService().getAllByParentId(p.getId())
+                        .forEach(getServiceLocator().getTaskService()::delete));
         System.out.printf("[ALL TASKS FOR USER \'%s\' REMOVED] %n%n", getServiceLocator().getCurrentUser().getLogin());
     }
 

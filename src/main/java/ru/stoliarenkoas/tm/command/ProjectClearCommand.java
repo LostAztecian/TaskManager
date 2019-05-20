@@ -1,6 +1,9 @@
 package ru.stoliarenkoas.tm.command;
 
 import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.entity.Project;
+
+import java.util.Collection;
 
 public class ProjectClearCommand extends AbstractCommand {
 
@@ -19,8 +22,9 @@ public class ProjectClearCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        getServiceLocator().getProjectService().deleteByIds(getServiceLocator().getCurrentUser().getProjectIds());
-        getServiceLocator().getCurrentUser().getProjectIds().clear();
+        getServiceLocator().getProjectService().getAllByParentId(getServiceLocator().getCurrentUser().getId())
+                .forEach(p -> getServiceLocator().getTaskService().deleteChildrenByParentId(p.getId()));
+        getServiceLocator().getProjectService().deleteChildrenByParentId(getServiceLocator().getCurrentUser().getId());
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();
     }

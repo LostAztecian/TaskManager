@@ -44,9 +44,8 @@ public class TaskCreateCommand extends AbstractCommand {
             taskStartDate = new Date();
         }
 
-        final Task task = new Task(project.get(), taskName, taskDescription, taskStartDate);
+        final Task task = new Task(project.get().getId(), taskName, taskDescription, taskStartDate);
         getServiceLocator().getTaskService().save(task);
-        project.get().getTaskIds().add(task.getId());
         System.out.printf("[TASK %s CREATED] %n%n", task.getName().toUpperCase());
     }
 

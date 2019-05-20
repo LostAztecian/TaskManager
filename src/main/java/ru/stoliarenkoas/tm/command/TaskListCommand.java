@@ -6,6 +6,7 @@ import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.stream.Collectors;
 
 public class TaskListCommand extends AbstractCommand {
@@ -26,12 +27,9 @@ public class TaskListCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         final Collection<Project> projects = getServiceLocator().getProjectService()
-                .getByIds(getServiceLocator().getCurrentUser().getProjectIds());
-        final Collection<String> taskIds = projects.stream()
-                .map(Project::getTaskIds)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
-        final Collection<Task> allTasks = getServiceLocator().getTaskService().getByIds(taskIds);
+                .getAllByParentId(getServiceLocator().getCurrentUser().getId());
+        final Collection<Task> allTasks = new LinkedHashSet<>();
+        projects.forEach(p -> allTasks.addAll(getServiceLocator().getTaskService().getAllByParentId(p.getId())));
         if (allTasks.isEmpty()) {
             System.out.println("[TASK LIST IS EMPTY]");
             System.out.println();
