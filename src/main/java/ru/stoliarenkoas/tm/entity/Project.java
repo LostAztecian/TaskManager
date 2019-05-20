@@ -2,6 +2,7 @@ package ru.stoliarenkoas.tm.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.stoliarenkoas.tm.api.Entity;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class Project {
+public class Project implements Entity {
 
     private final String id = UUID.randomUUID().toString();
     private String name;

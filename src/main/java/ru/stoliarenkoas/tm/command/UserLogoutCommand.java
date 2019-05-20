@@ -1,15 +1,15 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 
 import java.io.IOException;
 
-public class UserLogoutCommand extends Command {
+public class UserLogoutCommand extends AbstractCommand {
 
     public static final String NAME = "user-logout";
     private static final String DESCRIPTION = "end user session";
 
-    public UserLogoutCommand(final Bootstrap bootstrap) { super(bootstrap, true); }
+    public UserLogoutCommand(final ServiceLocator serviceLocator) { super(serviceLocator, true); }
 
     @Override
     public String getName() { return NAME; }
@@ -19,7 +19,7 @@ public class UserLogoutCommand extends Command {
 
     @Override
     public void run() throws IOException {
-        getBootstrap().setCurrentUser(null);
+        getServiceLocator().setCurrentUser(null);
         System.out.println("LOGGED OUT");
         System.out.println();
     }

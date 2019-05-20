@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
@@ -11,7 +11,7 @@ public class UserChangePasswordCommand extends UserCommand {
     public static final String NAME = "user-change-password";
     private static final String DESCRIPTION = "change password for current user";
 
-    public UserChangePasswordCommand(Bootstrap bootstrap) { super(bootstrap, true); }
+    public UserChangePasswordCommand(final ServiceLocator serviceLocator) { super(serviceLocator, true); }
 
     @Override
     public String getName() { return NAME; }
@@ -21,7 +21,7 @@ public class UserChangePasswordCommand extends UserCommand {
 
     @Override
     public void run() throws IOException {
-        final User user = getBootstrap().getCurrentUser();
+        final User user = getServiceLocator().getCurrentUser();
 
         final String pwd = InputHelper.requestLine("ENTER OLD PASSWORD:", false);
         if (pwd == null) return;
@@ -35,7 +35,7 @@ public class UserChangePasswordCommand extends UserCommand {
         final String newPwd = requestNewPassword();
         if (newPwd == null) return;
         user.setPwdHash(InputHelper.getMd5(newPwd));
-        getBootstrap().getUserService().update(user);
+        getServiceLocator().getUserService().save(user);
         System.out.println("[PASSWORD UPDATED]");
         System.out.println();
     }

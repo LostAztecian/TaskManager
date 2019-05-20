@@ -1,18 +1,18 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 
 import java.io.IOException;
 
-public class ProjectCreateCommand extends Command {
+public class ProjectCreateCommand extends AbstractCommand {
 
     public static final String NAME = "project-create";
-    private static final String DESCRIPTION = "create new project";
+    private static final String DESCRIPTION = "save new project";
 
-    public ProjectCreateCommand(final Bootstrap bootstrap) {
-        super(bootstrap, true);
+    public ProjectCreateCommand(final ServiceLocator serviceLocator) {
+        super(serviceLocator, true);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class ProjectCreateCommand extends Command {
         final Project project = new Project();
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
-        getBootstrap().getProjectService().save(project);
-        getBootstrap().getCurrentUser().getProjectIds().add(project.getId());
+        getServiceLocator().getProjectService().save(project);
+        getServiceLocator().getCurrentUser().getProjectIds().add(project.getId());
         System.out.printf("[PROJECT \'%s\' CREATED] %n%n", project.getName().toUpperCase());
     }
 

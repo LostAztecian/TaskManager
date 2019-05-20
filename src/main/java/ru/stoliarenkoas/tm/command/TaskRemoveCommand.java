@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class TaskRemoveCommand extends Command {
+public class TaskRemoveCommand extends AbstractCommand {
 
     public static final String NAME = "task-remove";
     private static final String DESCRIPTION = "delete task in a selected project";
 
-    public TaskRemoveCommand(final Bootstrap bootstrap) {
-        super(bootstrap, true);
+    public TaskRemoveCommand(final ServiceLocator serviceLocator) {
+        super(serviceLocator, true);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class TaskRemoveCommand extends Command {
     @Override
     public void run() throws IOException {
         System.out.println("[TASK DELETE]");
-        final Collection<Project> projects = getBootstrap().getProjectService()
-                .getByIds(getBootstrap().getCurrentUser().getProjectIds());
+        final Collection<Project> projects = getServiceLocator().getProjectService()
+                .getByIds(getServiceLocator().getCurrentUser().getProjectIds());
         final Collection<String> taskIds = projects.stream()
                 .map(Project::getTaskIds)
                 .flatMap(Collection::stream)
@@ -39,14 +39,14 @@ public class TaskRemoveCommand extends Command {
             printNoSuchTask();
             return;
         }
-        final Collection<Task> tasks = getBootstrap().getTaskService().getByIds(taskIds).stream()
+        final Collection<Task> tasks = getServiceLocator().getTaskService().getByIds(taskIds).stream()
                 .filter(t -> t.getName().equals(taskName)).collect(Collectors.toSet());
         if (tasks.isEmpty()) {
             printNoSuchTask();
             return;
         }
         tasks.forEach(t -> {
-            getBootstrap().getTaskService().delete(t.getId());
+            getServiceLocator().getTaskService().delete(t.getId());
             t.getProject().getTaskIds().remove(t.getId());
         });
         System.out.println("[TASKS REMOVED]");

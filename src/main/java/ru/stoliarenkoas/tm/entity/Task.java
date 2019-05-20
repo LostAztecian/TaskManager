@@ -3,6 +3,7 @@ package ru.stoliarenkoas.tm.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import ru.stoliarenkoas.tm.api.Entity;
 
 import java.util.Date;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Task {
+public class Task implements Entity {
 
     private final String id = UUID.randomUUID().toString();
     private Project project;

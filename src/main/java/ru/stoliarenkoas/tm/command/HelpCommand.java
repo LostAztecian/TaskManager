@@ -1,14 +1,14 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 
-public final class HelpCommand extends Command {
+public final class HelpCommand extends AbstractCommand {
 
     public static final String NAME = "help";
     private static final String DESCRIPTION = "show all commands";
 
-    public HelpCommand(final Bootstrap bootstrap) {
-        super(bootstrap, false);
+    public HelpCommand(final ServiceLocator serviceLocator) {
+        super(serviceLocator, false);
     }
 
     @Override
@@ -19,8 +19,8 @@ public final class HelpCommand extends Command {
 
     @Override
     public void run() {
-        final boolean loggedIn = getBootstrap().getCurrentUser() != null;
-        getBootstrap().getCommands().values().forEach(c -> {if (!c.isPrivate() || loggedIn) System.out.println(c);});
+        final boolean loggedIn = getServiceLocator().getCurrentUser() != null;
+        getServiceLocator().getCommands().values().forEach(c -> {if (!c.isPrivate() || loggedIn) System.out.println(c);});
     }
 
 }

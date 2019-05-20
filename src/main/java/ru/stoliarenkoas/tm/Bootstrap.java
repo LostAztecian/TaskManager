@@ -2,21 +2,23 @@ package ru.stoliarenkoas.tm;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.stoliarenkoas.tm.api.Command;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.command.*;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
 import ru.stoliarenkoas.tm.repository.TaskMapRepository;
 import ru.stoliarenkoas.tm.repository.UserMapRepository;
-import ru.stoliarenkoas.tm.service.ProjectService;
-import ru.stoliarenkoas.tm.service.TaskService;
-import ru.stoliarenkoas.tm.service.UserService;
+import ru.stoliarenkoas.tm.service.ProjectServiceImpl;
+import ru.stoliarenkoas.tm.service.TaskServiceImpl;
+import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Bootstrap {
+public class Bootstrap implements ServiceLocator {
 
     @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();
@@ -26,11 +28,11 @@ public class Bootstrap {
     private User currentUser;
 
     @Getter
-    private ProjectService projectService;
+    private ProjectServiceImpl projectService;
     @Getter
-    private TaskService taskService;
+    private TaskServiceImpl taskService;
     @Getter
-    private UserService userService;
+    private UserServiceImpl userService;
 
     public void terminate() { isTerminated = true; }
 
@@ -42,19 +44,20 @@ public class Bootstrap {
     }
 
     private void initUsers() {
-        userService.create(new User("admin", "admin", User.Role.ADMIN));
-        userService.create(new User("demo", "demo", User.Role.USER));
+        userService.save(new User("admin", "admin", User.Role.ADMIN));
+        userService.save(new User("demo", "demo", User.Role.USER));
     }
 
     private void initMethods() {
-        taskService = new TaskService(new TaskMapRepository());
-        projectService = new ProjectService(new ProjectMapRepository(), taskService);
-        userService = new UserService((new UserMapRepository()));
+        taskService = new TaskServiceImpl(new TaskMapRepository());
+        projectService = new ProjectServiceImpl(new ProjectMapRepository(), taskService);
+        userService = new UserServiceImpl((new UserMapRepository()), projectService);
     }
 
     private void initCommands() {
         commands.put(HelpCommand.NAME, new HelpCommand(this));
         commands.put(ExitCommand.NAME, new ExitCommand(this));
+        commands.put(AboutCommand.NAME, new AboutCommand(this));
         commands.put(ProjectCreateCommand.NAME, new ProjectCreateCommand(this));
         commands.put(ProjectRemoveCommand.NAME, new ProjectRemoveCommand(this));
         commands.put(ProjectListCommand.NAME, new ProjectListCommand(this));

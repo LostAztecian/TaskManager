@@ -1,14 +1,14 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
 import java.io.IOException;
 
-abstract class UserCommand extends Command {
+abstract class UserCommand extends AbstractCommand {
 
-    UserCommand(Bootstrap bootstrap, boolean secured) {
-        super(bootstrap, secured);
+    UserCommand(final ServiceLocator serviceLocator, boolean secured) {
+        super(serviceLocator, secured);
     }
 
     String requestNewPassword() throws IOException {

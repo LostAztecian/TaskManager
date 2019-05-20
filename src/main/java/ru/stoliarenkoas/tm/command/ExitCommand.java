@@ -1,14 +1,14 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 
-public class ExitCommand extends Command {
+public class ExitCommand extends AbstractCommand {
 
     public static final String NAME = "exit";
     private static final String DESCRIPTION = "end program";
 
-    public ExitCommand(final Bootstrap bootstrap) {
-        super(bootstrap, false);
+    public ExitCommand(final ServiceLocator serviceLocator) {
+        super(serviceLocator, false);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class ExitCommand extends Command {
 
     @Override
     public void run() {
-        getBootstrap().terminate();
+        getServiceLocator().terminate();
     }
 
 }

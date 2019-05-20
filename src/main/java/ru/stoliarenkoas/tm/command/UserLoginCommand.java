@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
@@ -11,8 +11,8 @@ public class UserLoginCommand extends UserCommand {
     public static final String NAME = "user-login";
     private static final String DESCRIPTION = "authorize user for further work";
 
-    public UserLoginCommand(final Bootstrap bootstrap) {
-        super(bootstrap, false);
+    public UserLoginCommand(final ServiceLocator serviceLocator) {
+        super(serviceLocator, false);
     }
 
     @Override
@@ -31,13 +31,13 @@ public class UserLoginCommand extends UserCommand {
             printAuthFailed();
             return;
         }
-        final User user = getBootstrap().getUserService().getByLogin(userLogin);
+        final User user = getServiceLocator().getUserService().getAllByName(userLogin).stream().findAny().get();
         final String pwdHash = InputHelper.getMd5(userPassword);
         if (user == null || pwdHash == null || !pwdHash.equals(user.getPwdHash())) {
             printAuthFailed();
             return;
         }
-        getBootstrap().setCurrentUser(user);
+        getServiceLocator().setCurrentUser(user);
         System.out.printf("[LOGGED IN AS %s] %n%n", user.getLogin());
     }
 

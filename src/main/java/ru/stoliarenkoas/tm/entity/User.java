@@ -3,6 +3,7 @@ package ru.stoliarenkoas.tm.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
 import java.util.LinkedHashSet;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class User {
+public class User implements Entity {
 
     public enum Role {
         USER("user"),
@@ -39,6 +40,16 @@ public class User {
         this.login = login;
         this.pwdHash = InputHelper.getMd5(password);
         this.role = role;
+    }
+
+    @Override
+    public String getId() {
+        return userId;
+    }
+
+    @Override
+    public String getName() {
+        return login;
     }
 
     @Override

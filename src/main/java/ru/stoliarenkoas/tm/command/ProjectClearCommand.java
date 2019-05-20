@@ -1,14 +1,14 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 
-public class ProjectClearCommand extends Command {
+public class ProjectClearCommand extends AbstractCommand {
 
     public static final String NAME = "project-clear";
     private static final String DESCRIPTION = "remove all projects";
 
-    public ProjectClearCommand(final Bootstrap bootstrap) {
-        super(bootstrap, true);
+    public ProjectClearCommand(final ServiceLocator serviceLocator) {
+        super(serviceLocator, true);
     }
 
     @Override
@@ -19,8 +19,8 @@ public class ProjectClearCommand extends Command {
 
     @Override
     public void run() {
-        getBootstrap().getProjectService().deleteByIds(getBootstrap().getCurrentUser().getProjectIds());
-        getBootstrap().getCurrentUser().getProjectIds().clear();
+        getServiceLocator().getProjectService().deleteByIds(getServiceLocator().getCurrentUser().getProjectIds());
+        getServiceLocator().getCurrentUser().getProjectIds().clear();
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();
     }

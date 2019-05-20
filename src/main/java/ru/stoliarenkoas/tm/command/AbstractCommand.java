@@ -2,7 +2,7 @@ package ru.stoliarenkoas.tm.command;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import ru.stoliarenkoas.tm.Bootstrap;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 
@@ -12,13 +12,14 @@ import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor
-public abstract class Command {
+public abstract class AbstractCommand implements ru.stoliarenkoas.tm.api.Command {
 
-    private final Bootstrap bootstrap;
+    private final ServiceLocator serviceLocator;
     private final boolean secured;
 
+    @Override
     public final void execute() throws IOException {
-        if (isPrivate() && bootstrap.getCurrentUser() == null) {
+        if (isPrivate() && serviceLocator.getCurrentUser() == null) {
             System.out.println("COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION");
             return;
         }
@@ -27,8 +28,7 @@ public abstract class Command {
 
     protected abstract void run() throws IOException;
 
-    public abstract String getName();
-    public abstract String getDescription();
+    @Override
     public final boolean isPrivate() {
         return secured;
     };
@@ -36,7 +36,7 @@ public abstract class Command {
     protected Collection<Project> requestProjectsByName() throws IOException {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) throw new IllegalArgumentException("null request name");
-        final Collection<Project> userProjects = getBootstrap().getProjectService().getByIds(getBootstrap().getCurrentUser().getProjectIds());
+        final Collection<Project> userProjects = getServiceLocator().getProjectService().getByIds(getServiceLocator().getCurrentUser().getProjectIds());
         final Collection<Project> projectsWithName = userProjects.stream()
                 .filter(p -> p.getName().equals(projectName))
                 .collect(Collectors.toSet());
