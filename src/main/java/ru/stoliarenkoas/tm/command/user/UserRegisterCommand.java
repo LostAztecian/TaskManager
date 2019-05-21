@@ -1,38 +1,46 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
 
-public class UserRegisterCommand extends UserCommand {
+public class UserRegisterCommand extends AbstractCommand {
 
-    public static final String NAME = "user-register";
-    private static final String DESCRIPTION = "register a new user";
+    @NotNull public static final String NAME = "user-register";
+    @NotNull private static final String DESCRIPTION = "register a new user";
 
-    public UserRegisterCommand(final Bootstrap bootstrap) { super(bootstrap, false); }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return false;
+    }
 
     @Override
     public void run() throws IOException {
         System.out.println("[REGISTRING NEW USER]");
         final String userLogin = requestNewLogin();
         if (userLogin == null) return;
-        final String userPwd = requestNewPassword();
+        final String userPwd = InputHelper.requestNewPassword();
         if (userPwd == null) return;
-        getBootstrap().getUserService().create(new User(userLogin, userPwd));
+        getServiceLocator().getUserService().save(new User(userLogin, userPwd));
     }
 
+    @Nullable
     private String requestNewLogin() throws IOException {
         String userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
         if (userLogin == null) return null;
-        while (getBootstrap().getUserService().getByLogin(userLogin) != null) {
+        while (!getServiceLocator().getUserService().getAllByName(userLogin).isEmpty()) {
             System.out.println("USERNAME IS ALREADY TAKEN, PLEASE TRY AGAIN");
             userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
         }

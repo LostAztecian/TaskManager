@@ -1,25 +1,30 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
+import java.util.Optional;
 
-public class UserLoginCommand extends UserCommand {
+public class UserLoginCommand extends AbstractCommand {
 
-    public static final String NAME = "user-login";
-    private static final String DESCRIPTION = "authorize user for further work";
+    @NotNull public static final String NAME = "user-login";
+    @NotNull private static final String DESCRIPTION = "authorize user for further work";
 
-    public UserLoginCommand(final Bootstrap bootstrap) {
-        super(bootstrap, false);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return false;
+    }
 
     @Override
     public void run() throws IOException {
@@ -31,14 +36,14 @@ public class UserLoginCommand extends UserCommand {
             printAuthFailed();
             return;
         }
-        final User user = getBootstrap().getUserService().getByLogin(userLogin);
+        final Optional<User> user = getServiceLocator().getUserService().getAllByName(userLogin).stream().findAny();
         final String pwdHash = InputHelper.getMd5(userPassword);
-        if (user == null || pwdHash == null || !pwdHash.equals(user.getPwdHash())) {
+        if (!user.isPresent() || pwdHash == null || !pwdHash.equals(user.get().getPwdHash())) {
             printAuthFailed();
             return;
         }
-        getBootstrap().setCurrentUser(user);
-        System.out.printf("[LOGGED IN AS %s] %n%n", user.getLogin());
+        getServiceLocator().setCurrentUser(user.get());
+        System.out.printf("[LOGGED IN AS %s] %n%n", user.get().getLogin());
     }
 
     private void printAuthFailed() {

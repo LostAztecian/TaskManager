@@ -9,6 +9,13 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
+    <scm>
+        <connection>scm:svn:http://127.0.0.1/dummy</connection>
+        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://127.0.0.1/dummy</url>
+    </scm>
+
     <developers>
         <developer>
             <name>Alexander Stoliarnko</name>
@@ -28,21 +35,116 @@
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-manifests</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>17.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <revisionOnScmFailure>true</revisionOnScmFailure>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                    </items>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
                     <archive>
+                        <manifestEntries>
+                            <POM-version>${project.version}</POM-version>
+                            <Build-version>${buildNumber}</Build-version>
+                        </manifestEntries>
                         <manifest>
                             <addClasspath>true</addClasspath>
+                            <classpathPrefix>dependency-jars/</classpathPrefix>
                             <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/tm/lib
+                            </outputDirectory>
+                            <overWriteRelese>false</overWriteRelese>
+                            <overWriteSnapshot>false</overWriteSnapshot>
+                            <overWriteNewer>true</overWriteNewer>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>ru.stoliarenkoas</groupId>
+                            <artifactId>tm</artifactId>
+                            <version>${project.version}</version>
+                            <type>jar</type>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>
+                                ${project.build.directory}/tm/bin
+                            </outputDirectory>
+                            <destFileName>taskmanager.jar</destFileName>
+                        </artifactItem>
+                        <!--<overWriteRelease>false</overWriteRelease>-->
+                        <!--<overWriteSnapshots>true</overWriteSnapshots>-->
+                    </artifactItems>
                 </configuration>
             </plugin>
         </plugins>

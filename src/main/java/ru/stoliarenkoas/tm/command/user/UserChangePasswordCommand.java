@@ -1,27 +1,33 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
 
-public class UserChangePasswordCommand extends UserCommand {
+public class UserChangePasswordCommand extends AbstractCommand {
 
-    public static final String NAME = "user-change-password";
-    private static final String DESCRIPTION = "change password for current user";
+    @NotNull public static final String NAME = "user-change-password";
+    @NotNull private static final String DESCRIPTION = "change password for current user";
 
-    public UserChangePasswordCommand(Bootstrap bootstrap) { super(bootstrap, true); }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
 
     @Override
+    public boolean isPrivate() {
+        return true;
+    }
+
+    @Override
     public void run() throws IOException {
-        final User user = getBootstrap().getCurrentUser();
+        final User user = getServiceLocator().getCurrentUser();
 
         final String pwd = InputHelper.requestLine("ENTER OLD PASSWORD:", false);
         if (pwd == null) return;
@@ -32,10 +38,10 @@ public class UserChangePasswordCommand extends UserCommand {
         }
 
         System.out.println("[SET UP NEW PASSWORD]");
-        final String newPwd = requestNewPassword();
+        final String newPwd = InputHelper.requestNewPassword();
         if (newPwd == null) return;
         user.setPwdHash(InputHelper.getMd5(newPwd));
-        getBootstrap().getUserService().update(user);
+        getServiceLocator().getUserService().save(user);
         System.out.println("[PASSWORD UPDATED]");
         System.out.println();
     }

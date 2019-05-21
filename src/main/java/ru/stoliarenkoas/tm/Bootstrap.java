@@ -2,21 +2,28 @@ package ru.stoliarenkoas.tm;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.stoliarenkoas.tm.api.Command;
+import ru.stoliarenkoas.tm.api.Service;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.command.*;
 import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.entity.Project;
+import ru.stoliarenkoas.tm.entity.Task;
 import ru.stoliarenkoas.tm.entity.User;
 import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
 import ru.stoliarenkoas.tm.repository.TaskMapRepository;
 import ru.stoliarenkoas.tm.repository.UserMapRepository;
-import ru.stoliarenkoas.tm.service.ProjectService;
-import ru.stoliarenkoas.tm.service.TaskService;
-import ru.stoliarenkoas.tm.service.UserService;
+import ru.stoliarenkoas.tm.service.ProjectServiceImpl;
+import ru.stoliarenkoas.tm.service.TaskServiceImpl;
+import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Bootstrap {
+public class Bootstrap implements ServiceLocator {
 
     @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();
@@ -26,49 +33,44 @@ public class Bootstrap {
     private User currentUser;
 
     @Getter
-    private ProjectService projectService;
+    private Service<Project> projectService;
     @Getter
-    private TaskService taskService;
+    private Service<Task> taskService;
     @Getter
-    private UserService userService;
+    private Service<User> userService;
 
     public void terminate() { isTerminated = true; }
 
-    public void init() {
+    public void init(final @Nullable Class[] classes) {
         initMethods();
-        initCommands();
+        if (classes != null) initCommands(classes);
         initUsers();
         mainLoop();
     }
 
     private void initUsers() {
-        userService.create(new User("admin", "admin", User.Role.ADMIN));
-        userService.create(new User("demo", "demo", User.Role.USER));
+        userService.save(new User("admin", "admin", User.Role.ADMIN));
+        userService.save(new User("demo", "demo", User.Role.USER));
     }
 
     private void initMethods() {
-        taskService = new TaskService(new TaskMapRepository());
-        projectService = new ProjectService(new ProjectMapRepository(), taskService);
-        userService = new UserService((new UserMapRepository()));
+        taskService = new TaskServiceImpl(new TaskMapRepository(), this);
+        projectService = new ProjectServiceImpl(new ProjectMapRepository(), this);
+        userService = new UserServiceImpl((new UserMapRepository()), this);
     }
 
-    private void initCommands() {
-        commands.put(HelpCommand.NAME, new HelpCommand(this));
-        commands.put(ExitCommand.NAME, new ExitCommand(this));
-        commands.put(ProjectCreateCommand.NAME, new ProjectCreateCommand(this));
-        commands.put(ProjectRemoveCommand.NAME, new ProjectRemoveCommand(this));
-        commands.put(ProjectListCommand.NAME, new ProjectListCommand(this));
-        commands.put(ProjectTaskListCommand.NAME, new ProjectTaskListCommand(this));
-        commands.put(ProjectClearCommand.NAME, new ProjectClearCommand(this));
-        commands.put(TaskCreateCommand.NAME, new TaskCreateCommand(this));
-        commands.put(TaskRemoveCommand.NAME, new TaskRemoveCommand(this));
-        commands.put(TaskListCommand.NAME, new TaskListCommand(this));
-        commands.put(TaskClearCommand.NAME, new TaskClearCommand(this));
-        commands.put(UserLoginCommand.NAME, new UserLoginCommand(this));
-        commands.put(UserLogoutCommand.NAME, new UserLogoutCommand(this));
-        commands.put(UserRegisterCommand.NAME, new UserRegisterCommand(this));
-        commands.put(UserShowProfileCommand.NAME, new UserShowProfileCommand(this));
-        commands.put(UserChangePasswordCommand.NAME, new UserChangePasswordCommand(this));
+    private void initCommands(final @NotNull Class[] classes) {
+        for (final @Nullable Class clazz : classes) {
+            if (clazz == null || !AbstractCommand.class.isAssignableFrom(clazz)) continue;
+            try {
+                final AbstractCommand instance = (AbstractCommand) clazz.newInstance();
+                instance.setServiceLocator(this);
+                commands.put(instance.getName(), instance);
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void mainLoop() {

@@ -1,6 +1,8 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.project;
 
-import ru.stoliarenkoas.tm.Bootstrap;
+import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
+import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
 
@@ -8,28 +10,31 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-public class ProjectTaskListCommand extends Command {
+public class ProjectTaskListCommand extends AbstractCommand {
 
-    public static final String NAME = "project-task-list";
-    private static final String DESCRIPTION = "show all tasks for selected project";
+    @NotNull public static final String NAME = "project-task-list";
+    @NotNull private static final String DESCRIPTION = "show all tasks for selected project";
 
-    public ProjectTaskListCommand(final Bootstrap bootstrap) {
-        super(bootstrap, true);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
 
     @Override
+    public boolean isPrivate() {
+        return true;
+    }
+
+    @Override
     public void run() throws IOException {
-        final Collection<Project> projects = requestProjectsByName();
+        final Collection<Project> projects = InputHelper.requestProjectsByName(getServiceLocator());
         if (projects == null) return;
         final Collection<Task> tasks = new LinkedHashSet<>();
         for (final Project project : projects) {
-            tasks.addAll(getBootstrap().getTaskService().getByIds(project.getTaskIds()));
+            tasks.addAll(getServiceLocator().getTaskService().getAllByParentId(project.getId()));
         }
         if (tasks.isEmpty()) {
             System.out.println("[PROJECT HAS NO TASKS]");
