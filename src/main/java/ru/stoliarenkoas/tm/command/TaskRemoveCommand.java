@@ -7,6 +7,7 @@ import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class TaskRemoveCommand extends Command {
 
@@ -14,7 +15,7 @@ public class TaskRemoveCommand extends Command {
     private static final String DESCRIPTION = "delete task in a selected project";
 
     public TaskRemoveCommand(final Bootstrap bootstrap) {
-        super(bootstrap);
+        super(bootstrap, true);
     }
 
     @Override
@@ -24,29 +25,38 @@ public class TaskRemoveCommand extends Command {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void execute() throws IOException {
+    public void run() throws IOException {
         System.out.println("[TASK DELETE]");
-        final Project taskProject = requestProject();
-        if (taskProject == null) return;
+        final Collection<Project> projects = getBootstrap().getProjectService()
+                .getByIds(getBootstrap().getCurrentUser().getProjectIds());
+        final Collection<String> taskIds = projects.stream()
+                .map(Project::getTaskIds)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
 
-        final String input = InputHelper.requestLine("ENTER NAME:", true);
-        if (input == null || input.isEmpty()) {
-            System.out.println("[NO SUCH TASK]");
-            System.out.println("[END]");
-            System.out.println();
+        final String taskName = InputHelper.requestLine("ENTER TASK NAME:", true);
+        if (taskName == null || taskName.isEmpty()) {
+            printNoSuchTask();
             return;
         }
-        Collection<Task> tasksWithName = getBootstrap().getTaskService().getAllByName(input);
-        tasksWithName.retainAll(getBootstrap().getTaskService().getByIds(taskProject.getTaskIds()));
-        if (tasksWithName.isEmpty()) {
-            System.out.println("[NO SUCH TASK]");
-            System.out.println("[END]");
-            System.out.println();
+        final Collection<Task> tasks = getBootstrap().getTaskService().getByIds(taskIds).stream()
+                .filter(t -> t.getName().equals(taskName)).collect(Collectors.toSet());
+        if (tasks.isEmpty()) {
+            printNoSuchTask();
             return;
         }
+        tasks.forEach(t -> {
+            getBootstrap().getTaskService().delete(t.getId());
+            t.getProject().getTaskIds().remove(t.getId());
+        });
+        System.out.println("[TASKS REMOVED]");
+        System.out.println();
+    }
 
-        tasksWithName.forEach(t -> taskProject.getTaskIds().removeIf(id -> id.equals(t.getId())));
-        System.out.printf("[TASK %s DELETED] %n%n", input.toUpperCase());
+    private void printNoSuchTask() {
+        System.out.println("[NO SUCH TASK]");
+        System.out.println("[END]");
+        System.out.println();
     }
 
 }
