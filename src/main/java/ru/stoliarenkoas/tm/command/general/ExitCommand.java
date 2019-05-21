@@ -1,12 +1,13 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.general;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 
 public class ExitCommand extends AbstractCommand {
 
-    public static final String NAME = "exit";
-    private static final String DESCRIPTION = "end program";
+    @NotNull public static final String NAME = "exit";
+    @NotNull private static final String DESCRIPTION = "end program";
 
     @NotNull
     @Override

@@ -1,14 +1,15 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
 
-public class UserShowProfileCommand extends UserCommand {
+public class UserShowProfileCommand extends AbstractCommand {
 
-    public static final String NAME = "user-show-profile";
-    private static final String DESCRIPTION = "display profile of current user";
+    @NotNull public static final String NAME = "user-show-profile";
+    @NotNull private static final String DESCRIPTION = "display profile of current user";
 
     @NotNull
     @Override
@@ -28,7 +29,7 @@ public class UserShowProfileCommand extends UserCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException { //method can not be invoked when user == null
         final User user = getServiceLocator().getCurrentUser();
         System.out.println("User: " + user.getLogin());
         System.out.println("User status: " + user.getRole().getDisplayName());

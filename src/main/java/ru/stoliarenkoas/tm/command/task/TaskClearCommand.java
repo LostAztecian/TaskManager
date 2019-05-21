@@ -1,13 +1,14 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.task;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 
 import java.io.IOException;
 
 public class TaskClearCommand extends AbstractCommand {
 
-    public static final String NAME = "task-clear";
-    private static final String DESCRIPTION = "removes all tasks for current user";
+    @NotNull public static final String NAME = "task-clear";
+    @NotNull private static final String DESCRIPTION = "removes all tasks for current user";
 
     @NotNull
     @Override

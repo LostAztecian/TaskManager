@@ -5,9 +5,12 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Command;
+import ru.stoliarenkoas.tm.api.Service;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.command.*;
 import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.entity.Project;
+import ru.stoliarenkoas.tm.entity.Task;
 import ru.stoliarenkoas.tm.entity.User;
 import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
 import ru.stoliarenkoas.tm.repository.TaskMapRepository;
@@ -30,11 +33,11 @@ public class Bootstrap implements ServiceLocator {
     private User currentUser;
 
     @Getter
-    private ProjectServiceImpl projectService;
+    private Service<Project> projectService;
     @Getter
-    private TaskServiceImpl taskService;
+    private Service<Task> taskService;
     @Getter
-    private UserServiceImpl userService;
+    private Service<User> userService;
 
     public void terminate() { isTerminated = true; }
 
@@ -51,9 +54,9 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initMethods() {
-        taskService = new TaskServiceImpl(new TaskMapRepository());
-        projectService = new ProjectServiceImpl(new ProjectMapRepository(), taskService);
-        userService = new UserServiceImpl((new UserMapRepository()), projectService);
+        taskService = new TaskServiceImpl(new TaskMapRepository(), this);
+        projectService = new ProjectServiceImpl(new ProjectMapRepository(), this);
+        userService = new UserServiceImpl((new UserMapRepository()), this);
     }
 
     private void initCommands(final @NotNull Class[] classes) {

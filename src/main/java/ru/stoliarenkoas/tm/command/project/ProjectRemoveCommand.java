@@ -1,6 +1,8 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
+import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 
 import java.io.IOException;
@@ -9,8 +11,8 @@ import java.util.stream.Collectors;
 
 public class ProjectRemoveCommand extends AbstractCommand {
 
-    public static final String NAME = "project-remove";
-    private static final String DESCRIPTION = "remove project and all associated tasks";
+    @NotNull public static final String NAME = "project-remove";
+    @NotNull private static final String DESCRIPTION = "remove project and all associated tasks";
 
     @NotNull
     @Override
@@ -28,10 +30,10 @@ public class ProjectRemoveCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[PROJECT DELETE]");
-        final Collection<Project> projects = requestProjectsByName();
+        final Collection<Project> projects = InputHelper.requestProjectsByName(getServiceLocator());
         if (projects == null) return;
         final Collection<String> ids = projects.stream().map(Project::getId).collect(Collectors.toSet());
-        getServiceLocator().getProjectService().getAllByParentId(getServiceLocator().getCurrentUser().getId());
+        getServiceLocator().getProjectService().getAllByParentId(getServiceLocator().getCurrentUser().getId()); //method can be invoked only when user != null
         getServiceLocator().getProjectService().deleteByIds(ids);
         System.out.println("[PROJECT(S) DELETED]");
         System.out.println();

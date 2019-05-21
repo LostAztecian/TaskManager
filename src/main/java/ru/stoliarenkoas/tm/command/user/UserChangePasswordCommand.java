@@ -1,15 +1,16 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
 
-public class UserChangePasswordCommand extends UserCommand {
+public class UserChangePasswordCommand extends AbstractCommand {
 
-    public static final String NAME = "user-change-password";
-    private static final String DESCRIPTION = "change password for current user";
+    @NotNull public static final String NAME = "user-change-password";
+    @NotNull private static final String DESCRIPTION = "change password for current user";
 
     @NotNull
     @Override
@@ -37,7 +38,7 @@ public class UserChangePasswordCommand extends UserCommand {
         }
 
         System.out.println("[SET UP NEW PASSWORD]");
-        final String newPwd = requestNewPassword();
+        final String newPwd = InputHelper.requestNewPassword();
         if (newPwd == null) return;
         user.setPwdHash(InputHelper.getMd5(newPwd));
         getServiceLocator().getUserService().save(user);

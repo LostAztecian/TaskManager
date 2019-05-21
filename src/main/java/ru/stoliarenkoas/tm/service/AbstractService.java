@@ -5,43 +5,76 @@ import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.api.Repository;
 import ru.stoliarenkoas.tm.api.Service;
+import ru.stoliarenkoas.tm.api.ServiceLocator;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class AbstractService<T extends Entity> implements Service<T> {
 
     @NotNull
     protected final Repository<T> repository;
-    @Nullable
-    protected final Service<? extends Entity> childService;
+    @NotNull
+    protected final ServiceLocator serviceLocator;
 
-    public AbstractService(final @NotNull Repository<T> repository,
-                           final @Nullable Service<? extends Entity> childService) {
+    AbstractService(final @NotNull Repository<T> repository,
+                           final @NotNull ServiceLocator serviceLocator) {
         this.repository = repository;
-        this.childService = childService;
+        this.serviceLocator = serviceLocator;
+    }
+
+    @Nullable
+    protected abstract String getUserId(final @NotNull T object);
+
+    @Nullable
+    protected abstract Service<? extends Entity> getChildService();
+
+    @Nullable
+    private String getCurrentUserId() {
+        if (serviceLocator.getCurrentUser() == null) return null;
+        return serviceLocator.getCurrentUser().getId();
+    }
+
+    @NotNull
+    private Collection<T> filterByCurrentUser(final @NotNull Collection<T> collection) {
+        if (this instanceof UserServiceImpl) return collection;
+        final String currentUserId = getCurrentUserId();
+        if (currentUserId == null) return Collections.emptySet();
+        return collection.stream()
+                .filter(p -> currentUserId.equals(getUserId(p)))
+                .collect(Collectors.toSet());
+    }
+
+    @Nullable
+    private T filterByCurrentUser(final @Nullable T object) {
+        if (object == null) return null;
+        final String currentUserId = getCurrentUserId();
+        if (currentUserId == null) return null;
+        if (currentUserId.equals(getUserId(object))) return object;
+        return null;
     }
 
     @NotNull
     @Override
     public Collection<T> getAll() {
-        return repository.findAll();
+        return filterByCurrentUser(repository.findAll());
     }
 
     @NotNull
     @Override
     public Collection<T> getAllByName(final @Nullable String name) {
         if (name == null || name.isEmpty()) return Collections.emptySet();
-        return repository.findByName(name);
+        return filterByCurrentUser(repository.findByName(name));
     }
 
     @NotNull
     @Override
     public Collection<T> getAllByParentId(final @Nullable String id) {
         if (id == null || id.isEmpty()) return Collections.emptySet();
-        return repository.findByParentId(id);
+        return filterByCurrentUser(repository.findByParentId(id));
     }
 
     @NotNull
@@ -49,43 +82,46 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     public Collection<T> getByIds(final @Nullable Collection<String> ids) {
         if (ids == null || ids.isEmpty()) return Collections.emptySet();
         final Collection<T> objects = new LinkedHashSet<>();
-        ids.forEach(id -> Optional.of(this.get(id)).ifPresent(objects::add));
-        return objects;
+        ids.forEach(id -> {if (id != null) Optional.ofNullable(this.get(id)).ifPresent(objects::add);});
+        return filterByCurrentUser(objects);
     }
 
-    @Override
+    @Override @Nullable
     public T get(final @Nullable String id) {
         if (id == null || id.isEmpty()) return null;
-        return repository.findOne(id);
+        return filterByCurrentUser(repository.findOne(id));
     }
 
     @Override
     public void save(final @Nullable T object) {
-        if (object == null || object.getId().isEmpty()) return;
+        if (object == null || object.getId().isEmpty() || filterByCurrentUser(object) == null) return;
         repository.merge(object);
     }
 
     @Override
     public void delete(final @Nullable String id) {
-        if (id == null || id.isEmpty()) return;
+        if (id == null || id.isEmpty() || get(id) == null) return;
         deleteChildrenByParentId(id);
         repository.remove(id);
     }
 
     @Override
     public void delete(final @Nullable T object) {
-        if (object == null) return;
+        if (object == null || filterByCurrentUser(object) == null) return;
         repository.remove(object);
     }
 
     @Override
     public void deleteChildrenByParentId(final @Nullable String id) {
-        if (childService == null || id == null || id.isEmpty()) return;
+        if (id == null || id.isEmpty() || get(id) == null) return;
+        final Service<? extends Entity> childService = getChildService();
+        if (childService == null) return;
         childService.getAll().stream().filter(c -> id.equals(((Entity) c).getParentId())).forEach(c -> childService.delete(((Entity) c).getId()));
     }
 
     @Override
     public void deleteByName(final @Nullable String name, boolean allMatches) {
+        if (name == null || name.isEmpty()) return;
         repository.findByName(name).forEach(o -> this.delete(o.getId()));
     }
 

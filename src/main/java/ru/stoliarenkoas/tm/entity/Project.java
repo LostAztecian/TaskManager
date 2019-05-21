@@ -13,20 +13,20 @@ import java.util.UUID;
 public class Project implements Entity {
 
     @NotNull private final String id = UUID.randomUUID().toString();
+    @NotNull private final String userId;
     @Nullable private String name;
     @Nullable private String description;
-    @Nullable private final String userId;
 
-    public Project(String parentId) {
+    public Project(final @Nullable String parentId) {
         this.userId = parentId;
     }
 
-    @Override
+    @Override @NotNull
     public String getParentId() {
         return userId;
     }
 
-    @Override
+    @Override @NotNull
     public String toString() {
         return String.format("Project: %s (%s) belongs to userId:=%s.", name, description, userId);
     }

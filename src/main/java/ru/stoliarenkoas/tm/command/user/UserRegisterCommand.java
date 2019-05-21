@@ -1,16 +1,17 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
 
-public class UserRegisterCommand extends UserCommand {
+public class UserRegisterCommand extends AbstractCommand {
 
-    public static final String NAME = "user-register";
-    private static final String DESCRIPTION = "register a new user";
+    @NotNull public static final String NAME = "user-register";
+    @NotNull private static final String DESCRIPTION = "register a new user";
 
     @NotNull
     @Override
@@ -30,7 +31,7 @@ public class UserRegisterCommand extends UserCommand {
         System.out.println("[REGISTRING NEW USER]");
         final String userLogin = requestNewLogin();
         if (userLogin == null) return;
-        final String userPwd = requestNewPassword();
+        final String userPwd = InputHelper.requestNewPassword();
         if (userPwd == null) return;
         getServiceLocator().getUserService().save(new User(userLogin, userPwd));
     }

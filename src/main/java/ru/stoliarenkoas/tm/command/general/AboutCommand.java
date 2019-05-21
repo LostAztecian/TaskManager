@@ -1,7 +1,7 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.general;
 
 import org.jetbrains.annotations.NotNull;
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +9,8 @@ import java.util.Properties;
 
 public class AboutCommand extends AbstractCommand {
 
-    public static final String NAME = "about";
-    private static final String DESCRIPTION = "show build information";
+    @NotNull public static final String NAME = "about";
+    @NotNull private static final String DESCRIPTION = "show build information";
 
     @NotNull
     @Override

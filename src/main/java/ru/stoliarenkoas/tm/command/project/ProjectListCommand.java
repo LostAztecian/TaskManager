@@ -1,6 +1,7 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.User;
 
@@ -9,8 +10,8 @@ import java.util.Collection;
 
 public class ProjectListCommand extends AbstractCommand {
 
-    public static final String NAME = "project-list";
-    private static final String DESCRIPTION = "show all projects";
+    @NotNull public static final String NAME = "project-list";
+    @NotNull private static final String DESCRIPTION = "show all projects";
 
     @NotNull
     @Override
@@ -29,7 +30,7 @@ public class ProjectListCommand extends AbstractCommand {
     public void run() throws IOException {
         final User user = getServiceLocator().getCurrentUser();
         final Collection<Project> allProjects = getServiceLocator().getProjectService()
-            .getAllByParentId(user.getId());
+            .getAllByParentId(user.getId()); //method can be invoked only when user != null
         if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();

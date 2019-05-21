@@ -1,6 +1,14 @@
 package ru.stoliarenkoas.tm;
 
-import ru.stoliarenkoas.tm.command.*;
+import ru.stoliarenkoas.tm.command.general.AboutCommand;
+import ru.stoliarenkoas.tm.command.general.ExitCommand;
+import ru.stoliarenkoas.tm.command.general.HelpCommand;
+import ru.stoliarenkoas.tm.command.project.*;
+import ru.stoliarenkoas.tm.command.task.TaskClearCommand;
+import ru.stoliarenkoas.tm.command.task.TaskCreateCommand;
+import ru.stoliarenkoas.tm.command.task.TaskListCommand;
+import ru.stoliarenkoas.tm.command.task.TaskRemoveCommand;
+import ru.stoliarenkoas.tm.command.user.*;
 
 public class Application {
 

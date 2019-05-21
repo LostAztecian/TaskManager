@@ -20,43 +20,42 @@ public class User implements Entity {
         @Getter
         private final String displayName;
 
-        Role(String displayName) {
+        Role(final @NotNull String displayName) {
             this.displayName = displayName;
         }
     }
 
     @NotNull private final String userId = UUID.randomUUID().toString();
-    @Nullable private String login;
-    @Nullable private String pwdHash;
-    @Nullable private Role role;
+    @NotNull private String login;
+    @NotNull private String pwdHash;
+    @NotNull private Role role;
 
-    public User(final String login, final String password) {
+    public User(final @NotNull String login, final @NotNull String password) {
         this(login, password, Role.USER);
     }
 
-    public User(final String login, final String password, final Role role) {
+    public User(final @NotNull String login, final @NotNull String password, final @NotNull Role role) {
         this.login = login;
         this.pwdHash = InputHelper.getMd5(password);
         this.role = role;
     }
 
-    @Override
+    @Override @Nullable
     public String getParentId() {
         return null;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getId() {
         return userId;
     }
 
-    @Override
+    @Override @Nullable
     public String getName() {
         return login;
     }
 
-    @Override
+    @Override @NotNull
     public String toString() {
         return "User: " + login + "status: " + role.displayName;
     }

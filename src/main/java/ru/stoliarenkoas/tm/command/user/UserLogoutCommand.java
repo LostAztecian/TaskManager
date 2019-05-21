@@ -1,13 +1,14 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.user;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 
 import java.io.IOException;
 
 public class UserLogoutCommand extends AbstractCommand {
 
-    public static final String NAME = "user-logout";
-    private static final String DESCRIPTION = "end user session";
+    @NotNull public static final String NAME = "user-logout";
+    @NotNull private static final String DESCRIPTION = "end user session";
 
     @NotNull
     @Override

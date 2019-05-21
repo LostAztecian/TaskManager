@@ -1,12 +1,13 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.general;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 
 public final class HelpCommand extends AbstractCommand {
 
-    public static final String NAME = "help";
-    private static final String DESCRIPTION = "show all commands";
+    @NotNull public static final String NAME = "help";
+    @NotNull private static final String DESCRIPTION = "show all commands";
 
     @NotNull
     @Override

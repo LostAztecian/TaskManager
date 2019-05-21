@@ -1,6 +1,7 @@
-package ru.stoliarenkoas.tm.command;
+package ru.stoliarenkoas.tm.command.task;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
@@ -12,8 +13,8 @@ import java.util.Optional;
 
 public class TaskCreateCommand extends AbstractCommand {
 
-    public static final String NAME = "task-create";
-    private static final String DESCRIPTION = "save task for a selected project";
+    @NotNull public static final String NAME = "task-create";
+    @NotNull private static final String DESCRIPTION = "save task for a selected project";
 
     @NotNull
     @Override
@@ -31,7 +32,7 @@ public class TaskCreateCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[TASK CREATE]");
-        final Collection<Project> projects = requestProjectsByName();
+        final Collection<Project> projects = InputHelper.requestProjectsByName(getServiceLocator());
         if (projects == null || projects.isEmpty()) return;
         final Optional<Project> project = projects.stream().findFirst();
         final String taskName = InputHelper.requestLine("ENTER NAME:", false);
@@ -49,7 +50,7 @@ public class TaskCreateCommand extends AbstractCommand {
 
         final Task task = new Task(project.get().getId(), taskName, taskDescription, taskStartDate);
         getServiceLocator().getTaskService().save(task);
-        System.out.printf("[TASK %s CREATED] %n%n", task.getName().toUpperCase());
+        System.out.printf("[TASK \'%s\' CREATED] %n%n", task.getName());
     }
 
 }

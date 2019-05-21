@@ -23,13 +23,13 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     @NotNull
     @Override
     public Collection<T> findByName(final @NotNull String name) {
-        return map.values().stream().filter(e -> e.getName().equals(name)).collect(Collectors.toSet());
+        return map.values().stream().filter(e -> name.equals(e.getName())).collect(Collectors.toSet());
     }
 
     @NotNull
     @Override
     public Collection findByParentId(final @NotNull String id) {
-        return map.values().stream().filter(e -> e.getParentId().equals(id)).collect(Collectors.toSet());
+        return map.values().stream().filter(e -> id.equals(e.getParentId())).collect(Collectors.toSet());
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
         try {
             map.putIfAbsent(object.getId(), (T)object);
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
         try {
             map.put(object.getId(), (T)object);
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
