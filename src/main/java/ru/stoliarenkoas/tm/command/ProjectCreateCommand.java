@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 
@@ -11,15 +11,18 @@ public class ProjectCreateCommand extends AbstractCommand {
     public static final String NAME = "project-create";
     private static final String DESCRIPTION = "save new project";
 
-    public ProjectCreateCommand(final ServiceLocator serviceLocator) {
-        super(serviceLocator, true);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return true;
+    }
 
     @Override
     public void run() throws IOException {

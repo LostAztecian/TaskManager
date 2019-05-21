@@ -1,13 +1,15 @@
 package ru.stoliarenkoas.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 public interface Command {
     void execute() throws IOException;
 
-    String getName();
+    @NotNull String getName();
 
-    String getDescription();
+    @NotNull String getDescription();
 
     boolean isPrivate();
 }

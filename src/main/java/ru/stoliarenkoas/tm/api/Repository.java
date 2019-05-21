@@ -1,26 +1,31 @@
 package ru.stoliarenkoas.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collection;
 
 public interface Repository<T extends Entity> {
 
+    @NotNull
     Collection<T> findAll();
 
-    Collection<T> findByParentId(final String id);
+    @NotNull
+    Collection<T> findByParentId(final @NotNull String id);
 
-    Collection<T> findByName(final String name);
+    @NotNull
+    Collection<T> findByName(final @NotNull String name);
 
-    T findOne(final String id);
+    @Nullable
+    T findOne(final @NotNull String id);
 
-    void persist(final T object);
+    void persist(final @NotNull T object);
 
-    void merge(final T object);
+    void merge(final @NotNull T object);
 
-    void remove(final String id);
+    void remove(final @NotNull String id);
 
-    void remove(final T object);
-
-//    void removeByName(final String name, boolean allMatches);
+    void remove(final @NotNull T object);
 
     void removeAll();
 

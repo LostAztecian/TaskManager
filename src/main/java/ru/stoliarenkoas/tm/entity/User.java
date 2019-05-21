@@ -2,6 +2,8 @@ package ru.stoliarenkoas.tm.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
@@ -23,10 +25,10 @@ public class User implements Entity {
         }
     }
 
-    private final String userId = UUID.randomUUID().toString();
-    private String login;
-    private String pwdHash;
-    private Role role;
+    @NotNull private final String userId = UUID.randomUUID().toString();
+    @Nullable private String login;
+    @Nullable private String pwdHash;
+    @Nullable private Role role;
 
     public User(final String login, final String password) {
         this(login, password, Role.USER);
@@ -38,10 +40,12 @@ public class User implements Entity {
         this.role = role;
     }
 
+    @Override
     public String getParentId() {
         return null;
     }
 
+    @NotNull
     @Override
     public String getId() {
         return userId;

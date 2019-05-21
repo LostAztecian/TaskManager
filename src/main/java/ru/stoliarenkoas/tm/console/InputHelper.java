@@ -1,5 +1,8 @@
 package ru.stoliarenkoas.tm.console;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,9 +12,11 @@ import java.util.Date;
 
 public class InputHelper {
 
+    @NotNull
     private final static BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
 
-    public static String requestLine(final String requestText, boolean allowEmpty) throws IOException {
+    @Nullable
+    public static String requestLine(final @Nullable String requestText, boolean allowEmpty) throws IOException {
         if (requestText == null || requestText.isEmpty()) return null;
         System.out.println(requestText);
         String input = READER.readLine();
@@ -32,6 +37,7 @@ public class InputHelper {
         return input;
     }
 
+    @Nullable
     public static Date requestDate() throws IOException {
         final String pattern = "DD.MM.YYYY";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
@@ -39,7 +45,9 @@ public class InputHelper {
         return formatter.parse(READER.readLine(), new ParsePosition(0));
     }
 
-    public static String getMd5(final String md5) {
+    @Nullable
+    public static String getMd5(final @Nullable String md5) {
+        if (md5 == null) return null;
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());

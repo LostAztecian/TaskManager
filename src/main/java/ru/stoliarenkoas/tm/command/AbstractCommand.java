@@ -1,7 +1,9 @@
 package ru.stoliarenkoas.tm.command;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
@@ -11,11 +13,10 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Getter
-@RequiredArgsConstructor
 public abstract class AbstractCommand implements ru.stoliarenkoas.tm.api.Command {
 
-    private final ServiceLocator serviceLocator;
-    private final boolean secured;
+    @NotNull @Setter
+    private ServiceLocator serviceLocator;
 
     @Override
     public final void execute() throws IOException {
@@ -29,10 +30,9 @@ public abstract class AbstractCommand implements ru.stoliarenkoas.tm.api.Command
     protected abstract void run() throws IOException;
 
     @Override
-    public final boolean isPrivate() {
-        return secured;
-    };
+    public abstract boolean isPrivate();
 
+    @Nullable
     protected Collection<Project> requestProjectsByName() throws IOException {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) throw new IllegalArgumentException("null request name");

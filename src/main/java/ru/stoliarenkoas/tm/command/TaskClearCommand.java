@@ -1,26 +1,26 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
-import ru.stoliarenkoas.tm.entity.Project;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class TaskClearCommand extends AbstractCommand {
 
     public static final String NAME = "task-clear";
     private static final String DESCRIPTION = "removes all tasks for current user";
 
-    public TaskClearCommand(final ServiceLocator serviceLocator) {
-        super(serviceLocator, true);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return true;
+    }
 
     @Override
     public void run() throws IOException {

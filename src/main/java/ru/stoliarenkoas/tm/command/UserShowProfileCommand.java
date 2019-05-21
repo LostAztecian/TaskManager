@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
@@ -10,18 +10,21 @@ public class UserShowProfileCommand extends UserCommand {
     public static final String NAME = "user-show-profile";
     private static final String DESCRIPTION = "display profile of current user";
 
-    public UserShowProfileCommand(final ServiceLocator serviceLocator) {
-        super(serviceLocator, true);
-    }
-
+    @NotNull
     @Override
     public String getName() {
         return NAME;
     }
 
+    @NotNull
     @Override
     public String getDescription() {
         return DESCRIPTION;
+    }
+
+    @Override
+    public boolean isPrivate() {
+        return true;
     }
 
     @Override

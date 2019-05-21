@@ -3,6 +3,8 @@ package ru.stoliarenkoas.tm.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 
 import java.util.Date;
@@ -13,13 +15,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Task implements Entity {
 
-    private final String id = UUID.randomUUID().toString();
-    private final String projectId;
-    private String name;
-    private String description;
-    private Date startDate;
+    @NotNull private final String id = UUID.randomUUID().toString();
+    @Nullable private final String projectId;
+    @Nullable private String name;
+    @Nullable private String description;
+    @Nullable private Date startDate;
 
-    public String getUserId() {
+    @Nullable public String getUserId() {
         return projectId;
     }
 

@@ -1,5 +1,7 @@
 package ru.stoliarenkoas.tm.service;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.api.Repository;
 import ru.stoliarenkoas.tm.api.Service;
@@ -11,33 +13,40 @@ import java.util.Optional;
 
 public abstract class AbstractService<T extends Entity> implements Service<T> {
 
+    @NotNull
     protected final Repository<T> repository;
+    @Nullable
     protected final Service<? extends Entity> childService;
 
-    public AbstractService(final Repository<T> repository, final Service<? extends Entity> childService) {
+    public AbstractService(final @NotNull Repository<T> repository,
+                           final @Nullable Service<? extends Entity> childService) {
         this.repository = repository;
         this.childService = childService;
     }
 
+    @NotNull
     @Override
     public Collection<T> getAll() {
         return repository.findAll();
     }
 
+    @NotNull
     @Override
-    public Collection<T> getAllByName(final String name) {
+    public Collection<T> getAllByName(final @Nullable String name) {
         if (name == null || name.isEmpty()) return Collections.emptySet();
         return repository.findByName(name);
     }
 
+    @NotNull
     @Override
-    public Collection<T> getAllByParentId(final String id) {
+    public Collection<T> getAllByParentId(final @Nullable String id) {
         if (id == null || id.isEmpty()) return Collections.emptySet();
         return repository.findByParentId(id);
     }
 
+    @NotNull
     @Override
-    public Collection<T> getByIds(final Collection<String> ids) {
+    public Collection<T> getByIds(final @Nullable Collection<String> ids) {
         if (ids == null || ids.isEmpty()) return Collections.emptySet();
         final Collection<T> objects = new LinkedHashSet<>();
         ids.forEach(id -> Optional.of(this.get(id)).ifPresent(objects::add));
@@ -45,43 +54,43 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public T get(final String id) {
+    public T get(final @Nullable String id) {
         if (id == null || id.isEmpty()) return null;
         return repository.findOne(id);
     }
 
     @Override
-    public void save(final T object) {
-        if (object == null || object.getId() == null || object.getId().isEmpty()) return;
+    public void save(final @Nullable T object) {
+        if (object == null || object.getId().isEmpty()) return;
         repository.merge(object);
     }
 
     @Override
-    public void delete(final String id) {
+    public void delete(final @Nullable String id) {
         if (id == null || id.isEmpty()) return;
         deleteChildrenByParentId(id);
         repository.remove(id);
     }
 
     @Override
-    public void delete(final T object) {
+    public void delete(final @Nullable T object) {
         if (object == null) return;
         repository.remove(object);
     }
 
     @Override
-    public void deleteChildrenByParentId(final String id) {
+    public void deleteChildrenByParentId(final @Nullable String id) {
         if (childService == null || id == null || id.isEmpty()) return;
         childService.getAll().stream().filter(c -> id.equals(((Entity) c).getParentId())).forEach(c -> childService.delete(((Entity) c).getId()));
     }
 
     @Override
-    public void deleteByName(final String name, boolean allMatches) {
+    public void deleteByName(final @Nullable String name, boolean allMatches) {
         repository.findByName(name).forEach(o -> this.delete(o.getId()));
     }
 
     @Override
-    public void deleteByIds(final Collection<String> ids) {
+    public void deleteByIds(final @Nullable Collection<String> ids) {
         if (ids == null || ids.isEmpty()) return;
         ids.forEach(this::delete);
     }

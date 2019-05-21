@@ -1,28 +1,30 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
 
 public class TaskListCommand extends AbstractCommand {
 
     public static final String NAME = "task-list";
     private static final String DESCRIPTION = "show all tasks for all projects of a user";
 
-    public TaskListCommand(final ServiceLocator serviceLocator) {
-        super(serviceLocator, true);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return true;
+    }
 
     @Override
     public void run() throws IOException {

@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.entity.Project;
 
 import java.io.IOException;
@@ -12,15 +12,18 @@ public class ProjectRemoveCommand extends AbstractCommand {
     public static final String NAME = "project-remove";
     private static final String DESCRIPTION = "remove project and all associated tasks";
 
-    public ProjectRemoveCommand(final ServiceLocator serviceLocator) {
-        super(serviceLocator, true);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return true;
+    }
 
     @Override
     public void run() throws IOException {

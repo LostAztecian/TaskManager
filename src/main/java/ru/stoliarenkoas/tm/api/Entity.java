@@ -1,9 +1,12 @@
 package ru.stoliarenkoas.tm.api;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public interface Entity {
 
-    String getId();
-    String getName();
-    String getParentId();
+    @NotNull String getId();
+    @Nullable String getName();
+    @Nullable String getParentId();
 
 }

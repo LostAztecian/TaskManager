@@ -40,6 +40,12 @@
             <artifactId>jcabi-manifests</artifactId>
             <version>1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>17.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -49,6 +55,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -93,21 +100,52 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>
-                                ${project.build.directory}/dependency-jars/
+                                ${project.build.directory}/tm/lib
                             </outputDirectory>
+                            <overWriteRelese>false</overWriteRelese>
+                            <overWriteSnapshot>false</overWriteSnapshot>
+                            <overWriteNewer>true</overWriteNewer>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>ru.stoliarenkoas</groupId>
+                            <artifactId>tm</artifactId>
+                            <version>${project.version}</version>
+                            <type>jar</type>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>
+                                ${project.build.directory}/tm/bin
+                            </outputDirectory>
+                            <destFileName>taskmanager.jar</destFileName>
+                        </artifactItem>
+                        <!--<overWriteRelease>false</overWriteRelease>-->
+                        <!--<overWriteSnapshots>true</overWriteSnapshots>-->
+                    </artifactItems>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,16 +1,13 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
 import java.io.IOException;
 
 abstract class UserCommand extends AbstractCommand {
 
-    UserCommand(final ServiceLocator serviceLocator, boolean secured) {
-        super(serviceLocator, secured);
-    }
-
+    @Nullable
     String requestNewPassword() throws IOException {
         String userPwd = null, pwdConfirmation;
         while (userPwd == null) {

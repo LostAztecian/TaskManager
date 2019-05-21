@@ -1,6 +1,6 @@
 package ru.stoliarenkoas.tm.command;
 
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
@@ -11,15 +11,18 @@ public class UserLoginCommand extends UserCommand {
     public static final String NAME = "user-login";
     private static final String DESCRIPTION = "authorize user for further work";
 
-    public UserLoginCommand(final ServiceLocator serviceLocator) {
-        super(serviceLocator, false);
-    }
-
+    @NotNull
     @Override
     public String getName() { return NAME; }
 
+    @NotNull
     @Override
     public String getDescription() { return DESCRIPTION; }
+
+    @Override
+    public boolean isPrivate() {
+        return false;
+    }
 
     @Override
     public void run() throws IOException {
