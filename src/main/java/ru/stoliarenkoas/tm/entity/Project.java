@@ -3,32 +3,49 @@ package ru.stoliarenkoas.tm.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import ru.stoliarenkoas.tm.api.Entity;
 
-import java.util.UUID;
+import java.text.SimpleDateFormat;
 
 @Getter
 @Setter
-public class Project implements Entity {
+public class Project extends PlannedEntity {
 
-    @NotNull private final String id = UUID.randomUUID().toString();
-    @NotNull private final String userId;
-    @Nullable private String name;
-    @Nullable private String description;
 
-    public Project(final @Nullable String parentId) {
-        this.userId = parentId;
+    public Project(final @NotNull String parentId) {
+        super(parentId);
     }
 
     @Override @NotNull
     public String getParentId() {
-        return userId;
+        return parentId;
     }
 
     @Override @NotNull
     public String toString() {
-        return String.format("Project: %s (%s) belongs to userId:=%s.", name, description, userId);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        return String.format("Project: %s (%s) belongs to userId:=%s.%n"+
+                "Creation: %s, Start: %s, End: %s."+
+                "Status: %s.",
+                name,
+                description,
+                parentId,
+                formatter.format(creationDate),
+                formatter.format(startDate),
+                formatter.format(endDate),
+                status.displayName);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (this == obj) return true;
+        if (!(obj instanceof Project)) return false;
+        return this.id.equals(((Project)obj).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
 }

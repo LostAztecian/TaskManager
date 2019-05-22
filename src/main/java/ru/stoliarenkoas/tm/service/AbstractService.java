@@ -6,6 +6,7 @@ import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.api.Repository;
 import ru.stoliarenkoas.tm.api.Service;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.entity.PlannedEntity;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -84,6 +85,19 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
         final Collection<T> objects = new LinkedHashSet<>();
         ids.forEach(id -> {if (id != null) Optional.ofNullable(this.get(id)).ifPresent(objects::add);});
         return filterByCurrentUser(objects);
+    }
+
+    @Override
+    public @NotNull Collection<T> search(@Nullable String searchLine) {
+        if (searchLine == null || searchLine.isEmpty()) return Collections.emptySet();
+        final Collection<T> objects = repository.findAll();
+        if (objects.isEmpty() || !PlannedEntity.class.isAssignableFrom(objects.stream().findAny().get().getClass())) return Collections.emptySet();
+        final Collection<T> searchResult = repository.findAll().stream().map(t -> ((PlannedEntity)t))
+                .filter(t -> Optional.ofNullable(t.getName()).orElse("").contains(searchLine) ||
+                        Optional.ofNullable(t.getDescription()).orElse("").contains(searchLine))
+                .map(t -> ((T)t)) //cast back to source
+                .collect(Collectors.toSet());
+        return filterByCurrentUser(searchResult);
     }
 
     @Override @Nullable

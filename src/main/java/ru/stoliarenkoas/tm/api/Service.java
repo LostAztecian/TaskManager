@@ -2,6 +2,7 @@ package ru.stoliarenkoas.tm.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.stoliarenkoas.tm.entity.PlannedEntity;
 
 import java.util.Collection;
 
@@ -18,6 +19,9 @@ public interface Service<T extends Entity> {
 
     @NotNull
     Collection<T> getAllByParentId(final @Nullable String id);
+
+    @NotNull
+    Collection<T> search(final @Nullable String searchLine);
 
     @Nullable
     T get(final @Nullable String id);

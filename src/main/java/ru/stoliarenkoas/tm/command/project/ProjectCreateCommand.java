@@ -6,6 +6,7 @@ import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class ProjectCreateCommand extends AbstractCommand {
 
@@ -33,6 +34,21 @@ public class ProjectCreateCommand extends AbstractCommand {
         final Project project = new Project(getServiceLocator().getCurrentUser().getId()); //method can be invoked only when user != null
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
+
+        Date projectStartDate = InputHelper.requestDate("START");
+        if (projectStartDate == null) {
+            System.out.println("[DATE INPUT ERROR, DATE SET TO CURRENT]");
+            projectStartDate = new Date();
+        }
+        project.setStartDate(projectStartDate);
+
+        Date projectEndDate = InputHelper.requestDate("END");
+        if (projectEndDate == null) {
+            System.out.println("[DATE INPUT ERROR, DATE SET TO CURRENT]");
+            projectEndDate = new Date();
+        }
+        project.setEndDate(projectEndDate);
+
         getServiceLocator().getProjectService().save(project);
         System.out.printf("[PROJECT \'%s\' CREATED] %n%n", project.getName());
     }

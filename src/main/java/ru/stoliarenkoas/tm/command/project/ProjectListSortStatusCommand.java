@@ -4,16 +4,17 @@ import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.User;
-import ru.stoliarenkoas.tm.entity.comparator.project.ProjectCreationComparator;
+import ru.stoliarenkoas.tm.entity.comparator.project.ProjectEndComparator;
+import ru.stoliarenkoas.tm.entity.comparator.project.ProjectStatusComparator;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeSet;
 
-public class ProjectListCommand extends AbstractCommand {
+public class ProjectListSortStatusCommand extends AbstractCommand {
 
-    @NotNull public static final String NAME = "project-list";
-    @NotNull private static final String DESCRIPTION = "show all projects";
+    @NotNull public static final String NAME = "project-list-sort-status";
+    @NotNull private static final String DESCRIPTION = "show all projects sorted by status";
 
     @NotNull
     @Override
@@ -38,9 +39,9 @@ public class ProjectListCommand extends AbstractCommand {
             System.out.println();
             return;
         }
-        final Collection<Project> sortedProjects = new TreeSet<>(new ProjectCreationComparator());
+        final Collection<Project> sortedProjects = new TreeSet<>(new ProjectStatusComparator());
         sortedProjects.addAll(allProjects);
-        System.out.println("PROJECT LIST");
+        System.out.println("PROJECT LIST (SORT BY END DATE)");
         int index = 1;
         for (final Project project : sortedProjects) {
             System.out.printf("%d. %s %n", index++, project);

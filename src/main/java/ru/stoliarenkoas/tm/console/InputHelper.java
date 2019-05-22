@@ -42,10 +42,10 @@ public class InputHelper {
     }
 
     @Nullable
-    public static Date requestDate() throws IOException {
-        final String pattern = "DD.MM.YYYY";
+    public static Date requestDate(final @NotNull String target) throws IOException {
+        final String pattern = "dd.MM.yyyy";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        System.out.println("ENTER DATE("+ pattern + "):");
+        System.out.printf("ENTER %s DATE(%s): %n", target, pattern);
         return formatter.parse(READER.readLine(), new ParsePosition(0));
     }
 

@@ -59,4 +59,17 @@ public class User implements Entity {
     public String toString() {
         return "User: " + login + "status: " + role.displayName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (this == obj) return true;
+        if (!(obj instanceof User)) return false;
+        return this.userId.equals(((User)obj).userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
 }

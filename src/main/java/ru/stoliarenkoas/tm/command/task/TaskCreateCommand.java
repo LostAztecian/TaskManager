@@ -40,15 +40,22 @@ public class TaskCreateCommand extends AbstractCommand {
 
         final String taskDescription = InputHelper.requestLine("ENTER DESCRIPTION:", true);
 
-        Date taskStartDate;
-        try {
-            taskStartDate = InputHelper.requestDate();
-        } catch (IOException e) {
+        Date taskStartDate = InputHelper.requestDate("START");
+        if (taskStartDate == null) {
             System.out.println("[DATE INPUT ERROR, DATE SET TO CURRENT]");
             taskStartDate = new Date();
         }
 
-        final Task task = new Task(project.get().getId(), taskName, taskDescription, taskStartDate);
+        Date taskEndDate = InputHelper.requestDate("END");
+        if (taskEndDate == null) {
+            System.out.println("[DATE INPUT ERROR, DATE SET TO CURRENT]");
+            taskEndDate = new Date();
+        }
+
+        final Task task = new Task(project.get().getId(), taskName);
+        task.setDescription(taskDescription);
+        task.setStartDate(taskStartDate);
+        task.setEndDate(taskEndDate);
         getServiceLocator().getTaskService().save(task);
         System.out.printf("[TASK \'%s\' CREATED] %n%n", task.getName());
     }
