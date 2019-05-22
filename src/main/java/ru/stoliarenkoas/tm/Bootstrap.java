@@ -80,8 +80,8 @@ public class Bootstrap implements ServiceLocator {
 
     private void mainLoop() {
         System.out.println("*** WELCOME TO TASK-MANAGER ***");
-        try {
-            while (!isTerminated) {
+        while (!isTerminated) {
+            try {
                 final String input = InputHelper.requestLine("enter command", true);
                 if (input == null || input.isEmpty()) continue;
 
@@ -92,11 +92,11 @@ public class Bootstrap implements ServiceLocator {
                     continue;
                 }
                 command.execute();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
     }
 
 }
