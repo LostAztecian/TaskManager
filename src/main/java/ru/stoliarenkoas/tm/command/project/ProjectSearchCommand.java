@@ -8,6 +8,7 @@ import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class ProjectSearchCommand extends AbstractCommand {
@@ -38,9 +39,11 @@ public class ProjectSearchCommand extends AbstractCommand {
             System.out.println();
             return;
         }
+        final Collection<Project> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
+        sortedProjects.addAll(searchResult);
         System.out.println("PROJECTS MATCHING CRITERIA:");
         int index = 1;
-        for (final Project project : searchResult) {
+        for (final Project project : sortedProjects) {
             System.out.printf("%d. %s %n", index++, project);
         }
         System.out.println();

@@ -7,6 +7,7 @@ import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.TreeSet;
 
 public class TaskSearchCommand extends AbstractCommand {
 
@@ -34,9 +35,11 @@ public class TaskSearchCommand extends AbstractCommand {
             System.out.println();
             return;
         }
+        final Collection<Task> sortedTasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
+        sortedTasks.addAll(searchResult);
         System.out.println("TASKS MATCHING CRITERIA:");
         int index = 1;
-        for (final Task task : searchResult) {
+        for (final Task task : sortedTasks) {
             System.out.printf("%d. %s %n", index++, task);
         }
         System.out.println();

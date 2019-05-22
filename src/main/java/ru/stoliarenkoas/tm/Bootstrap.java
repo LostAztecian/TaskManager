@@ -7,11 +7,13 @@ import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Command;
 import ru.stoliarenkoas.tm.api.Service;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
-import ru.stoliarenkoas.tm.command.*;
+import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.entity.PlannedEntity;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
 import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
 import ru.stoliarenkoas.tm.repository.TaskMapRepository;
 import ru.stoliarenkoas.tm.repository.UserMapRepository;
@@ -20,6 +22,7 @@ import ru.stoliarenkoas.tm.service.TaskServiceImpl;
 import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,6 +34,8 @@ public class Bootstrap implements ServiceLocator {
 
     @Getter @Setter
     private User currentUser;
+    @Getter @Setter
+    private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
 
     @Getter
     private Service<Project> projectService;

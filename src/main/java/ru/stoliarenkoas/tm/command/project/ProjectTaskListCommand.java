@@ -5,11 +5,10 @@ import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
-import ru.stoliarenkoas.tm.entity.comparator.task.TaskCreationComparator;
+import ru.stoliarenkoas.tm.entity.comparator.CreationDateComparator;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.TreeSet;
 
 public class ProjectTaskListCommand extends AbstractCommand {
@@ -34,7 +33,7 @@ public class ProjectTaskListCommand extends AbstractCommand {
     public void run() throws IOException {
         final Collection<Project> projects = InputHelper.requestProjectsByName(getServiceLocator());
         if (projects == null) return;
-        final Collection<Task> tasks = new TreeSet<>(new TaskCreationComparator());
+        final Collection<Task> tasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
         for (final Project project : projects) {
             tasks.addAll(getServiceLocator().getTaskService().getAllByParentId(project.getId()));
         }

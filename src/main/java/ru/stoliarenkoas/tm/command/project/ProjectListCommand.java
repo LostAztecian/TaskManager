@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.User;
-import ru.stoliarenkoas.tm.entity.comparator.project.ProjectCreationComparator;
+import ru.stoliarenkoas.tm.entity.comparator.CreationDateComparator;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -38,7 +38,7 @@ public class ProjectListCommand extends AbstractCommand {
             System.out.println();
             return;
         }
-        final Collection<Project> sortedProjects = new TreeSet<>(new ProjectCreationComparator());
+        final Collection<Project> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
         sortedProjects.addAll(allProjects);
         System.out.println("PROJECT LIST");
         int index = 1;
