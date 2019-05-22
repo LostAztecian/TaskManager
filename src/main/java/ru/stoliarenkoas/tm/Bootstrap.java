@@ -92,7 +92,7 @@ public class Bootstrap implements ServiceLocator {
                     continue;
                 }
                 command.execute();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

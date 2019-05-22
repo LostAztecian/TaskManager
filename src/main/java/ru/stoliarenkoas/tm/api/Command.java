@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 
 public interface Command {
-    void execute() throws IOException;
+    void execute() throws Exception;
 
     @NotNull String getName();
 

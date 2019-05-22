@@ -1,14 +1,20 @@
 package ru.stoliarenkoas.tm.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 @Getter
 @Setter
-public class Task extends PlannedEntity {
+@NoArgsConstructor
+public class Task extends PlannedEntity implements Serializable {
+
+    private static final long serialVersionUID = 12345678903L;
+
 
     public Task(final @NotNull String projectId, final @NotNull String name) {
         super(projectId);

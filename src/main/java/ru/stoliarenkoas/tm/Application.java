@@ -4,6 +4,9 @@ import ru.stoliarenkoas.tm.command.general.AboutCommand;
 import ru.stoliarenkoas.tm.command.general.ExitCommand;
 import ru.stoliarenkoas.tm.command.general.HelpCommand;
 import ru.stoliarenkoas.tm.command.general.SetSortMethodCommand;
+import ru.stoliarenkoas.tm.command.persist.DataClearBinary;
+import ru.stoliarenkoas.tm.command.persist.DataLoadBinary;
+import ru.stoliarenkoas.tm.command.persist.DataSaveBinary;
 import ru.stoliarenkoas.tm.command.project.*;
 import ru.stoliarenkoas.tm.command.task.*;
 import ru.stoliarenkoas.tm.command.user.*;
@@ -24,7 +27,9 @@ public class Application {
 
             TaskCreateCommand.class, TaskRemoveCommand.class,
             TaskListCommand.class, TaskClearCommand.class,
-            TaskSearchCommand.class
+            TaskSearchCommand.class,
+
+            DataSaveBinary.class, DataLoadBinary.class, DataClearBinary.class
     };
 
     public static void main(String[] args) {

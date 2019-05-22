@@ -7,11 +7,14 @@ import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class User implements Entity {
+public class User implements Entity, Serializable {
+
+    private static final long serialVersionUID = 12345678904L;
 
     public enum Role {
         USER("user"),
@@ -25,7 +28,7 @@ public class User implements Entity {
         }
     }
 
-    @NotNull private final String userId = UUID.randomUUID().toString();
+    @NotNull private String userId = UUID.randomUUID().toString();
     @NotNull private String login;
     @NotNull private String pwdHash;
     @NotNull private Role role;
@@ -57,7 +60,7 @@ public class User implements Entity {
 
     @Override @NotNull
     public String toString() {
-        return "User: " + login + "status: " + role.displayName;
+        return String.format("User: %s, id: %s, Role: %s", login, userId, role.displayName);
     }
 
     @Override

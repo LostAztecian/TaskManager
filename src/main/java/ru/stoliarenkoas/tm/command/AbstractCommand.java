@@ -14,7 +14,7 @@ public abstract class AbstractCommand implements ru.stoliarenkoas.tm.api.Command
     private ServiceLocator serviceLocator;
 
     @Override
-    public final void execute() throws IOException {
+    public final void execute() throws Exception {
         if (isPrivate() && serviceLocator.getCurrentUser() == null) {
             System.out.println("COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION");
             return;
@@ -22,7 +22,7 @@ public abstract class AbstractCommand implements ru.stoliarenkoas.tm.api.Command
         run();
     }
 
-    protected abstract void run() throws IOException;
+    protected abstract void run() throws Exception;
 
     @Override
     public abstract boolean isPrivate();
