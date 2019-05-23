@@ -36,16 +36,41 @@
             <version>RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-manifests</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>17.0.0</version>
         </dependency>
 
+        <!-- Manifest editing -->
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-manifests</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!-- JAXB externalization -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <!-- json by jaxb -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.9.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -112,9 +137,9 @@
                             <outputDirectory>
                                 ${project.build.directory}/tm/lib
                             </outputDirectory>
-                            <overWriteRelese>false</overWriteRelese>
-                            <overWriteSnapshot>false</overWriteSnapshot>
-                            <overWriteNewer>true</overWriteNewer>
+                            <!--<overWriteRelese>false</overWriteRelese>-->
+                            <!--<overWriteSnapshot>false</overWriteSnapshot>-->
+                            <!--<overWriteNewer>true</overWriteNewer>-->
                         </configuration>
                     </execution>
 

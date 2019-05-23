@@ -1,17 +1,26 @@
 package ru.stoliarenkoas.tm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
 @Setter
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor
 public class User implements Entity, Serializable {
 
     private static final long serialVersionUID = 12345678904L;
@@ -28,10 +37,10 @@ public class User implements Entity, Serializable {
         }
     }
 
-    @NotNull private String userId = UUID.randomUUID().toString();
-    @NotNull private String login;
-    @NotNull private String pwdHash;
-    @NotNull private Role role;
+    @XmlElement @NotNull private String userId = UUID.randomUUID().toString();
+    @XmlElement @NotNull private String login;
+    @XmlElement @NotNull private String pwdHash;
+    @XmlElement @NotNull private Role role;
 
     public User(final @NotNull String login, final @NotNull String password) {
         this(login, password, Role.USER);
@@ -43,17 +52,17 @@ public class User implements Entity, Serializable {
         this.role = role;
     }
 
-    @Override @Nullable
+    @Override @Nullable @JsonIgnore
     public String getParentId() {
         return null;
     }
 
-    @Override @NotNull
+    @Override @NotNull @JsonIgnore
     public String getId() {
         return userId;
     }
 
-    @Override @Nullable
+    @Override @Nullable @JsonIgnore
     public String getName() {
         return login;
     }

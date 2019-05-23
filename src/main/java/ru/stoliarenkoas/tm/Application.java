@@ -1,12 +1,11 @@
 package ru.stoliarenkoas.tm;
 
-import ru.stoliarenkoas.tm.command.general.AboutCommand;
-import ru.stoliarenkoas.tm.command.general.ExitCommand;
-import ru.stoliarenkoas.tm.command.general.HelpCommand;
-import ru.stoliarenkoas.tm.command.general.SetSortMethodCommand;
-import ru.stoliarenkoas.tm.command.persist.DataClearBinary;
-import ru.stoliarenkoas.tm.command.persist.DataLoadBinary;
-import ru.stoliarenkoas.tm.command.persist.DataSaveBinary;
+import ru.stoliarenkoas.tm.command.general.*;
+import ru.stoliarenkoas.tm.command.persist.bin.DataClearBinary;
+import ru.stoliarenkoas.tm.command.persist.bin.DataLoadBinary;
+import ru.stoliarenkoas.tm.command.persist.bin.DataSaveBinary;
+import ru.stoliarenkoas.tm.command.persist.fasterxml.*;
+import ru.stoliarenkoas.tm.command.persist.jaxb.*;
 import ru.stoliarenkoas.tm.command.project.*;
 import ru.stoliarenkoas.tm.command.task.*;
 import ru.stoliarenkoas.tm.command.user.*;
@@ -14,7 +13,7 @@ import ru.stoliarenkoas.tm.command.user.*;
 public class Application {
 
     private static final Class[] CLASSES = {
-            HelpCommand.class, AboutCommand.class,
+            HelpCommand.class, AboutCommand.class, Test.class,
             ExitCommand.class, SetSortMethodCommand.class,
 
             UserLoginCommand.class, UserLogoutCommand.class,
@@ -29,7 +28,11 @@ public class Application {
             TaskListCommand.class, TaskClearCommand.class,
             TaskSearchCommand.class,
 
-            DataSaveBinary.class, DataLoadBinary.class, DataClearBinary.class
+            DataSaveBinary.class, DataLoadBinary.class, DataClearBinary.class,
+            DataSaveJaxbXml.class, DataLoadJaxbXml.class, DataClearJaxbXml.class,
+            DataSaveJaxbJson.class, DataLoadJaxbJson.class, DataClearJaxbJson.class,
+            DataSaveFasterXmlXml.class, DataLoadFasterXmlXml.class, DataClearFasterXmlXml.class,
+            DataSaveFasterXmlJson.class, DataLoadFasterXmlJson.class, DataClearFasterXmlJson.class
     };
 
     public static void main(String[] args) {

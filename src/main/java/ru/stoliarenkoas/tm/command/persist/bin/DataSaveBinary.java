@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm.command.persist;
+package ru.stoliarenkoas.tm.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
@@ -38,7 +38,7 @@ public class DataSaveBinary extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Path path = Paths.get("/binData/" + getServiceLocator().getCurrentUser().getName());
+        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
         final Collection<Project> projects = getServiceLocator().getProjectService().getAll();
         final Collection<Task> tasks = getServiceLocator().getTaskService().getAll();
         Files.createDirectories(path.getParent());

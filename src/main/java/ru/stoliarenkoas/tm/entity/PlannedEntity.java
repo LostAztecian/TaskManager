@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Entity;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -14,18 +18,20 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class PlannedEntity implements Entity, Serializable {
 
     private static final long serialVersionUID = 12345678901L;
 
-    @NotNull protected String id = UUID.randomUUID().toString();
-    @NotNull protected String parentId;
-    @NotNull protected Date creationDate = new Date();
-    @Nullable protected String name;
-    @Nullable protected String description;
-    @Nullable protected Date startDate;
-    @Nullable protected Date endDate;
-    @NotNull protected Task.Status status = Task.Status.PLANNED;
+    @XmlElement @NotNull protected String id = UUID.randomUUID().toString();
+    @XmlElement @NotNull protected String parentId;
+    @XmlElement @NotNull protected Date creationDate = new Date();
+    @XmlElement @Nullable protected String name;
+    @XmlElement @Nullable protected String description;
+    @XmlElement @Nullable protected Date startDate;
+    @XmlElement @Nullable protected Date endDate;
+    @XmlElement @NotNull protected Task.Status status = Task.Status.PLANNED;
 
     public PlannedEntity(final @NotNull String parentId) {
         this.parentId = parentId;

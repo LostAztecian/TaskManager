@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm.command.persist;
+package ru.stoliarenkoas.tm.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
@@ -39,7 +39,7 @@ public class DataLoadBinary extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Path path = Paths.get("/binData/" + getServiceLocator().getCurrentUser().getName());
+        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
         if (Files.notExists(path)) {
             System.out.println("[NO SAVED DATA FOUND]");
             return;

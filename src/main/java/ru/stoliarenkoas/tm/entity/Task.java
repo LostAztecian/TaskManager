@@ -5,12 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@XmlRootElement
 public class Task extends PlannedEntity implements Serializable {
 
     private static final long serialVersionUID = 12345678903L;
