@@ -131,7 +131,7 @@
                         </manifestEntries>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>tm/lib/</classpathPrefix>
+                            <classpathPrefix>../lib/</classpathPrefix>
                             <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
                         </manifest>
                     </archive>
@@ -188,6 +188,7 @@
                         <!--<overWriteSnapshots>true</overWriteSnapshots>-->
                         <!--<overWriteNewer>false</overWriteNewer>-->
                     </artifactItems>
+
                 </configuration>
             </plugin>
 
