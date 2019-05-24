@@ -23,8 +23,7 @@ public class ProjectClearCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        getServiceLocator().getProjectService().getAllByParentId(getServiceLocator().getCurrentUser().getId()) //method can be invoked only when user != null
-                .forEach(p -> getServiceLocator().getTaskService().deleteChildrenByParentId(p.getId()));
+        getServiceLocator().getProjectService().deleteAll();
         getServiceLocator().getProjectService().deleteChildrenByParentId(getServiceLocator().getCurrentUser().getId());
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();

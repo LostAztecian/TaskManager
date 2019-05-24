@@ -17,9 +17,10 @@ public class Task extends PlannedEntity implements Serializable {
 
     private static final long serialVersionUID = 12345678903L;
 
+    @NotNull String projectId = "initId";
 
-    public Task(final @NotNull String projectId, final @NotNull String name) {
-        super(projectId);
+    public Task(final @NotNull String userId, final @NotNull String name) {
+        super(userId);
         this.name = name;
     }
 
@@ -31,7 +32,7 @@ public class Task extends PlannedEntity implements Serializable {
                 "Status: %s.",
                 name,
                 description,
-                parentId,
+                userId,
                 formatter.format(creationDate),
                 formatter.format(startDate),
                 formatter.format(endDate),

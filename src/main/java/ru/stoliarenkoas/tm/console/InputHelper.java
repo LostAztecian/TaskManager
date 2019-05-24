@@ -81,15 +81,10 @@ public class InputHelper {
     }
 
     @Nullable
-    public static Collection<Project> requestProjectsByName(final @Nullable ServiceLocator serviceLocator) throws IOException {
+    public static Collection<Project> requestProjectsByName(final @NotNull ServiceLocator serviceLocator) throws IOException {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) throw new IllegalArgumentException("null request name");
-        final Collection<Project> projectsWithName = serviceLocator
-                .getProjectService()
-                .getAllByParentId(serviceLocator.getCurrentUser().getId())
-                .stream()
-                .filter(p -> projectName.equals(p.getName()))
-                .collect(Collectors.toSet());
+        final Collection<Project> projectsWithName = serviceLocator.getProjectService().getAllByName(projectName);
         if (projectsWithName.isEmpty()) {
             System.out.println("[NO PROJECTS MATCH GIVEN NAME]");
             System.out.println("[END]");

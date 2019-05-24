@@ -15,11 +15,6 @@ public class ProjectServiceImpl extends AbstractService<Project> {
     }
 
     @Override
-    protected @Nullable String getUserId(@NotNull Project object) {
-        return object.getParentId();
-    }
-
-    @Override
     protected @Nullable Service<? extends Entity> getChildService() {
         return serviceLocator.getTaskService();
     }

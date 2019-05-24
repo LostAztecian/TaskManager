@@ -30,10 +30,7 @@ public class TaskListCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Collection<Project> projects = getServiceLocator().getProjectService()
-                .getAllByParentId(getServiceLocator().getCurrentUser().getId()); //method can be invoked only when user != null
-        final Collection<Task> allTasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-        projects.forEach(p -> allTasks.addAll(getServiceLocator().getTaskService().getAllByParentId(p.getId())));
+        final Collection<Task> allTasks = getServiceLocator().getTaskService().getAll();
         if (allTasks.isEmpty()) {
             System.out.println("[TASK LIST IS EMPTY]");
             System.out.println();

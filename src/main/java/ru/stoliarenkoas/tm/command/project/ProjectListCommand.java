@@ -30,9 +30,7 @@ public class ProjectListCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final User user = getServiceLocator().getCurrentUser();
-        final Collection<Project> allProjects = getServiceLocator().getProjectService()
-            .getAllByParentId(user.getId()); //method can be invoked only when user != null
+        final Collection<Project> allProjects = getServiceLocator().getProjectService().getAll();
         if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();

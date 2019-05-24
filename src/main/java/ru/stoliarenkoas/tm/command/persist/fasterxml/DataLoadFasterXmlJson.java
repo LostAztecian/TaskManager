@@ -3,14 +3,11 @@ package ru.stoliarenkoas.tm.command.persist.fasterxml;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
-import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.command.persist.dto.UserData;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

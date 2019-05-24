@@ -5,7 +5,6 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.entity.PlannedEntity;
 import ru.stoliarenkoas.tm.entity.Project;
 
 import javax.xml.bind.*;
@@ -40,7 +39,7 @@ public class Test extends AbstractCommand {
         Project project = new Project();
         project.setName("nnm");
         project.setDescription("dsc");
-        project.setParentId("pid111");
+        project.setUserId("pid111");
         project.setStartDate(new Date());
         project.setEndDate(new Date());
         try {

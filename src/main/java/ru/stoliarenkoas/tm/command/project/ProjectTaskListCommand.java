@@ -1,11 +1,13 @@
 package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.api.TaskService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
 import ru.stoliarenkoas.tm.entity.comparator.CreationDateComparator;
+import ru.stoliarenkoas.tm.service.TaskServiceImpl;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -35,7 +37,7 @@ public class ProjectTaskListCommand extends AbstractCommand {
         if (projects == null) return;
         final Collection<Task> tasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
         for (final Project project : projects) {
-            tasks.addAll(getServiceLocator().getTaskService().getAllByParentId(project.getId()));
+            tasks.addAll(((TaskService)(getServiceLocator().getTaskService())).getTasksByProjectId(project.getId()));
         }
         if (tasks.isEmpty()) {
             System.out.println("[PROJECT HAS NO TASKS]");

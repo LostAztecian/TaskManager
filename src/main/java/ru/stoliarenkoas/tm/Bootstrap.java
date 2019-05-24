@@ -54,8 +54,8 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initUsers() {
-        userService.save(new User("admin", "admin", User.Role.ADMIN));
-        userService.save(new User("demo", "demo", User.Role.USER));
+        ((UserServiceImpl)userService).persist(new User("admin", "admin", User.Role.ADMIN));
+        ((UserServiceImpl)userService).persist(new User("demo", "demo", User.Role.USER));
     }
 
     private void initMethods() {

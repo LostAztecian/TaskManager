@@ -7,6 +7,6 @@ public interface Entity {
 
     @NotNull String getId();
     @Nullable String getName();
-    @Nullable String getParentId();
+    @Nullable String getUserId();
 
 }

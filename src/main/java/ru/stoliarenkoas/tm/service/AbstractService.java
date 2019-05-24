@@ -2,16 +2,12 @@ package ru.stoliarenkoas.tm.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.stoliarenkoas.tm.api.Entity;
-import ru.stoliarenkoas.tm.api.Repository;
-import ru.stoliarenkoas.tm.api.Service;
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.api.*;
 import ru.stoliarenkoas.tm.entity.PlannedEntity;
+import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractService<T extends Entity> implements Service<T> {
@@ -27,10 +23,6 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
         this.serviceLocator = serviceLocator;
     }
 
-    @Nullable
-    protected abstract String getUserId(final @NotNull T object);
-
-    @Nullable
     protected abstract Service<? extends Entity> getChildService();
 
     @Nullable
@@ -40,89 +32,76 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @NotNull
-    private Collection<T> filterByCurrentUser(final @NotNull Collection<T> collection) {
-        if (this instanceof UserServiceImpl) return collection;
-        final String currentUserId = getCurrentUserId();
-        if (currentUserId == null) return Collections.emptySet();
-        return collection.stream()
-                .filter(p -> currentUserId.equals(getUserId(p)))
-                .collect(Collectors.toSet());
-    }
-
-    @Nullable
-    private T filterByCurrentUser(final @Nullable T object) {
-        if (object == null) return null;
-        final String currentUserId = getCurrentUserId();
-        if (currentUserId == null) return null;
-        if (currentUserId.equals(getUserId(object))) return object;
-        return null;
-    }
-
-    @NotNull
     @Override
     public Collection<T> getAll() {
-        return filterByCurrentUser(repository.findAll());
+        final String userId = getCurrentUserId();
+        if (userId == null) return Collections.emptySet();
+        return repository.findAll(userId);
+    }
+
+    @Override
+    public @NotNull Collection<T> getAllSorted(final @Nullable ComparatorType comparatorType) {
+        final String userId = getCurrentUserId();
+        if (userId == null) return Collections.emptySet();
+        if (comparatorType == null) return getAll();
+        return repository.findAllAndSort(userId, comparatorType);
     }
 
     @NotNull
     @Override
     public Collection<T> getAllByName(final @Nullable String name) {
-        if (name == null || name.isEmpty()) return Collections.emptySet();
-        return filterByCurrentUser(repository.findByName(name));
+        final String userId = getCurrentUserId();
+        if (name == null || name.isEmpty() || userId == null) return Collections.emptySet();
+        return repository.findByName(userId, name);
     }
 
-    @NotNull
     @Override
-    public Collection<T> getAllByParentId(final @Nullable String id) {
-        if (id == null || id.isEmpty()) return Collections.emptySet();
-        return filterByCurrentUser(repository.findByParentId(id));
-    }
-
-    @NotNull
-    @Override
-    public Collection<T> getByIds(final @Nullable Collection<String> ids) {
-        if (ids == null || ids.isEmpty()) return Collections.emptySet();
-        final Collection<T> objects = new LinkedHashSet<>();
-        ids.forEach(id -> {if (id != null) Optional.ofNullable(this.get(id)).ifPresent(objects::add);});
-        return filterByCurrentUser(objects);
+    public @NotNull Collection<T> getAllByNameSorted(final @Nullable String name, final @Nullable ComparatorType comparatorType) {
+        final String userId = getCurrentUserId();
+        if (userId == null || name == null) return Collections.emptySet();
+        if (comparatorType == null) return getAllByName(name);
+        return repository.findByNameAndSort(userId, comparatorType, name);
     }
 
     @Override
     public @NotNull Collection<T> search(@Nullable String searchLine) {
-        if (searchLine == null || searchLine.isEmpty()) return Collections.emptySet();
-        final Collection<T> objects = repository.findAll();
-        if (objects.isEmpty() || !PlannedEntity.class.isAssignableFrom(objects.stream().findAny().get().getClass())) return Collections.emptySet();
-        final Collection<T> searchResult = repository.findAll().stream().map(t -> ((PlannedEntity)t))
-                .filter(t -> Optional.ofNullable(t.getName()).orElse("").contains(searchLine) ||
-                        Optional.ofNullable(t.getDescription()).orElse("").contains(searchLine))
-                .map(t -> ((T)t)) //cast back to source
-                .collect(Collectors.toSet());
-        return filterByCurrentUser(searchResult);
+        final String userId = getCurrentUserId();
+        if (searchLine == null || searchLine.isEmpty() || userId == null) return Collections.emptySet();
+        if (repository instanceof UserRepository) return Collections.emptySet();
+        return repository.search(userId, searchLine);
     }
 
     @Override @Nullable
     public T get(final @Nullable String id) {
         if (id == null || id.isEmpty()) return null;
-        return filterByCurrentUser(repository.findOne(id));
+        final String userId = getCurrentUserId();
+        if (userId == null) return null;
+        return repository.findOne(userId, id);
     }
 
     @Override
     public void save(final @Nullable T object) {
-        if (object == null || object.getId().isEmpty() || filterByCurrentUser(object) == null) return;
-        repository.merge(object);
+        final String userId = getCurrentUserId();
+        if (userId == null) return;
+        if (object == null || object.getId().isEmpty()) return;
+        repository.merge(userId, object);
     }
 
     @Override
     public void delete(final @Nullable String id) {
         if (id == null || id.isEmpty() || get(id) == null) return;
-        deleteChildrenByParentId(id);
-        repository.remove(id);
+        final String userId = getCurrentUserId();
+        if (userId == null) return;
+        final String deletedId = repository.remove(userId, id);
+        deleteChildrenByParentId(deletedId);
     }
 
     @Override
     public void delete(final @Nullable T object) {
-        if (object == null || filterByCurrentUser(object) == null) return;
-        repository.remove(object);
+        final String userId = getCurrentUserId();
+        if (userId == null || object == null) return;
+        final String deletedId = repository.remove(userId, object);
+        deleteChildrenByParentId(deletedId);
     }
 
     @Override
@@ -130,13 +109,21 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
         if (id == null || id.isEmpty() || get(id) == null) return;
         final Service<? extends Entity> childService = getChildService();
         if (childService == null) return;
-        childService.getAll().stream().filter(c -> id.equals(((Entity) c).getParentId())).forEach(c -> childService.delete(((Entity) c).getId()));
+        childService.deleteByIds(Arrays.asList(id));
+    }
+
+    public void deleteChildrenByParentIds(final @Nullable Collection<String> ids) {
+        final Service<? extends Entity> childService = getChildService();
+        if (childService == null) return;
+        childService.deleteByIds(ids);
     }
 
     @Override
-    public void deleteByName(final @Nullable String name, boolean allMatches) {
-        if (name == null || name.isEmpty()) return;
-        repository.findByName(name).forEach(o -> this.delete(o.getId()));
+    public void deleteByName(final @Nullable String name) {
+        final String userId = getCurrentUserId();
+        if (userId == null || name == null || name.isEmpty()) return;
+        final Collection<String> deletedIds = repository.removeByName(userId, name);
+        deleteChildrenByParentIds(deletedIds);
     }
 
     @Override
@@ -147,8 +134,10 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
 
     @Override
     public void deleteAll() {
-        final Collection<T> objects = getAll();
-        objects.forEach(o -> this.delete(o.getId()));
+        final String userId = getCurrentUserId();
+        if (userId == null) return;
+        final Collection<String> deletedIds = repository.removeAll(userId);
+        deleteChildrenByParentIds(deletedIds);
     }
 
 }

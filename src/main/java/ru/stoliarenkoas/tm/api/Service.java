@@ -3,6 +3,7 @@ package ru.stoliarenkoas.tm.api;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.entity.PlannedEntity;
+import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 
 import java.util.Collection;
 
@@ -12,13 +13,13 @@ public interface Service<T extends Entity> {
     Collection<T> getAll();
 
     @NotNull
+    Collection<T> getAllSorted(final @Nullable ComparatorType comparatorType);
+
+    @NotNull
     Collection<T> getAllByName(final @Nullable String name);
 
     @NotNull
-    Collection<T> getByIds(final @Nullable Collection<String> ids);
-
-    @NotNull
-    Collection<T> getAllByParentId(final @Nullable String id);
+    Collection<T> getAllByNameSorted(final @Nullable String name, final @Nullable ComparatorType comparatorType);
 
     @NotNull
     Collection<T> search(final @Nullable String searchLine);
@@ -34,9 +35,11 @@ public interface Service<T extends Entity> {
 
     void deleteChildrenByParentId(final @Nullable String id);
 
+    void deleteChildrenByParentIds(final @Nullable Collection<String> ids);
+
     void deleteByIds(final @Nullable Collection<String> ids);
 
-    void deleteByName(final @Nullable String name, boolean allMatches);
+    void deleteByName(final @Nullable String name);
 
     void deleteAll();
 

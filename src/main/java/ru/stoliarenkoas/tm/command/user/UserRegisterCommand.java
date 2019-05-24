@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class UserRegisterCommand extends AbstractCommand {
         if (userLogin == null) return;
         final String userPwd = InputHelper.requestNewPassword();
         if (userPwd == null) return;
-        getServiceLocator().getUserService().save(new User(userLogin, userPwd));
+        ((UserServiceImpl)getServiceLocator().getUserService()).persist(new User(userLogin, userPwd));
     }
 
     @Nullable

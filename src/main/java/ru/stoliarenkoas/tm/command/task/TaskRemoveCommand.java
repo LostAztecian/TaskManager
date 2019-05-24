@@ -29,22 +29,13 @@ public class TaskRemoveCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[TASK DELETE]");
-        final Collection<String> projectsIds = getServiceLocator().getProjectService()
-                .getAllByParentId(getServiceLocator().getCurrentUser().getId()) //method can be invoked only when user != null
-                .stream().map(Project::getId).collect(Collectors.toSet());
 
         final String taskName = InputHelper.requestLine("ENTER TASK NAME:", true);
         if (taskName == null || taskName.isEmpty()) {
             printNoSuchTask();
             return;
         }
-        final Collection<Task> tasks = getServiceLocator().getTaskService().getAllByName(taskName)
-                .stream().filter(t -> projectsIds.contains(t.getParentId())).collect(Collectors.toSet());
-        if (tasks.isEmpty()) {
-            printNoSuchTask();
-            return;
-        }
-        tasks.forEach(t -> getServiceLocator().getTaskService().delete(t.getId()));
+        getServiceLocator().getTaskService().deleteByName(taskName);
         System.out.println("[TASKS REMOVED]");
         System.out.println();
     }

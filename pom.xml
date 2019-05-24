@@ -27,6 +27,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jackson.version>2.9.9</jackson.version>
     </properties>
 
     <dependencies>
@@ -58,18 +59,30 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
-            <version>2.5.2</version>
+            <version>2.7.4</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.9.9</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
 
@@ -88,6 +101,7 @@
                 <version>1.4</version>
                 <executions>
                     <execution>
+                        <id>buildNumber</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>create</goal>
@@ -100,6 +114,8 @@
                     <items>
                         <item>buildNumber</item>
                     </items>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
                 </configuration>
             </plugin>
 
@@ -134,12 +150,12 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>false</overWriteIfNewer>
                             <outputDirectory>
                                 ${project.build.directory}/tm/lib
                             </outputDirectory>
-                            <!--<overWriteRelese>false</overWriteRelese>-->
-                            <!--<overWriteSnapshot>false</overWriteSnapshot>-->
-                            <!--<overWriteNewer>true</overWriteNewer>-->
                         </configuration>
                     </execution>
 
@@ -150,7 +166,9 @@
                             <goal>copy</goal>
                         </goals>
                         <configuration>
-
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>false</overWriteIfNewer>
                         </configuration>
                     </execution>
                 </executions>
@@ -167,12 +185,38 @@
                             </outputDirectory>
                             <destFileName>taskmanager.jar</destFileName>
                         </artifactItem>
-                        <!--<overWriteRelease>false</overWriteRelease>-->
+                        <!--<overWriteReleases>true</overWriteReleases>-->
                         <!--<overWriteSnapshots>true</overWriteSnapshots>-->
+                        <!--<overWriteNewer>false</overWriteNewer>-->
                     </artifactItems>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+            </plugin>
+
         </plugins>
     </build>
-
 </project>

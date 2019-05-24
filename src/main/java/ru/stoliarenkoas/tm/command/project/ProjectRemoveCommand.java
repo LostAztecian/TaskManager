@@ -30,11 +30,9 @@ public class ProjectRemoveCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[PROJECT DELETE]");
-        final Collection<Project> projects = InputHelper.requestProjectsByName(getServiceLocator());
-        if (projects == null) return;
-        final Collection<String> ids = projects.stream().map(Project::getId).collect(Collectors.toSet());
-        getServiceLocator().getProjectService().getAllByParentId(getServiceLocator().getCurrentUser().getId()); //method can be invoked only when user != null
-        getServiceLocator().getProjectService().deleteByIds(ids);
+        final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
+        if (projectName == null) return;
+        getServiceLocator().getProjectService().deleteByName(projectName);
         System.out.println("[PROJECT(S) DELETED]");
         System.out.println();
     }

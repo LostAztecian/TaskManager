@@ -25,7 +25,7 @@ public abstract class PlannedEntity implements Entity, Serializable {
     private static final long serialVersionUID = 12345678901L;
 
     @XmlElement @NotNull protected String id = UUID.randomUUID().toString();
-    @XmlElement @NotNull protected String parentId;
+    @XmlElement @NotNull protected String userId = "initId";
     @XmlElement @NotNull protected Date creationDate = new Date();
     @XmlElement @Nullable protected String name;
     @XmlElement @Nullable protected String description;
@@ -33,8 +33,8 @@ public abstract class PlannedEntity implements Entity, Serializable {
     @XmlElement @Nullable protected Date endDate;
     @XmlElement @NotNull protected Task.Status status = Task.Status.PLANNED;
 
-    public PlannedEntity(final @NotNull String parentId) {
-        this.parentId = parentId;
+    public PlannedEntity(final @NotNull String userId) {
+        this.userId = userId;
     }
 
     public enum Status {
@@ -61,8 +61,8 @@ public abstract class PlannedEntity implements Entity, Serializable {
     }
 
     @Override
-    public @Nullable String getParentId() {
-        return parentId;
+    public @NotNull String getUserId() {
+        return userId;
     }
 
 }

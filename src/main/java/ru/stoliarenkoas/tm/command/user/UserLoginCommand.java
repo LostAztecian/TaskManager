@@ -1,9 +1,11 @@
 package ru.stoliarenkoas.tm.command.user;
 
 import org.jetbrains.annotations.NotNull;
+import ru.stoliarenkoas.tm.api.UserService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -36,12 +38,8 @@ public class UserLoginCommand extends AbstractCommand {
             printAuthFailed();
             return;
         }
-        final Optional<User> user = getServiceLocator().getUserService().getAllByName(userLogin).stream().findAny();
         final String pwdHash = InputHelper.getMd5(userPassword);
-        if (!user.isPresent() || pwdHash == null || !pwdHash.equals(user.get().getPwdHash())) {
-            printAuthFailed();
-            return;
-        }
+        final Optional<User> user = ((UserService)getServiceLocator().getUserService()).validate(userLogin, pwdHash);
         getServiceLocator().setCurrentUser(user.get());
         System.out.printf("[LOGGED IN AS %s] %n%n", user.get().getLogin());
     }

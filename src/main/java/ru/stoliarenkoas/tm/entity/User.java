@@ -38,9 +38,9 @@ public class User implements Entity, Serializable {
     }
 
     @XmlElement @NotNull private String userId = UUID.randomUUID().toString();
-    @XmlElement @NotNull private String login;
-    @XmlElement @NotNull private String pwdHash;
-    @XmlElement @NotNull private Role role;
+    @XmlElement @NotNull private String login = "init";
+    @XmlElement @NotNull private String pwdHash = "init";
+    @XmlElement @NotNull private Role role = Role.USER;
 
     public User(final @NotNull String login, final @NotNull String password) {
         this(login, password, Role.USER);
@@ -52,9 +52,9 @@ public class User implements Entity, Serializable {
         this.role = role;
     }
 
-    @Override @Nullable @JsonIgnore
-    public String getParentId() {
-        return null;
+    @Override @NotNull @JsonIgnore
+    public String getUserId() {
+        return userId;
     }
 
     @Override @NotNull @JsonIgnore

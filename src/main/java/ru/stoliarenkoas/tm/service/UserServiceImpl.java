@@ -2,22 +2,18 @@ package ru.stoliarenkoas.tm.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.stoliarenkoas.tm.api.Entity;
-import ru.stoliarenkoas.tm.api.Repository;
-import ru.stoliarenkoas.tm.api.Service;
-import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.api.*;
 import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.repository.UserMapRepository;
 
-public class UserServiceImpl extends AbstractService<User> {
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
 
+public class UserServiceImpl extends AbstractService<User> implements UserService {
 
     public UserServiceImpl(final @NotNull Repository<User> repository, final @NotNull ServiceLocator serviceLocator) {
         super(repository, serviceLocator);
-    }
-
-    @Override
-    protected @Nullable String getUserId(final @NotNull User object) {
-        return null;
     }
 
     @Override
@@ -25,10 +21,21 @@ public class UserServiceImpl extends AbstractService<User> {
         return serviceLocator.getProjectService();
     }
 
+    public @NotNull Optional<User> validate(final @Nullable String name, final @Nullable String pwdHash) {
+        if (name == null || name.isEmpty()) return Optional.ofNullable(null);
+        if (pwdHash == null || pwdHash.isEmpty()) return Optional.ofNullable(null);
+        return ((UserMapRepository)repository).validate(name, pwdHash);
+    }
+
     @Override
     public void save(final User user) {
         if (!isValid(user)) return;
-        repository.merge(user);
+        repository.merge(user.getUserId(), user);
+    }
+
+    public void persist(final @Nullable User user) {
+        if (!isValid(user)) return;
+        repository.persist(user);
     }
 
     private boolean isValid(final User user) {

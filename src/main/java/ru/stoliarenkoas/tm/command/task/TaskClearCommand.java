@@ -25,11 +25,7 @@ public class TaskClearCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        getServiceLocator().getProjectService()
-            .getAllByParentId(getServiceLocator().getCurrentUser().getId())
-            .forEach(p ->
-                getServiceLocator().getTaskService().getAllByParentId(p.getId())
-                        .forEach(getServiceLocator().getTaskService()::delete));
+        getServiceLocator().getTaskService().deleteAll();
         System.out.printf("[ALL TASKS FOR USER \'%s\' REMOVED] %n%n", getServiceLocator().getCurrentUser().getLogin());
     }
 

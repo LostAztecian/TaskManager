@@ -17,13 +17,13 @@ public class Project extends PlannedEntity implements Serializable {
 
     private static final long serialVersionUID = 12345678902L;
 
-    public Project(final @NotNull String parentId) {
-        super(parentId);
+    public Project(final @NotNull String userId) {
+        super(userId);
     }
 
     @Override @NotNull
-    public String getParentId() {
-        return parentId;
+    public String getUserId() {
+        return userId;
     }
 
     @Override @NotNull
@@ -34,7 +34,7 @@ public class Project extends PlannedEntity implements Serializable {
                 "Status: %s.",
                 name,
                 description,
-                parentId,
+                userId,
                 formatter.format(creationDate),
                 formatter.format(startDate),
                 formatter.format(endDate),

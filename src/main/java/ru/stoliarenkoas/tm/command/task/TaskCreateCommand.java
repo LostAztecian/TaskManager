@@ -52,7 +52,8 @@ public class TaskCreateCommand extends AbstractCommand {
             taskEndDate = new Date();
         }
 
-        final Task task = new Task(project.get().getId(), taskName);
+        final Task task = new Task(getServiceLocator().getCurrentUser().getUserId(), taskName);
+        task.setProjectId(project.get().getId());
         task.setDescription(taskDescription);
         task.setStartDate(taskStartDate);
         task.setEndDate(taskEndDate);
