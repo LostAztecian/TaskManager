@@ -131,7 +131,7 @@
                         </manifestEntries>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>dependency-jars/</classpathPrefix>
+                            <classpathPrefix>tm/lib/</classpathPrefix>
                             <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
                         </manifest>
                     </archive>
@@ -158,7 +158,6 @@
                             </outputDirectory>
                         </configuration>
                     </execution>
-
                     <execution>
                         <id>copy</id>
                         <phase>install</phase>
@@ -191,6 +190,7 @@
                     </artifactItems>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -214,9 +214,7 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
-
         </plugins>
     </build>
 </project>
