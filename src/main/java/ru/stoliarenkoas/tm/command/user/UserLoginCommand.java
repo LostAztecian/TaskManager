@@ -1,11 +1,10 @@
 package ru.stoliarenkoas.tm.command.user;
 
 import org.jetbrains.annotations.NotNull;
-import ru.stoliarenkoas.tm.api.UserService;
+import ru.stoliarenkoas.tm.api.service.UserService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
-import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
 import java.io.IOException;
 import java.util.Optional;

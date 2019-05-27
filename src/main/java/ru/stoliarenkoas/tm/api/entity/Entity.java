@@ -1,12 +1,10 @@
-package ru.stoliarenkoas.tm.api;
+package ru.stoliarenkoas.tm.api.entity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface Entity {
-
     @NotNull String getId();
-    @Nullable String getName();
-    @Nullable String getUserId();
 
+    @Nullable String getName();
 }

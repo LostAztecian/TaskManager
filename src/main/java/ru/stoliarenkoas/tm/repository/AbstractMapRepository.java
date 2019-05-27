@@ -2,15 +2,14 @@ package ru.stoliarenkoas.tm.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.stoliarenkoas.tm.api.Entity;
-import ru.stoliarenkoas.tm.api.Repository;
-import ru.stoliarenkoas.tm.entity.PlannedEntity;
+import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
+import ru.stoliarenkoas.tm.api.repository.PlannedEntityRepository;
 import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractMapRepository<T extends Entity> implements Repository<T> {
+public abstract class AbstractMapRepository<T extends PlannedEntity> implements PlannedEntityRepository<T> {
 
     protected final @NotNull Map<String, T> map = new LinkedHashMap<>();
 
@@ -35,21 +34,12 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     }
 
     @Override
-    public @NotNull Collection<T> search(final @NotNull String userId, final @NotNull String searchLine) {
-        return findAll(userId).stream().map(t -> ((PlannedEntity)t))
-                .filter(t -> Optional.ofNullable(t.getName()).orElse("").contains(searchLine) ||
-                        Optional.ofNullable(t.getDescription()).orElse("").contains(searchLine))
-                .map(t -> ((T)t)) //definitely safe cast back to source
-                .collect(Collectors.toSet());
-    }
-
-    @Override
     public @Nullable T findOne(final @NotNull String userId, final @NotNull String id) {
         return map.values().stream().filter(e -> userId.equals(e.getUserId()) && e.getId().equals(id)).findAny().orElse(null);
     }
 
     @Override
-    public void persist(final @NotNull Entity object) {
+    public void persist(final @NotNull PlannedEntity object) {
         try {
             map.putIfAbsent(object.getId(), (T)object);
         } catch (ClassCastException e) {
@@ -58,7 +48,7 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     }
 
     @Override
-    public void merge(final @NotNull String userId, final @NotNull Entity object) {
+    public void merge(final @NotNull String userId, final @NotNull PlannedEntity object) {
         if (map.get(object.getId()) != null && userId.equals(map.get(object.getId()).getUserId())) return;
         try {
             map.put(object.getId(), (T)object);
@@ -71,11 +61,11 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     public @Nullable String remove(final @NotNull String userId, final @NotNull String id) {
         if (map.get(id) == null || !userId.equals(map.get(id).getUserId())) return null;
         map.remove(id);
-        return userId;
+        return id;
     }
 
     @Override
-    public @Nullable String remove(final @NotNull String userId, final @NotNull Entity object) {
+    public @Nullable String remove(final @NotNull String userId, final @NotNull PlannedEntity object) {
         if (map.get(object.getId()) == null || !userId.equals(map.get(object.getId()).getUserId())) return null;
         map.remove(object.getId());
         return object.getId();
@@ -102,10 +92,9 @@ public abstract class AbstractMapRepository<T extends Entity> implements Reposit
     }
 
     private @NotNull Collection<T> getSorted(final @NotNull Collection<T> collection, final @NotNull ComparatorType comparatorType) {
-        if (!PlannedEntity.class.isAssignableFrom(collection.stream().findAny().get().getClass())) return Collections.emptySet();
-        final TreeSet<PlannedEntity> sortedSet = new TreeSet<>(comparatorType.comparator);
+        final TreeSet<PlannedEntity> sortedSet = new TreeSet<PlannedEntity>(comparatorType.comparator);
         final LinkedHashSet<T> result = new LinkedHashSet<>();
-        collection.forEach(e -> sortedSet.add((PlannedEntity) e));
+        sortedSet.addAll(collection);
         sortedSet.forEach(e -> result.add((T)e));
         return result;
     }

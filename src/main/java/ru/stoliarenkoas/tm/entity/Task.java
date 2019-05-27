@@ -4,23 +4,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @XmlRootElement
-public class Task extends PlannedEntity implements Serializable {
+public class Task implements PlannedEntity, Serializable {
 
     private static final long serialVersionUID = 12345678903L;
-
-    @NotNull String projectId = "initId";
+    @NotNull private String id = UUID.randomUUID().toString();
+    @NotNull private String userId = "initId";
+    @NotNull private String projectId = "initId";
+    @NotNull private Status status = Status.PLANNED;
+    @Nullable private String name;
+    @Nullable private String description;
+    @NotNull private Date creationDate = new Date();
+    @Nullable private Date startDate;
+    @Nullable private Date endDate;
 
     public Task(final @NotNull String userId, final @NotNull String name) {
-        super(userId);
+        this.userId = userId;
         this.name = name;
     }
 

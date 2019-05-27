@@ -1,13 +1,11 @@
 package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
-import ru.stoliarenkoas.tm.api.TaskService;
+import ru.stoliarenkoas.tm.api.service.TaskService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
-import ru.stoliarenkoas.tm.entity.comparator.CreationDateComparator;
-import ru.stoliarenkoas.tm.service.TaskServiceImpl;
 
 import java.io.IOException;
 import java.util.Collection;

@@ -1,7 +1,6 @@
 package ru.stoliarenkoas.tm.entity.comparator;
 
-import ru.stoliarenkoas.tm.entity.PlannedEntity;
-import ru.stoliarenkoas.tm.entity.Task;
+import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
 
 import java.util.Comparator;
 

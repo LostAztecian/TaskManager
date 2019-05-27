@@ -1,7 +1,7 @@
 package ru.stoliarenkoas.tm.entity.comparator;
 
 import org.jetbrains.annotations.NotNull;
-import ru.stoliarenkoas.tm.entity.PlannedEntity;
+import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
 
 import java.util.Comparator;
 

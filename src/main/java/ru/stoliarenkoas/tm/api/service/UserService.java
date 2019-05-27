@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm.api;
+package ru.stoliarenkoas.tm.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,6 +8,9 @@ import java.util.Optional;
 
 public interface UserService extends Service<User> {
 
-    @NotNull Optional<User> validate(final @Nullable String name, final @Nullable String pwdHash);
+    @NotNull
+    Optional<User> validate(final @Nullable String name, final @Nullable String pwdHash);
+
+    void persist(final @Nullable User user);
 
 }

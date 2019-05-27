@@ -1,12 +1,11 @@
 package ru.stoliarenkoas.tm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.stoliarenkoas.tm.api.Entity;
+import ru.stoliarenkoas.tm.api.entity.Entity;
 import ru.stoliarenkoas.tm.console.InputHelper;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,7 +36,7 @@ public class User implements Entity, Serializable {
         }
     }
 
-    @XmlElement @NotNull private String userId = UUID.randomUUID().toString();
+    @XmlElement @NotNull private String id = UUID.randomUUID().toString();
     @XmlElement @NotNull private String login = "init";
     @XmlElement @NotNull private String pwdHash = "init";
     @XmlElement @NotNull private Role role = Role.USER;
@@ -52,24 +51,14 @@ public class User implements Entity, Serializable {
         this.role = role;
     }
 
-    @Override @NotNull @JsonIgnore
-    public String getUserId() {
-        return userId;
-    }
-
-    @Override @NotNull @JsonIgnore
-    public String getId() {
-        return userId;
-    }
-
-    @Override @Nullable @JsonIgnore
-    public String getName() {
+    @Override
+    public @Nullable String getName() {
         return login;
     }
 
     @Override @NotNull
     public String toString() {
-        return String.format("User: %s, id: %s, Role: %s", login, userId, role.displayName);
+        return String.format("User: %s, id: %s, Role: %s", login, id, role.displayName);
     }
 
     @Override
@@ -77,11 +66,12 @@ public class User implements Entity, Serializable {
         if (obj == null) return false;
         if (this == obj) return true;
         if (!(obj instanceof User)) return false;
-        return this.userId.equals(((User)obj).userId);
+        return this.id.equals(((User)obj).id);
     }
 
     @Override
     public int hashCode() {
-        return userId.hashCode();
+        return id.hashCode();
     }
+
 }

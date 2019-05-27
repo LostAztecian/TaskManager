@@ -5,13 +5,13 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.Command;
-import ru.stoliarenkoas.tm.api.Service;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
+import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
+import ru.stoliarenkoas.tm.api.service.ProjectService;
+import ru.stoliarenkoas.tm.api.service.TaskService;
+import ru.stoliarenkoas.tm.api.service.UserService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.console.InputHelper;
-import ru.stoliarenkoas.tm.entity.PlannedEntity;
-import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.Task;
 import ru.stoliarenkoas.tm.entity.User;
 import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
@@ -21,7 +21,6 @@ import ru.stoliarenkoas.tm.service.ProjectServiceImpl;
 import ru.stoliarenkoas.tm.service.TaskServiceImpl;
 import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -38,11 +37,11 @@ public class Bootstrap implements ServiceLocator {
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
 
     @Getter
-    private Service<Project> projectService;
+    private ProjectService projectService;
     @Getter
-    private Service<Task> taskService;
+    private TaskService taskService;
     @Getter
-    private Service<User> userService;
+    private UserService userService;
 
     public void terminate() { isTerminated = true; }
 
@@ -54,8 +53,8 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initUsers() {
-        ((UserServiceImpl)userService).persist(new User("admin", "admin", User.Role.ADMIN));
-        ((UserServiceImpl)userService).persist(new User("demo", "demo", User.Role.USER));
+        userService.persist(new User("admin", "admin", User.Role.ADMIN));
+        userService.persist(new User("demo", "demo", User.Role.USER));
     }
 
     private void initMethods() {
