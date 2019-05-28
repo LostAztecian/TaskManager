@@ -17,7 +17,7 @@ public interface Service<T extends Entity> {
     @Nullable
     T get(@Nullable String id);
 
-    void save(@Nullable T project);
+    void save(@Nullable T object);
 
     void delete(@Nullable String id);
 
