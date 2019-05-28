@@ -1,0 +1,14 @@
+package tm.client.api.service;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import tm.client.entity.Task;
+
+import java.util.Collection;
+
+public interface TaskService extends PlannedEntityService<Task> {
+
+    @NotNull
+    Collection<Task> getTasksByProjectId(@Nullable String projectId);
+
+}

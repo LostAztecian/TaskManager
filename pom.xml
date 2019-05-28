@@ -7,7 +7,11 @@
     <groupId>ru.stoliarenkoas</groupId>
     <artifactId>tm</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>tm-client</module>
+        <module>tm-server</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <scm>
         <connection>scm:svn:http://127.0.0.1/dummy</connection>
@@ -84,6 +88,13 @@
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.webcohesion.enunciate/enunciate-maven-plugin -->
+        <!--<dependency>-->
+            <!--<groupId>com.webcohesion.enunciate</groupId>-->
+            <!--<artifactId>enunciate-maven-plugin</artifactId>-->
+            <!--<version>2.11.1</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -95,6 +106,7 @@
         </resources>
 
         <plugins>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
@@ -132,7 +144,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>../lib/</classpathPrefix>
-                            <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
+                            <mainClass>tm.server.Application</mainClass>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
@@ -162,64 +174,25 @@
                             </outputDirectory>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>copy</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <overWriteReleases>true</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteIfNewer>false</overWriteIfNewer>
-                        </configuration>
-                    </execution>
                 </executions>
-                <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>ru.stoliarenkoas</groupId>
-                            <artifactId>tm</artifactId>
-                            <version>${project.version}</version>
-                            <type>jar</type>
-                            <overWrite>true</overWrite>
-                            <outputDirectory>
-                                ${project.build.directory}/tm/bin
-                            </outputDirectory>
-                            <destFileName>taskmanager.jar</destFileName>
-                        </artifactItem>
-                        <!--<overWriteReleases>true</overWriteReleases>-->
-                        <!--<overWriteSnapshots>true</overWriteSnapshots>-->
-                        <!--<overWriteNewer>false</overWriteNewer>-->
-                    </artifactItems>
-
-                </configuration>
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>ru.stoliarenkoas.tm.Application</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
+                <groupId>com.webcohesion.enunciate</groupId>
+                <artifactId>enunciate-maven-plugin</artifactId>
+                <version>2.11.1</version>
                 <executions>
                     <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
                         <goals>
-                            <goal>single</goal>
+                            <goal>docs</goal>
                         </goals>
+                        <configuration>
+                            <docsDir>${project.build.directory}/docs</docsDir>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
