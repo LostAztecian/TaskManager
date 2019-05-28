@@ -16,18 +16,15 @@ import java.util.Collection;
 
 public class DataLoadBinary extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-load-bin";
+    @NotNull public static final String NAME = "data-load-bin";
     @NotNull private static final String DESCRIPTION = "loads saved binary data";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

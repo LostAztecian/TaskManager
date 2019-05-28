@@ -12,24 +12,24 @@ public interface Service<T extends Entity> {
     Collection<T> getAll();
 
     @NotNull
-    Collection<T> getAllByName(final @Nullable String name);
+    Collection<T> getAllByName(@Nullable String name);
 
     @Nullable
-    T get(final @Nullable String id);
+    T get(@Nullable String id);
 
-    void save(final @Nullable T project);
+    void save(@Nullable T project);
 
-    void delete(final @Nullable String id);
+    void delete(@Nullable String id);
 
-    void delete(final @Nullable T object);
+    void delete(@Nullable T object);
 
-    void deleteByIds(final @Nullable Collection<String> ids);
+    void deleteByIds(@Nullable Collection<String> ids);
 
-    void deleteByName(final @Nullable String name);
+    void deleteByName(@Nullable String name);
 
-    void deleteChildrenByParentId(final @Nullable String id);
+    void deleteChildrenByParentId(@Nullable String id);
 
-    void deleteChildrenByParentIds(final @Nullable Collection<String> ids);
+    void deleteChildrenByParentIds(@Nullable Collection<String> ids);
 
     void deleteAll();
 

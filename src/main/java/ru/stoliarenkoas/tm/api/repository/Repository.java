@@ -3,7 +3,6 @@ package ru.stoliarenkoas.tm.api.repository;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.entity.Entity;
-import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 
 import java.util.Collection;
 

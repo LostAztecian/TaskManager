@@ -2,13 +2,9 @@ package ru.stoliarenkoas.tm.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
-import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.Task;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class TaskRemoveCommand extends AbstractCommand {
 

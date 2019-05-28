@@ -2,24 +2,19 @@ package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
-import ru.stoliarenkoas.tm.entity.Project;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class ProjectRemoveCommand extends AbstractCommand {
 
     @NotNull public static final String NAME = "project-remove";
     @NotNull private static final String DESCRIPTION = "remove project and all associated tasks";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

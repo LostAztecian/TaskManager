@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm.command.persist.dto;
+package ru.stoliarenkoas.tm.dto;
 
 import lombok.Getter;
 import lombok.Setter;

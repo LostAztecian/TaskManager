@@ -3,7 +3,7 @@ package ru.stoliarenkoas.tm.command.user;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.api.service.UserService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 
 import java.io.IOException;
@@ -14,12 +14,10 @@ public class UserLoginCommand extends AbstractCommand {
     @NotNull public static final String NAME = "user-login";
     @NotNull private static final String DESCRIPTION = "authorize user for further work";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

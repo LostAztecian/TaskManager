@@ -9,12 +9,10 @@ public final class HelpCommand extends AbstractCommand {
     @NotNull public static final String NAME = "help";
     @NotNull private static final String DESCRIPTION = "show all commands";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

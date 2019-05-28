@@ -3,8 +3,6 @@ package ru.stoliarenkoas.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
 import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.User;
-import ru.stoliarenkoas.tm.entity.comparator.CreationDateComparator;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -15,12 +13,10 @@ public class ProjectListCommand extends AbstractCommand {
     @NotNull public static final String NAME = "project-list";
     @NotNull private static final String DESCRIPTION = "show all projects";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

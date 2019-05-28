@@ -13,14 +13,12 @@ public class DataClearJaxbXml extends AbstractCommand {
     @NotNull public static final String NAME = "data-clear-jaxb-xml";
     @NotNull private static final String DESCRIPTION = "clears any saved xml data saved by jaxb marshaller";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

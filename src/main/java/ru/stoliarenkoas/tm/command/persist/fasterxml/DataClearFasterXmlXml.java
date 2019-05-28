@@ -13,14 +13,12 @@ public class DataClearFasterXmlXml extends AbstractCommand {
     @NotNull public static final String NAME = "data-clear-fe-xml";
     @NotNull private static final String DESCRIPTION = "clears any xml data saved by fasterxml";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

@@ -15,18 +15,15 @@ import java.util.Collection;
 
 public class DataSaveBinary extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-save-bin";
+    @NotNull public static final String NAME = "data-save-bin";
     @NotNull private static final String DESCRIPTION = "saves current data in binary file";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }
@@ -46,11 +43,11 @@ public class DataSaveBinary extends AbstractCommand {
             outputStream.writeObject(getServiceLocator().getCurrentUser());
             System.out.println("User write: " + getServiceLocator().getCurrentUser());
             outputStream.writeInt(projects.size());
-            for (final @NotNull Project project : projects) {
+            for (@NotNull final Project project : projects) {
                 outputStream.writeObject(project);
             }
             outputStream.writeInt(tasks.size());
-            for (final @NotNull Task task : tasks) {
+            for (@NotNull final Task task : tasks) {
                 outputStream.writeObject(task);
             }
         }

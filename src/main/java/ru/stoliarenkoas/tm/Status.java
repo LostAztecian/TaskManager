@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm.entity;
+package ru.stoliarenkoas.tm;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +10,7 @@ public enum Status {
     @NotNull
     public final String displayName;
 
-    Status(final @NotNull String displayName) {
+    Status(@NotNull final String displayName) {
         this.displayName = displayName;
     }
 }

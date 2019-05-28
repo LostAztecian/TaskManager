@@ -10,12 +10,10 @@ public class TaskClearCommand extends AbstractCommand {
     @NotNull public static final String NAME = "task-clear";
     @NotNull private static final String DESCRIPTION = "removes all tasks for current user";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

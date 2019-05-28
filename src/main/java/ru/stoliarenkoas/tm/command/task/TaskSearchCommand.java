@@ -2,7 +2,7 @@ package ru.stoliarenkoas.tm.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;

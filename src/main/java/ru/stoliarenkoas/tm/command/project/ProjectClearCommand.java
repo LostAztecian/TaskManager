@@ -8,12 +8,10 @@ public class ProjectClearCommand extends AbstractCommand {
     @NotNull public static final String NAME = "project-clear";
     @NotNull private static final String DESCRIPTION = "remove all projects";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

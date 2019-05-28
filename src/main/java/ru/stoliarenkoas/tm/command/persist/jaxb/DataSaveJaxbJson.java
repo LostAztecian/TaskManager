@@ -4,37 +4,28 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.command.persist.dto.UserData;
-import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.Task;
+import ru.stoliarenkoas.tm.dto.UserData;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataSaveJaxbJson extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-save-jaxb-json";
+    @NotNull public static final String NAME = "data-save-jaxb-json";
     @NotNull private static final String DESCRIPTION = "saves current data in json file via JAXB Marshaller";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

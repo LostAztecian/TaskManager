@@ -8,68 +8,68 @@ import ru.stoliarenkoas.tm.entity.User;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class UserMapRepository implements UserRepository {
+public class UserRepository implements ru.stoliarenkoas.tm.api.repository.UserRepository {
 
-    private final @NotNull Map<String, User> map = new LinkedHashMap<>();
+    private @NotNull final Map<String, User> map = new LinkedHashMap<>();
 
-    public @NotNull Optional<User> validate(final @NotNull String login, final @NotNull String pwdHash) {
-        final Optional<User> user = map.values().stream()
-                .filter(u -> login.equals(u.getLogin()) && pwdHash.equals(u.getPwdHash()))
+  @NotNull
+    public Optional<User> validate(@NotNull final String login, @NotNull final String pwdHash) {
+        return map.values().stream()
+                .filter(u -> login.equals(u.getLogin()) && pwdHash.equals(u.getPasswordHash()))
                 .findAny();
-        return user;
     }
 
-    @Override
-    public @NotNull Collection<User> findAll(@NotNull String userId) {
+    @Override @NotNull
+    public Collection<User> findAll(@NotNull final String userId) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return Collections.emptySet();
         return map.values();
     }
 
-    @Override
-    public @NotNull Collection<User> findByName(@NotNull String userId, @NotNull String name) {
+    @Override @NotNull
+    public Collection<User> findByName(@NotNull final String userId, @NotNull final String name) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return Collections.emptySet();
         return findAll(userId).stream().filter(u -> name.equals(u.getLogin())).collect(Collectors.toSet());
     }
 
     @Override
-    public User findOne(@NotNull String userId, @NotNull String id) {
+    public User findOne(@NotNull final String userId, @NotNull final String id) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return null;
         return user;
     }
 
     @Override
-    public void persist(User user) {
+    public void persist(@NotNull final User user) {
         map.putIfAbsent(user.getId(), user);
     }
 
     @Override
-    public void merge(@NotNull String userId, User user) {
+    public void merge(@NotNull final String userId, @NotNull final User user) {
         final User currentUser = map.get(userId);
         if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return;
         map.put(user.getId(), user);
     }
 
-    @Override
-    public @Nullable String remove(@NotNull String userId, @NotNull String id) {
+    @Override @Nullable
+    public String remove(@NotNull final String userId, @NotNull final String id) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return null;
         map.remove(id);
         return id;
     }
 
-    @Override
-    public @Nullable String remove(@NotNull String userId, User user) {
+    @Override @Nullable
+    public String remove(@NotNull final String userId, @NotNull final User user) {
         final User currentUser = map.get(userId);
         if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return null;
         map.remove(user.getId());
         return user.getId();
     }
 
-    @Override
-    public @NotNull Collection<String> removeByName(@NotNull String userId, @NotNull String name) {
+    @Override @NotNull
+    public Collection<String> removeByName(@NotNull final String userId, @NotNull final String name) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return Collections.emptySet();
         final Collection<String> ids =  map.values().stream()
@@ -78,8 +78,8 @@ public class UserMapRepository implements UserRepository {
         return ids;
     }
 
-    @Override
-    public @NotNull Collection<String> removeAll(@NotNull String userId) {
+    @Override @NotNull
+    public Collection<String> removeAll(@NotNull final String userId) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return Collections.emptySet();
         final Collection<String> ids = map.keySet();

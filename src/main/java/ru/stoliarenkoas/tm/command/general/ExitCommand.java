@@ -9,12 +9,10 @@ public class ExitCommand extends AbstractCommand {
     @NotNull public static final String NAME = "exit";
     @NotNull private static final String DESCRIPTION = "end program";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

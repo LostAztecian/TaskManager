@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.entity.Entity;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User implements Entity, Serializable {
 
-    private static final long serialVersionUID = 12345678904L;
+    @NotNull private static final long serialVersionUID = 12345678904L;
 
     public enum Role {
         USER("user"),
@@ -31,28 +31,28 @@ public class User implements Entity, Serializable {
         @Getter
         private final String displayName;
 
-        Role(final @NotNull String displayName) {
+        Role(@NotNull final String displayName) {
             this.displayName = displayName;
         }
     }
 
     @XmlElement @NotNull private String id = UUID.randomUUID().toString();
     @XmlElement @NotNull private String login = "init";
-    @XmlElement @NotNull private String pwdHash = "init";
+    @XmlElement @NotNull private String passwordHash = "init";
     @XmlElement @NotNull private Role role = Role.USER;
 
-    public User(final @NotNull String login, final @NotNull String password) {
+    public User(@NotNull final String login, @NotNull final String password) {
         this(login, password, Role.USER);
     }
 
-    public User(final @NotNull String login, final @NotNull String password, final @NotNull Role role) {
+    public User(@NotNull final String login, @NotNull final String password, @NotNull final Role role) {
         this.login = login;
-        this.pwdHash = InputHelper.getMd5(password);
+        this.passwordHash = InputHelper.getMd5(password);
         this.role = role;
     }
 
-    @Override
-    public @Nullable String getName() {
+    @Override @Nullable
+    public String getName() {
         return login;
     }
 

@@ -9,8 +9,8 @@ import java.util.Optional;
 public interface UserService extends Service<User> {
 
     @NotNull
-    Optional<User> validate(final @Nullable String name, final @Nullable String pwdHash);
+    Optional<User> validate(@Nullable String name, @Nullable String pwdHash);
 
-    void persist(final @Nullable User user);
+    void persist(@Nullable User user);
 
 }

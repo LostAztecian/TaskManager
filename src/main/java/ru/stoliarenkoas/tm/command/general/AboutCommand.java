@@ -12,14 +12,12 @@ public class AboutCommand extends AbstractCommand {
     @NotNull public static final String NAME = "about";
     @NotNull private static final String DESCRIPTION = "show build information";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

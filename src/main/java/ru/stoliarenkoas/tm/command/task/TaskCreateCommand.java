@@ -2,7 +2,7 @@ package ru.stoliarenkoas.tm.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
 
@@ -16,12 +16,10 @@ public class TaskCreateCommand extends AbstractCommand {
     @NotNull public static final String NAME = "task-create";
     @NotNull private static final String DESCRIPTION = "save task for a selected project";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

@@ -3,7 +3,7 @@ package ru.stoliarenkoas.tm.command.persist.fasterxml;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.command.persist.dto.UserData;
+import ru.stoliarenkoas.tm.dto.UserData;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,18 +12,15 @@ import java.util.ArrayList;
 
 public class DataSaveFasterXmlXml extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-save-fe-xml";
+    @NotNull public static final String NAME = "data-save-fe-xml";
     @NotNull private static final String DESCRIPTION = "saves current data in xml file via fasterxml";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

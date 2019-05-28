@@ -4,36 +4,28 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.command.persist.dto.UserData;
-import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.Task;
-import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.dto.UserData;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DataLoadJaxbJson extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-load-jaxb-json";
+    @NotNull public static final String NAME = "data-load-jaxb-json";
     @NotNull private static final String DESCRIPTION = "loads saved json data via JAXB marshaller";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

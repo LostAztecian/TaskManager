@@ -3,7 +3,7 @@ package ru.stoliarenkoas.tm.command.user;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
 import ru.stoliarenkoas.tm.service.UserServiceImpl;
 
@@ -14,12 +14,10 @@ public class UserRegisterCommand extends AbstractCommand {
     @NotNull public static final String NAME = "user-register";
     @NotNull private static final String DESCRIPTION = "register a new user";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

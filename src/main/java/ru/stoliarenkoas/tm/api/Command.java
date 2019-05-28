@@ -8,9 +8,11 @@ public interface Command {
 
     void execute() throws Exception;
 
-    @NotNull String getName();
+    @NotNull
+    String getName();
 
-    @NotNull String getDescription();
+    @NotNull
+    String getDescription();
 
     boolean isPrivate();
 

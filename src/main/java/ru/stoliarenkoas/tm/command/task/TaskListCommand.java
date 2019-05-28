@@ -2,25 +2,20 @@ package ru.stoliarenkoas.tm.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
-import ru.stoliarenkoas.tm.entity.comparator.CreationDateComparator;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.TreeSet;
 
 public class TaskListCommand extends AbstractCommand {
 
     @NotNull public static final String NAME = "task-list";
     @NotNull private static final String DESCRIPTION = "show all tasks for all projects of a user";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

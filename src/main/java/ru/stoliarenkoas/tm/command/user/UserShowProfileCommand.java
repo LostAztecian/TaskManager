@@ -29,9 +29,9 @@ public class UserShowProfileCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException { //method can not be invoked when user == null
+    public void run() throws IOException {
         final User user = getServiceLocator().getCurrentUser();
-        System.out.println("User: " + user.getLogin());
+        System.out.println("User: " + user.getLogin()); //method can not be invoked when user == null
         System.out.println("User status: " + user.getRole().getDisplayName());
         System.out.println("[TO CHANGE PASSWORD TYPE \'user-change-password\']");
         System.out.println();

@@ -3,7 +3,7 @@ package ru.stoliarenkoas.tm.command.project;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.api.service.TaskService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 import ru.stoliarenkoas.tm.entity.Task;
 
@@ -16,12 +16,10 @@ public class ProjectTaskListCommand extends AbstractCommand {
     @NotNull public static final String NAME = "project-task-list";
     @NotNull private static final String DESCRIPTION = "show all tasks for selected project";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

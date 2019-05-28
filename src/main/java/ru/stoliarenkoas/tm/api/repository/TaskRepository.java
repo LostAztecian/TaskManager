@@ -9,7 +9,7 @@ import java.util.Collection;
 public interface TaskRepository extends PlannedEntityRepository<Task> {
 
     @NotNull
-    Collection<Task> findByProjectId(final @NotNull String userId, final @NotNull String projectId);
+    Collection<Task> findByProjectId(@NotNull String userId, @NotNull String projectId);
 
 
 }

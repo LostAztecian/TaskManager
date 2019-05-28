@@ -4,14 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.stoliarenkoas.tm.api.ServiceLocator;
 import ru.stoliarenkoas.tm.api.entity.Entity;
-import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
-import ru.stoliarenkoas.tm.api.repository.PlannedEntityRepository;
 import ru.stoliarenkoas.tm.api.repository.Repository;
-import ru.stoliarenkoas.tm.api.repository.UserRepository;
 import ru.stoliarenkoas.tm.api.service.Service;
-import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -22,8 +17,8 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     @NotNull
     final ServiceLocator serviceLocator;
 
-    AbstractService(final @NotNull Repository<T> repository,
-                           final @NotNull ServiceLocator serviceLocator) {
+    AbstractService(@NotNull final Repository<T> repository,
+                           @NotNull final ServiceLocator serviceLocator) {
         this.repository = repository;
         this.serviceLocator = serviceLocator;
     }
@@ -34,24 +29,22 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
         return serviceLocator.getCurrentUser().getId();
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public Collection<T> getAll() {
         final String userId = getCurrentUserId();
         if (userId == null) return Collections.emptySet();
         return repository.findAll(userId);
     }
 
-    @NotNull
-    @Override
-    public Collection<T> getAllByName(final @Nullable String name) {
+    @Override @NotNull
+    public Collection<T> getAllByName(@Nullable final String name) {
         final String userId = getCurrentUserId();
         if (name == null || name.isEmpty() || userId == null) return Collections.emptySet();
         return repository.findByName(userId, name);
     }
 
     @Override @Nullable
-    public T get(final @Nullable String id) {
+    public T get(@Nullable final String id) {
         if (id == null || id.isEmpty()) return null;
         final String userId = getCurrentUserId();
         if (userId == null) return null;
@@ -59,7 +52,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public void save(final @Nullable T object) {
+    public void save(@Nullable final T object) {
         final String userId = getCurrentUserId();
         if (userId == null) return;
         if (object == null || object.getId().isEmpty()) return;
@@ -67,7 +60,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public void delete(final @Nullable String id) {
+    public void delete(@Nullable final String id) {
         if (id == null || id.isEmpty() || get(id) == null) return;
         final String userId = getCurrentUserId();
         if (userId == null) return;
@@ -76,7 +69,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public void delete(final @Nullable T object) {
+    public void delete(@Nullable final T object) {
         final String userId = getCurrentUserId();
         if (userId == null || object == null) return;
         final String deletedId = repository.remove(userId, object);
@@ -84,24 +77,13 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public abstract void deleteChildrenByParentId(final @Nullable String id);
-//    {
-//        if (id == null || id.isEmpty() || get(id) == null) return;
-//        final Service<? extends PlannedEntity> childService = getChildService();
-//        if (childService == null) return;
-//        childService.deleteByIds(Arrays.asList(id));
-//    }
+    public abstract void deleteChildrenByParentId(@Nullable final String id);
 
     @Override
-    public abstract void deleteChildrenByParentIds(final @Nullable Collection<String> ids);
-//    {
-//        final Service<? extends PlannedEntity> childService = getChildService();
-//        if (childService == null) return;
-//        childService.deleteByIds(ids);
-//    }
+    public abstract void deleteChildrenByParentIds(@Nullable final Collection<String> ids);
 
     @Override
-    public void deleteByName(final @Nullable String name) {
+    public void deleteByName(@Nullable final String name) {
         final String userId = getCurrentUserId();
         if (userId == null || name == null || name.isEmpty()) return;
         final Collection<String> deletedIds = repository.removeByName(userId, name);
@@ -109,7 +91,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public void deleteByIds(final @Nullable Collection<String> ids) {
+    public void deleteByIds(@Nullable final Collection<String> ids) {
         if (ids == null || ids.isEmpty()) return;
         ids.forEach(this::delete);
     }

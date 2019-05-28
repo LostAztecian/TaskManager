@@ -2,26 +2,22 @@ package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class ProjectSearchCommand extends AbstractCommand {
 
     @NotNull public static final String NAME = "project-search";
     @NotNull private static final String DESCRIPTION = "search projects by name and description";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

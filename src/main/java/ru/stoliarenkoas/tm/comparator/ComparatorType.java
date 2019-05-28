@@ -1,4 +1,4 @@
-package ru.stoliarenkoas.tm.entity.comparator;
+package ru.stoliarenkoas.tm.comparator;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.api.entity.PlannedEntity;
@@ -11,10 +11,10 @@ public enum ComparatorType {
     BY_END_DATE(new EndDateComparator(), "end-date"),
     BY_STATUS(new StatusComparator(), "status");
 
-    public final @NotNull Comparator<PlannedEntity> comparator;
-    public final @NotNull String commandName;
+    public @NotNull final Comparator<PlannedEntity> comparator;
+    public @NotNull final String commandName;
 
-    private ComparatorType(final @NotNull Comparator<PlannedEntity> comparator, final @NotNull String commandName) {
+    private ComparatorType(@NotNull final Comparator<PlannedEntity> comparator, @NotNull final String commandName) {
         this.comparator = comparator;
         this.commandName = commandName;
     }

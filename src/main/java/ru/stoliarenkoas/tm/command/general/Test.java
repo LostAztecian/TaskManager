@@ -17,16 +17,13 @@ import java.util.Map;
 
 public class Test extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "test";
+    @NotNull public static final String NAME = "test";
     @NotNull private static final String DESCRIPTION = "test";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

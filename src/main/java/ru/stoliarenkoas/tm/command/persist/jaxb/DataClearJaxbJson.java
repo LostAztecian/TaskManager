@@ -13,14 +13,12 @@ public class DataClearJaxbJson extends AbstractCommand {
     @NotNull public static final String NAME = "data-clear-jaxb-json";
     @NotNull private static final String DESCRIPTION = "clears any saved binary data";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

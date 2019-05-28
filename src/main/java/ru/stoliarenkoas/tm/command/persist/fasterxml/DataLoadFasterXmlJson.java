@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.command.persist.dto.UserData;
+import ru.stoliarenkoas.tm.dto.UserData;
 
 import javax.xml.bind.JAXBContext;
 import java.nio.file.Files;
@@ -16,18 +16,15 @@ import java.util.Map;
 
 public class DataLoadFasterXmlJson extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-load-fe-json";
+    @NotNull public static final String NAME = "data-load-fe-json";
     @NotNull private static final String DESCRIPTION = "loads json data saved via fasterxml";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

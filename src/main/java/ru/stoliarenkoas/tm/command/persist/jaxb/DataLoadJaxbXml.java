@@ -2,36 +2,25 @@ package ru.stoliarenkoas.tm.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.command.persist.dto.UserData;
-import ru.stoliarenkoas.tm.entity.Project;
-import ru.stoliarenkoas.tm.entity.Task;
-import ru.stoliarenkoas.tm.entity.User;
+import ru.stoliarenkoas.tm.dto.UserData;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class DataLoadJaxbXml extends AbstractCommand {
 
-    @NotNull
-    public static final String NAME = "data-load-jaxb-xml";
+    @NotNull public static final String NAME = "data-load-jaxb-xml";
     @NotNull private static final String DESCRIPTION = "loads saved xml data via JAXB unmarshaller";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

@@ -13,14 +13,14 @@ public class DataClearBinary extends AbstractCommand {
     @NotNull public static final String NAME = "data-clear-bin";
     @NotNull private static final String DESCRIPTION = "clears any saved binary data";
 
-    @NotNull
-    @Override
+
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

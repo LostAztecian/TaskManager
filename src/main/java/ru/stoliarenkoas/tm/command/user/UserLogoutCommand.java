@@ -10,12 +10,10 @@ public class UserLogoutCommand extends AbstractCommand {
     @NotNull public static final String NAME = "user-logout";
     @NotNull private static final String DESCRIPTION = "end user session";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

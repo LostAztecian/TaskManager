@@ -2,7 +2,7 @@ package ru.stoliarenkoas.tm.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.Project;
 
 import java.io.IOException;
@@ -13,12 +13,10 @@ public class ProjectCreateCommand extends AbstractCommand {
     @NotNull public static final String NAME = "project-create";
     @NotNull private static final String DESCRIPTION = "save new project";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() { return NAME; }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() { return DESCRIPTION; }
 
     @Override

@@ -11,12 +11,12 @@ import ru.stoliarenkoas.tm.api.service.ProjectService;
 import ru.stoliarenkoas.tm.api.service.TaskService;
 import ru.stoliarenkoas.tm.api.service.UserService;
 import ru.stoliarenkoas.tm.command.AbstractCommand;
-import ru.stoliarenkoas.tm.console.InputHelper;
+import ru.stoliarenkoas.tm.utils.InputHelper;
 import ru.stoliarenkoas.tm.entity.User;
-import ru.stoliarenkoas.tm.entity.comparator.ComparatorType;
-import ru.stoliarenkoas.tm.repository.ProjectMapRepository;
-import ru.stoliarenkoas.tm.repository.TaskMapRepository;
-import ru.stoliarenkoas.tm.repository.UserMapRepository;
+import ru.stoliarenkoas.tm.comparator.ComparatorType;
+import ru.stoliarenkoas.tm.repository.ProjectRepository;
+import ru.stoliarenkoas.tm.repository.TaskRepository;
+import ru.stoliarenkoas.tm.repository.UserRepository;
 import ru.stoliarenkoas.tm.service.ProjectServiceImpl;
 import ru.stoliarenkoas.tm.service.TaskServiceImpl;
 import ru.stoliarenkoas.tm.service.UserServiceImpl;
@@ -45,7 +45,7 @@ public class Bootstrap implements ServiceLocator {
 
     public void terminate() { isTerminated = true; }
 
-    public void init(final @Nullable Class[] classes) {
+    public void init(@Nullable final Class[] classes) {
         initMethods();
         if (classes != null) initCommands(classes);
         initUsers();
@@ -58,13 +58,13 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initMethods() {
-        taskService = new TaskServiceImpl(new TaskMapRepository(), this);
-        projectService = new ProjectServiceImpl(new ProjectMapRepository(), this);
-        userService = new UserServiceImpl((new UserMapRepository()), this);
+        taskService = new TaskServiceImpl(new TaskRepository(), this);
+        projectService = new ProjectServiceImpl(new ProjectRepository(), this);
+        userService = new UserServiceImpl((new UserRepository()), this);
     }
 
-    private void initCommands(final @NotNull Class[] classes) {
-        for (final @Nullable Class clazz : classes) {
+    private void initCommands(@NotNull final Class[] classes) {
+        for (@Nullable final Class clazz : classes) {
             if (clazz == null || !AbstractCommand.class.isAssignableFrom(clazz)) continue;
             try {
                 final AbstractCommand instance = (AbstractCommand) clazz.newInstance();
