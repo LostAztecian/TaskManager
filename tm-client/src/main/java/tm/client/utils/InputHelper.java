@@ -48,22 +48,6 @@ public class InputHelper {
         return formatter.parse(READER.readLine(), new ParsePosition(0));
     }
 
-    @NotNull
-    public static String getMd5(@NotNull final String md5) {
-        try {
-            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(md5.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : array) {
-                sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
-            }
-            return sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return "corrupted-hash";
-        }
-    }
-    
     @Nullable
     public static String requestNewPassword() throws IOException {
         String userPassword = null, pwdConfirmation;
@@ -77,20 +61,6 @@ public class InputHelper {
             }
         }
         return userPassword;
-    }
-
-    @Nullable
-    public static Collection<Project> requestProjectsByName(@NotNull final ServiceLocator serviceLocator) throws IOException {
-        final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
-        if (projectName == null) throw new IllegalArgumentException("null request name");
-        final Collection<Project> projectsWithName = serviceLocator.getProjectService().getAllByName(projectName);
-        if (projectsWithName.isEmpty()) {
-            System.out.println("[NO PROJECTS MATCH GIVEN NAME]");
-            System.out.println("[END]");
-            System.out.println();
-            return null;
-        }
-        return projectsWithName;
     }
 
 }

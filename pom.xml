@@ -10,6 +10,7 @@
     <modules>
         <module>tm-client</module>
         <module>tm-server</module>
+        <module>tm-common</module>
     </modules>
     <packaging>pom</packaging>
 
