@@ -14,42 +14,42 @@ import java.util.Collection;
 public interface ProjectWebService {
 
     @WebMethod(operationName = "getNewProject")
-    String getNew() throws JAXBException;
+    Project getNewProject() throws JAXBException;
 
     @NotNull @WebMethod(operationName = "getAllProjects")
-    Collection<Project> getAll();
+    Collection<Project> getAllProjects();
 
     @NotNull @WebMethod(operationName = "getAllProjectsSorted")
-    Collection<Project> getAllSorted(@Nullable ComparatorType comparatorType);
+    Collection<Project> getAllProjectsSorted(@Nullable ComparatorType comparatorType);
 
     @NotNull @WebMethod(operationName = "getProjectsByName")
-    Collection<Project> getAllByName(@Nullable String name);
+    Collection<Project> getProjectsByName(@Nullable String name);
 
     @NotNull @WebMethod(operationName = "getProjectsByNameSorted")
-    Collection<Project> getAllByNameSorted(@Nullable String name, @Nullable ComparatorType comparatorType);
+    Collection<Project> getProjectsByNameSorted(@Nullable String name, @Nullable ComparatorType comparatorType);
 
     @Nullable @WebMethod(operationName = "getProjectById")
-    Project get(@Nullable String id);
+    Project getProject(@Nullable String id);
 
     @NotNull @WebMethod(operationName = "searchProject")
-    Collection<Project> search(@Nullable String searchLine);
+    Collection<Project> searchProject(@Nullable String searchLine);
 
     @NotNull @WebMethod(operationName = "saveProject")
-    Boolean save(@Nullable Project object);
+    Boolean saveProject(@Nullable Project object);
 
     @NotNull @WebMethod(operationName = "deleteProject")
-    Boolean delete(@Nullable Project object);
+    Boolean deleteProject(@Nullable Project object);
 
     @NotNull @WebMethod(operationName = "deleteProjectById")
-    Boolean delete(@Nullable String id);
+    Boolean deleteProject(@Nullable String id);
 
     @NotNull @WebMethod(operationName = "deleteProjectsByIds")
-    Collection<String> deleteByIds(@Nullable Collection<String> ids);
+    Boolean deleteProjectsByIds(@Nullable Collection<String> ids);
 
     @NotNull @WebMethod(operationName = "deleteProjectsByName")
-    Collection<String> deleteByName(@Nullable String name);
+    Boolean deleteProjectsByName(@Nullable String name);
 
     @NotNull @WebMethod(operationName = "deleteAllProjects")
-    Boolean deleteAll();
+    Boolean deleteAllProjects();
 
 }

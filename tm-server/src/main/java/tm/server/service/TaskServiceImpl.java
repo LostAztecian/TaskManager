@@ -19,13 +19,13 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
     }
 
     @Override
-    public void deleteChildrenByParentId(@Nullable final String id) { //no children = no problem
-
+    public Boolean deleteChildrenByParentId(@Nullable final String id) { //no children = no problem
+        return true;
     }
 
     @Override
-    public void deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
-        //no children = no problem
+    public Boolean deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
+        return true;
     }
 
    @Override @NotNull

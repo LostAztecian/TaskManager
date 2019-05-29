@@ -52,56 +52,62 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public void save(@Nullable final T object) {
+    public Boolean save(@Nullable final T object) {
         final String userId = getCurrentUserId();
-        if (userId == null) return;
-        if (object == null || object.getId().isEmpty()) return;
+        if (userId == null) return false;
+        if (object == null || object.getId().isEmpty()) return false;
         repository.merge(userId, object);
+        return true;
     }
 
     @Override
-    public void delete(@Nullable final String id) {
-        if (id == null || id.isEmpty() || get(id) == null) return;
+    public Boolean delete(@Nullable final String id) {
+        if (id == null || id.isEmpty() || get(id) == null) return false;
         final String userId = getCurrentUserId();
-        if (userId == null) return;
+        if (userId == null) return false;
         final String deletedId = repository.remove(userId, id);
         deleteChildrenByParentId(deletedId);
+        return true;
     }
 
     @Override
-    public void delete(@Nullable final T object) {
+    public Boolean delete(@Nullable final T object) {
         final String userId = getCurrentUserId();
-        if (userId == null || object == null) return;
+        if (userId == null || object == null) return false;
         final String deletedId = repository.remove(userId, object);
         deleteChildrenByParentId(deletedId);
+        return true;
     }
 
     @Override
-    public abstract void deleteChildrenByParentId(@Nullable final String id);
+    public abstract Boolean deleteChildrenByParentId(@Nullable final String id);
 
     @Override
-    public abstract void deleteChildrenByParentIds(@Nullable final Collection<String> ids);
+    public abstract Boolean deleteChildrenByParentIds(@Nullable final Collection<String> ids);
 
     @Override
-    public void deleteByName(@Nullable final String name) {
+    public Boolean deleteByName(@Nullable final String name) {
         final String userId = getCurrentUserId();
-        if (userId == null || name == null || name.isEmpty()) return;
+        if (userId == null || name == null || name.isEmpty()) return false;
         final Collection<String> deletedIds = repository.removeByName(userId, name);
         deleteChildrenByParentIds(deletedIds);
+        return true;
     }
 
     @Override
-    public void deleteByIds(@Nullable final Collection<String> ids) {
-        if (ids == null || ids.isEmpty()) return;
+    public Boolean deleteByIds(@Nullable final Collection<String> ids) {
+        if (ids == null || ids.isEmpty()) return false;
         ids.forEach(this::delete);
+        return true;
     }
 
     @Override
-    public void deleteAll() {
+    public Boolean deleteAll() {
         final String userId = getCurrentUserId();
-        if (userId == null) return;
+        if (userId == null) return false;
         final Collection<String> deletedIds = repository.removeAll(userId);
         deleteChildrenByParentIds(deletedIds);
+        return true;
     }
 
 }

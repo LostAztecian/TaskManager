@@ -21,15 +21,17 @@ import tm.server.service.ProjectServiceImpl;
 import tm.server.service.TaskServiceImpl;
 import tm.server.service.UserServiceImpl;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.xml.ws.Endpoint;
+import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
 
     @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();
     private boolean isTerminated = false;
+
+    @Getter
+    private final Collection<Endpoint> endpoints = new LinkedHashSet<>();
 
     @Getter @Setter
     private User currentUser;
@@ -78,10 +80,15 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void mainLoop() {
+        try {
+            commands.get("publish-endpoints").execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("*** WELCOME TO TASK-MANAGER SERVER ***");
         while (!isTerminated) {
             try {
-                final String input = InputHelper.requestLine("enter command", true);
+                final String input = InputHelper.requestLine("enter command:", true);
                 if (input == null || input.isEmpty()) continue;
 
                 final Command command = commands.get(input);

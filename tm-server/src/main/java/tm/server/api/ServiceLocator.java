@@ -8,6 +8,8 @@ import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
 import tm.server.entity.User;
 
+import javax.xml.ws.Endpoint;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -34,6 +36,9 @@ public interface ServiceLocator {
 
     @NotNull
     Map<String, Command> getCommands();
+
+    @NotNull
+    Collection<Endpoint> getEndpoints();
 
     void init(final @Nullable Class[] classes);
 

@@ -10,8 +10,8 @@ import javax.xml.ws.Endpoint;
 
 public class Test extends AbstractCommand {
 
-    @NotNull public static final String NAME = "test";
-    @NotNull private static final String DESCRIPTION = "test";
+    @NotNull public static final String NAME = "publish-endpoints";
+    @NotNull private static final String DESCRIPTION = "publish all endpoints";
 
     @Override @NotNull
     public String getName() { return NAME; }
@@ -26,13 +26,21 @@ public class Test extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
+        final Endpoint userEndpoint = Endpoint.create(new UserWebServiceBean(getServiceLocator().getUserService()));
         final String userServiceURL = "http://localhost:8080/userService";
-        Endpoint.publish(userServiceURL, new UserWebServiceBean());
-        final String projectServiceURL = "http://localhost:8080/projectService";
-        Endpoint.publish(projectServiceURL, new ProjectWebServiceBean());
-        final String taskServiceURL = "http://localhost:8080/taskService";
-        Endpoint.publish(taskServiceURL, new TaskWebServiceBean());
+        userEndpoint.publish(userServiceURL);
+        getServiceLocator().getEndpoints().add(userEndpoint);
 
+        final Endpoint projectEndpoint = Endpoint.create(new ProjectWebServiceBean(getServiceLocator().getProjectService()));
+        final String projectServiceURL = "http://localhost:8080/projectService";
+        projectEndpoint.publish(projectServiceURL);
+        getServiceLocator().getEndpoints().add(projectEndpoint);
+
+        final Endpoint taskEndpoint = Endpoint.create(new TaskWebServiceBean(getServiceLocator().getTaskService()));
+        final String taskServiceURL = "http://localhost:8080/taskService";
+        taskEndpoint.publish(taskServiceURL);
+        getServiceLocator().getEndpoints().add(taskEndpoint);
+        System.out.println("[ENDPOINTS PUBLISHED]");
     }
 
 }

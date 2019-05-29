@@ -12,36 +12,36 @@ import java.util.Collection;
 public interface UserWebService {
 
     @Nullable @WebMethod(operationName = "getNewUser")
-    Collection<User> getNew();
+    Collection<User> getNewUser();
 
     @NotNull @WebMethod(operationName = "getAllUsers")
-    Collection<User> getAll();
+    Collection<User> getAllUsers();
 
     @NotNull @WebMethod(operationName = "getUsersByName")
-    Collection<User> getAllByName(@Nullable String name);
+    Collection<User> getUsersByName(@Nullable String name);
 
     @Nullable @WebMethod(operationName = "getById")
-    User get(@Nullable String id);
+    User getUser(@Nullable String id);
 
     @NotNull @WebMethod(operationName = "updateUser")
-    Boolean save(@Nullable User user);
+    Boolean saveUser(@Nullable User user);
 
     @NotNull @WebMethod(operationName = "saveUser")
-    Boolean persist(@Nullable User user);
+    Boolean persistUser(@Nullable User user);
 
     @NotNull @WebMethod(operationName = "deleteUser")
-    Boolean delete(@Nullable User user);
+    Boolean deleteUser(@Nullable User user);
 
     @NotNull @WebMethod(operationName = "deleteUserById")
-    Boolean delete(@Nullable String id);
+    Boolean deleteUser(@Nullable String id);
 
     @NotNull @WebMethod(operationName = "deleteUsersByIds")
-    Collection<String> deleteByIds(@Nullable Collection<String> ids);
+    Boolean deleteUsersByIds(@Nullable Collection<String> ids);
 
     @NotNull @WebMethod(operationName = "deleteUsersByName")
-    Collection<String> deleteByName(@Nullable String name);
+    Boolean deleteUsersByName(@Nullable String name);
 
     @NotNull @WebMethod(operationName = "deleteAllUsers")
-    Boolean deleteAll();
+    Boolean deleteAllUsers();
 
 }

@@ -16,9 +16,9 @@ public interface Repository<T extends Entity> {
 
     T findOne(@NotNull String userId, @NotNull String id);
 
-    void persist(T object);
+    Boolean persist(T object);
 
-    void merge(@NotNull String userId, T object);
+    Boolean merge(@NotNull String userId, T object);
 
     @Nullable
     String remove(@NotNull String userId, @NotNull String id);

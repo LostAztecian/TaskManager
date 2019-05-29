@@ -28,30 +28,32 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public void save(@Nullable final User user) {
-        if (!isValid(user)) return;
+    public Boolean save(@Nullable final User user) {
+        if (!isValid(user)) return false;
         repository.merge(user.getId(), user);
+        return true;
     }
 
     @Override
-    public void persist(@Nullable final User user) {
-        if (!isValid(user)) return;
+    public Boolean persist(@Nullable final User user) {
+        if (!isValid(user)) return false;
         repository.persist(user);
+        return true;
     }
 
     @Override
-    public void deleteChildrenByParentId(@Nullable final String id) {
+    public Boolean deleteChildrenByParentId(@Nullable final String id) {
         final Service<Project> childService = serviceLocator.getProjectService();
-        childService.deleteByIds(Collections.singleton(id));
+        return childService.deleteByIds(Collections.singleton(id));
     }
 
     @Override
-    public void deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
+    public Boolean deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
         final Service<Project> childService = serviceLocator.getProjectService();
-        childService.deleteByIds(ids);
+        return childService.deleteByIds(ids);
     }
 
-    private boolean isValid(@Nullable final User user) {
+    private Boolean isValid(@Nullable final User user) {
         if (user == null) return false;
         if (user.getLogin().isEmpty()) return false;
         return !user.getPasswordHash().isEmpty();

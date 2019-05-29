@@ -39,22 +39,26 @@ public abstract class AbstractRepository<T extends PlannedEntity> implements Pla
     }
 
     @Override
-    public void persist(@NotNull final PlannedEntity object) {
+    public Boolean persist(@NotNull final PlannedEntity object) {
         try {
             map.putIfAbsent(object.getId(), (T)object);
         } catch (ClassCastException e) {
             System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     @Override
-    public void merge(@NotNull final String userId, @NotNull final PlannedEntity object) {
-        if (map.get(object.getId()) != null && userId.equals(map.get(object.getId()).getUserId())) return;
+    public Boolean merge(@NotNull final String userId, @NotNull final PlannedEntity object) {
+        if (map.get(object.getId()) != null && userId.equals(map.get(object.getId()).getUserId())) return false;
         try {
             map.put(object.getId(), (T)object);
         } catch (ClassCastException e) {
             System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     @Override @Nullable

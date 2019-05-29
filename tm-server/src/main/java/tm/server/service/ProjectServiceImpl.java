@@ -20,15 +20,15 @@ public class ProjectServiceImpl extends AbstractService<Project> implements Proj
     }
 
     @Override
-    public void deleteChildrenByParentId(@Nullable final String id) {
+    public Boolean deleteChildrenByParentId(@Nullable final String id) {
         final Service<Task> childService = serviceLocator.getTaskService();
-        childService.deleteByIds(Collections.singletonList(id));
+        return childService.deleteByIds(Collections.singletonList(id));
     }
 
     @Override
-    public void deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
+    public Boolean deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
         final Service<Task> childService = serviceLocator.getTaskService();
-        childService.deleteByIds(ids);
+        return childService.deleteByIds(ids);
     }
 
     @Override @NotNull

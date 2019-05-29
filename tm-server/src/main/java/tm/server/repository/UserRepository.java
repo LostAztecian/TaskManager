@@ -40,15 +40,16 @@ public class UserRepository implements tm.server.api.repository.UserRepository {
     }
 
     @Override
-    public void persist(@NotNull final User user) {
-        map.putIfAbsent(user.getId(), user);
+    public Boolean persist(@NotNull final User user) {
+        return map.putIfAbsent(user.getId(), user) != null;
     }
 
     @Override
-    public void merge(@NotNull final String userId, @NotNull final User user) {
+    public Boolean merge(@NotNull final String userId, @NotNull final User user) {
         final User currentUser = map.get(userId);
-        if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return;
+        if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return false;
         map.put(user.getId(), user);
+        return true;
     }
 
     @Override @Nullable

@@ -11,6 +11,6 @@ public interface UserService extends Service<User> {
     @NotNull
     Optional<User> validate(@Nullable String name, @Nullable String pwdHash);
 
-    void persist(@Nullable User user);
+    Boolean persist(@Nullable User user);
 
 }

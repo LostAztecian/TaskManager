@@ -17,20 +17,20 @@ public interface Service<T extends Entity> {
     @Nullable
     T get(@Nullable String id);
 
-    void save(@Nullable T object);
+    Boolean save(@Nullable T object);
 
-    void delete(@Nullable String id);
+    Boolean delete(@Nullable String id);
 
-    void delete(@Nullable T object);
+    Boolean delete(@Nullable T object);
 
-    void deleteByIds(@Nullable Collection<String> ids);
+    Boolean deleteByIds(@Nullable Collection<String> ids);
 
-    void deleteByName(@Nullable String name);
+    Boolean deleteByName(@Nullable String name);
 
-    void deleteChildrenByParentId(@Nullable String id);
+    Boolean deleteChildrenByParentId(@Nullable String id);
 
-    void deleteChildrenByParentIds(@Nullable Collection<String> ids);
+    Boolean deleteChildrenByParentIds(@Nullable Collection<String> ids);
 
-    void deleteAll();
+    Boolean deleteAll();
 
 }
