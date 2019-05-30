@@ -8,6 +8,7 @@ import tm.server.api.service.Service;
 import tm.server.api.service.UserService;
 import tm.common.entity.Project;
 import tm.common.entity.User;
+import tm.server.command.user.UserChangePasswordCommand;
 import tm.server.repository.UserRepository;
 import tm.server.utils.CypherUtil;
 
@@ -32,7 +33,6 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Override @NotNull
     public Boolean persist(@Nullable final User user) {
         if (!isValid(user)) return false;
-        user.setPasswordHash(CypherUtil.getMd5(user.getPasswordHash()));
         repository.persist(user);
         return true;
     }
@@ -67,7 +67,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override @Nullable
     public User login(@Nullable final String login, @Nullable final String password) {
-        System.out.printf("Login: %s, Password: %s %n%n", login, password);
+        System.out.printf("[AUTH] Login: %s, Password: %s %n", login, password);
         if (login == null || login.isEmpty()) return null;
         if (password == null || password.isEmpty()) return null;
         final String passwordHash = CypherUtil.getMd5(password);
@@ -87,9 +87,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return "[YOU ARE NOT LOGGED IN]";
         final StringBuilder sb = new StringBuilder();
+        sb.append("USER PROFILE:").append("\n");
         sb.append("User: ").append(currentUser.getLogin()).append("\n");
         sb.append("User status: ").append(currentUser.getRole().getDisplayName()).append("\n");
-        sb.append("[TO CHANGE PASSWORD TYPE \'user-change-password\']").append("\n");
+        sb.append("[TO CHANGE PASSWORD TYPE")
+                .append("\'").append(UserChangePasswordCommand.NAME).append("\']").append("\n");
         return sb.toString();
     }
 

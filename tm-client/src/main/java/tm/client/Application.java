@@ -13,7 +13,7 @@ import tm.client.command.user.*;
 public class Application {
 
     private static final Class[] CLASSES = {
-            HelpCommand.class, AboutCommand.class, Test.class,
+            HelpCommand.class, AboutCommand.class,
             ExitCommand.class, SetSortMethodCommand.class,
 
             UserLoginCommand.class, UserLogoutCommand.class,

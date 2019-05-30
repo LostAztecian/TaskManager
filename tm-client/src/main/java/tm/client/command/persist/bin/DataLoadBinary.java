@@ -34,30 +34,7 @@ public class DataLoadBinary extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-//        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
-//        if (Files.notExists(path)) {
-//            System.out.println("[NO SAVED DATA FOUND]");
-//            return;
-//        }
-//        Files.createDirectories(path.getParent());
-//        try(ObjectInputStream inputStream = new ObjectInputStream(Files.newInputStream(path, StandardOpenOption.READ))){
-//            final User user = (User)inputStream.readObject();
-//            System.out.println("User read: " + user.toString());
-//            getServiceLocator().getUserService().save(user);
-//            getServiceLocator().setCurrentUser(user);
-//            final int numOfProjects = inputStream.readInt();
-//            for (int i = 0; i < numOfProjects; i++) {
-//                final Project project = (Project)inputStream.readObject();
-//                getServiceLocator().getProjectService().save(project);
-//                System.out.println("Project saved: " + project.toString());
-//            }
-//            final int numOfTasks = inputStream.readInt();
-//            for (int i = 0; i < numOfTasks; i++) {
-//                final Task task = (Task)inputStream.readObject();
-//                getServiceLocator().getTaskService().save(task);
-//                System.out.println("Task saved: " + task.toString());
-//            }
-//        }
-//        System.out.printf("[BINARY DATA LOADED from %s]%n%n", path.toAbsolutePath());
+        final Boolean success = getServiceLocator().getServerService().dataLoadBinary();
+        System.out.println(success ? "[BINARY DATA LOADED]" : "[DATA LOAD FAILURE]");
     }
 }

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
 import tm.common.api.webservice.ProjectWebService;
+import tm.common.api.webservice.ServerWebService;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.api.webservice.UserWebService;
 import tm.common.entity.User;
@@ -25,6 +26,9 @@ public interface ServiceLocator {
 
     @NotNull
     TaskWebService getTaskService();
+
+    @NotNull
+    ServerWebService getServerService();
 
     @NotNull
     Comparator<PlannedEntity> getCurrentSortMethod();

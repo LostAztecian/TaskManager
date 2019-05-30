@@ -28,15 +28,14 @@ public class UserRegisterCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        System.out.println("[REGISTRING NEW USER]");
+        System.out.println("[REGISTERING NEW USER]");
         final String login = InputHelper.requestLine("ENTER LOGIN:", false);
         if (login == null) return;
         final String password = InputHelper.requestNewPassword();
         if (password == null) return;
         final User user = new User();
-        final String registerResult = ((UserServiceImpl)getServiceLocator().getUserService()).register(login, password);
-        System.out.println(registerResult);
-        System.out.println();
+        final Boolean success = ((UserServiceImpl)getServiceLocator().getUserService()).register(login, password);
+        System.out.println(success ? "[USER REGISTERED]" : "[USER REGISTER FAILED]");
     }
 
 }

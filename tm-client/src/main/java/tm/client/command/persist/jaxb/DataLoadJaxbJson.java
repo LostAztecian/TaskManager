@@ -37,33 +37,7 @@ public class DataLoadJaxbJson extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-//        final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + getServiceLocator().getCurrentUser().getName());
-//        if (Files.notExists(path)) {
-//            System.out.println("[NO SAVED DATA FOUND]");
-//            return;
-//        }
-//
-//        final Map<String, Object> properties = new HashMap<>();
-//        properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
-//        properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
-//        final JAXBContext context = org.eclipse.persistence.jaxb.JAXBContextFactory.createContext(new Class[]{UserData.class}, properties);
-//
-//        final Unmarshaller unmarshaller = context.createUnmarshaller();
-//        unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
-//        unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, true);
-//        final StreamSource jsonSource = new StreamSource(path.toFile());
-//        final UserData userData = unmarshaller.unmarshal(jsonSource, UserData.class).getValue();
-//
-//        //remove old data
-//        getServiceLocator().getTaskService().deleteAll();
-//        getServiceLocator().getProjectService().deleteAll();
-//        getServiceLocator().getUserService().delete(getServiceLocator().getCurrentUser());
-//        //save persisted data
-//        getServiceLocator().getUserService().save(userData.getUser());
-//        getServiceLocator().setCurrentUser(userData.getUser());
-//        userData.getProjects().forEach(getServiceLocator().getProjectService()::save);
-//        userData.getTasks().forEach(getServiceLocator().getTaskService()::save);
-//
-//        System.out.printf("[BINARY DATA LOADED from %s VIA JAXB]%n%n", path.toAbsolutePath());
+        final Boolean success = getServiceLocator().getServerService().dataLoadJaxbJson();
+        System.out.println(success ? "[JSON DATA LOADED]" : "[DATA LOAD FAILURE]");
     }
 }

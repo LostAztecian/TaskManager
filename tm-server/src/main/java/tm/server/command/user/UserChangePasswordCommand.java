@@ -26,23 +26,13 @@ public class UserChangePasswordCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final User user = getServiceLocator().getCurrentUser();
-
-        final String pwd = InputHelper.requestLine("ENTER OLD PASSWORD:", false);
-        if (pwd == null) return;
-        if (!user.getPasswordHash().equals(CypherUtil.getMd5(pwd))) {
-            System.out.println("WRONG PASSWORD");
-            System.out.println("[END]");
-            System.out.println();
-        }
-
+        final String oldPassword = InputHelper.requestLine("ENTER OLD PASSWORD:", false);
+        if (oldPassword == null) return;
         System.out.println("[SET UP NEW PASSWORD]");
-        final String newPwd = InputHelper.requestNewPassword();
-        if (newPwd == null) return;
-        user.setPasswordHash(CypherUtil.getMd5(newPwd));
-        getServiceLocator().getUserService().save(user);
-        System.out.println("[PASSWORD UPDATED]");
-        System.out.println();
+        final String newPassword = InputHelper.requestNewPassword();
+        if (newPassword == null) return;
+        final Boolean success = getServiceLocator().getUserService().changePassword(oldPassword, newPassword);
+        System.out.println(success ? "[PASSWORD UPDATED]" : "[PASSWORD UPDATE FAILED]");
     }
 
 }

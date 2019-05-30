@@ -13,7 +13,7 @@ import tm.server.command.user.*;
 public class Application {
 
     private static final Class[] CLASSES = {
-            HelpCommand.class, AboutCommand.class, Test.class,
+            HelpCommand.class, AboutCommand.class, PublishEndpoints.class,
             ExitCommand.class, SetSortMethodCommand.class,
 
             UserLoginCommand.class, UserLogoutCommand.class,

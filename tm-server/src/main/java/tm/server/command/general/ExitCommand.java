@@ -23,10 +23,7 @@ public class ExitCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        getServiceLocator().getEndpoints().forEach(Endpoint::stop);
-        System.out.println("[ENDPOINTS STOPPED]");
-        getServiceLocator().terminate();
-        System.out.println("[SERVER TERMINATED]");
+        getServiceLocator().getServerService().shutdown();
     }
 
 }

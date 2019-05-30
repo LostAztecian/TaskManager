@@ -16,6 +16,7 @@ public abstract class AbstractCommand implements Command {
     public final void execute() throws Exception {
         if (isPrivate() && serviceLocator.getCurrentUser() == null) {
             System.out.println("COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION");
+            System.out.println();
             return;
         }
         run();

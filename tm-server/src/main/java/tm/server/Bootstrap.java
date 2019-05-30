@@ -8,9 +8,11 @@ import tm.common.api.Command;
 import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.ProjectService;
+import tm.server.api.service.ServerService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
 import tm.server.command.AbstractCommand;
+import tm.server.service.ServerServiceImpl;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
 import tm.common.entity.User;
@@ -45,6 +47,8 @@ public class Bootstrap implements ServiceLocator {
     private TaskService taskService;
     @Getter
     private UserService userService;
+    @Getter
+    private ServerService serverService;
 
     public void terminate() { isTerminated = true; }
 
@@ -56,22 +60,15 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initUsers() {
-        final User userOne = new User();
-        userOne.setLogin("admin");
-        userOne.setPasswordHash("admin");
-
-        final User userTwo = new User();
-        userOne.setLogin("demo");
-        userOne.setPasswordHash("demo");
-
-        userService.persist(userOne);
-        userService.persist(userTwo);
+        userService.register("admin", "admin");
+        userService.register("demo", "demo");
     }
 
     private void initMethods() {
         taskService = new TaskServiceImpl(new TaskRepository(), this);
         projectService = new ProjectServiceImpl(new ProjectRepository(), this);
         userService = new UserServiceImpl((new UserRepository()), this);
+        serverService = new ServerServiceImpl(this);
     }
 
     private void initCommands(@NotNull final Class[] classes) {

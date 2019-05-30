@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.client.webservice.ProjectServiceClient;
+import tm.client.webservice.ServerWebServiceClient;
 import tm.client.webservice.TaskServiceClient;
 import tm.client.webservice.UserServiceClient;
 import tm.common.api.Command;
@@ -12,6 +13,7 @@ import tm.client.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.client.command.AbstractCommand;
 import tm.common.api.webservice.ProjectWebService;
+import tm.common.api.webservice.ServerWebService;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.api.webservice.UserWebService;
 import tm.common.comparator.ComparatorType;
@@ -37,6 +39,8 @@ public class Bootstrap implements ServiceLocator {
     private ProjectWebService projectService;
     @Getter
     private TaskWebService taskService;
+    @Getter
+    private ServerWebService serverService;
 
     @Getter @Setter
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
@@ -53,6 +57,7 @@ public class Bootstrap implements ServiceLocator {
         userService = new UserServiceClient();
         projectService = new ProjectServiceClient();
         taskService = new TaskServiceClient();
+        serverService = new ServerWebServiceClient();
     }
 
     private void initCommands(@NotNull final Class[] classes) {

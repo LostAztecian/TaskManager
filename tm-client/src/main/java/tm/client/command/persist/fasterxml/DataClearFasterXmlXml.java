@@ -30,9 +30,7 @@ public class DataClearFasterXmlXml extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-//        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + getServiceLocator().getCurrentUser().getName());
-//        Files.deleteIfExists(path);
-//        System.out.println("[XML DATA CLEARED]");
-//        System.out.println();
+        final Boolean success = getServiceLocator().getServerService().dataClearFasterXml();
+        System.out.println(success ? "[XML DATA CLEARED]" : "[DATA CLEAR FAILURE]");
     }
 }

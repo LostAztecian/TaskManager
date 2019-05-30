@@ -32,16 +32,7 @@ public class DataSaveFasterXmlJson extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-//        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + getServiceLocator().getCurrentUser().getName());
-//        final UserData userData = new UserData();
-//        userData.setUser(getServiceLocator().getCurrentUser());
-//        userData.setProjects(new ArrayList<>(getServiceLocator().getProjectService().getAll()));
-//        userData.setTasks(new ArrayList<>(getServiceLocator().getTaskService().getAll()));
-//        Files.createDirectories(path.getParent());
-//
-//        final ObjectMapper mapper = new ObjectMapper();
-//        mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userData);
-//
-//        System.out.printf("[XML DATA SAVED to %s VIA FASTERXML]%n%n", path.toAbsolutePath());
+        final Boolean success = getServiceLocator().getServerService().dataSaveFasterJson();
+        System.out.println(success ? "[JSON DATA SAVED]%n%n" : "[DATA LOAD FAILURE]");
     }
 }

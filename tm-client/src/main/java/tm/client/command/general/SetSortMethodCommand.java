@@ -46,8 +46,8 @@ public class SetSortMethodCommand extends AbstractCommand {
             return;
         }
 
-        getServiceLocator().setCurrentSortMethod(comparatorType.comparator);
-        System.out.println("[SORT METHOD UPDATED]");
+        final Boolean success = getServiceLocator().getServerService().setSortMethod(comparatorType);
+        System.out.println(success ? "[SORT METHOD UPDATED]" : "[SORT METHOD UPDATE FAILURE]");
         System.out.println();
     }
 }

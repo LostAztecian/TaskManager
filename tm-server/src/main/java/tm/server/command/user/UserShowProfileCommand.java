@@ -32,7 +32,6 @@ public class UserShowProfileCommand extends AbstractCommand {
     public void run() throws IOException {
         final String userProfile = getServiceLocator().getUserService().showUserProfile();
         System.out.println(userProfile);
-        System.out.println();
     }
 
 }

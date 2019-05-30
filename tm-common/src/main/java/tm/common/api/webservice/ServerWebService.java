@@ -1,66 +1,70 @@
-package tm.server.api.service;
+package tm.common.api.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
 
-public interface ServerService {
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
-    @NotNull
+@WebService(name = "serverService")
+public interface ServerWebService {
+
+    @NotNull @WebMethod
     String showAbout();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean shutdown();
 
-    @NotNull
+    @NotNull @WebMethod
     String showHelp();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean setSortMethod(@Nullable ComparatorType comparatorType);
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataClearBinary();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataSaveBinary();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataLoadBinary();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataClearJaxbXml();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataSaveJaxbXml();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataLoadJaxbXml();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataClearJaxbJson();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataSaveJaxbJson();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataLoadJaxbJson();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataClearFasterXml();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataSaveFasterXml();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataLoadFasterXml();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataClearFasterJson();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataSaveFasterJson();
 
-    @NotNull
+    @NotNull @WebMethod
     Boolean dataLoadFasterJson();
 
 }

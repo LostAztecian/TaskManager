@@ -35,22 +35,7 @@ public class DataSaveBinary extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-//        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
-//        final Collection<Project> projects = getServiceLocator().getProjectService().getAll();
-//        final Collection<Task> tasks = getServiceLocator().getTaskService().getAll();
-//        Files.createDirectories(path.getParent());
-//        try(ObjectOutputStream outputStream = new ObjectOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))){
-//            outputStream.writeObject(getServiceLocator().getCurrentUser());
-//            System.out.println("User write: " + getServiceLocator().getCurrentUser());
-//            outputStream.writeInt(projects.size());
-//            for (@NotNull final Project project : projects) {
-//                outputStream.writeObject(project);
-//            }
-//            outputStream.writeInt(tasks.size());
-//            for (@NotNull final Task task : tasks) {
-//                outputStream.writeObject(task);
-//            }
-//        }
-//        System.out.printf("[BINARY DATA SAVED to %s]%n%n", path.toAbsolutePath());
+        final Boolean success = getServiceLocator().getServerService().dataSaveBinary();
+        System.out.println(success ? "[BINARY DATA SAVED]" : "[DATA SAVE FAILURE]");
     }
 }

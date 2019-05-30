@@ -46,7 +46,6 @@ public class UserLoginCommand extends AbstractCommand {
     private void printAuthFailed() {
         System.out.println("[INVALID COMBINATION OF USER AND PASSWORD]");
         System.out.println("[END]");
-        System.out.println();
     }
 
 }

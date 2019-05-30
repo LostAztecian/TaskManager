@@ -21,8 +21,8 @@ public final class HelpCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        final boolean loggedIn = getServiceLocator().getCurrentUser() != null;
-        getServiceLocator().getCommands().values().forEach(c -> {if (!c.isPrivate() || loggedIn) System.out.println(c);});
+        final String help = getServiceLocator().getServerService().showHelp();
+        System.out.println(help);
     }
 
 }

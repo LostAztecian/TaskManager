@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.ProjectService;
+import tm.server.api.service.ServerService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
 import tm.common.entity.User;
@@ -24,6 +25,9 @@ public interface ServiceLocator {
 
     @NotNull
     TaskService getTaskService();
+
+    @NotNull
+    ServerService getServerService();
 
     @Nullable
     User getCurrentUser();
