@@ -1,9 +1,9 @@
-package tm.server.api.webservice;
+package tm.common.api.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.comparator.ComparatorType;
-import tm.server.entity.Project;
+import tm.common.comparator.ComparatorType;
+import tm.common.entity.Project;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -14,7 +14,7 @@ import java.util.Collection;
 public interface ProjectWebService {
 
     @WebMethod(operationName = "getNewProject")
-    Project getNewProject() throws JAXBException;
+    Project getNewProject();
 
     @NotNull @WebMethod(operationName = "getAllProjects")
     Collection<Project> getAllProjects();
@@ -51,5 +51,8 @@ public interface ProjectWebService {
 
     @NotNull @WebMethod(operationName = "deleteAllProjects")
     Boolean deleteAllProjects();
+
+    @NotNull @WebMethod(operationName = "deleteProjectTasks")
+    Boolean deleteProjectTasks(@Nullable String projectId);
 
 }

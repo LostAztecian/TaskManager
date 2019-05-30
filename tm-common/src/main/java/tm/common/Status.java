@@ -1,4 +1,4 @@
-package tm.client;
+package tm.common;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -32,15 +32,15 @@ public class DataSaveFasterXmlXml extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + getServiceLocator().getCurrentUser().getName());
-        final UserData userData = new UserData();
-        userData.setUser(getServiceLocator().getCurrentUser());
-        userData.setProjects(new ArrayList<>(getServiceLocator().getProjectService().getAll()));
-        userData.setTasks(new ArrayList<>(getServiceLocator().getTaskService().getAll()));
-        Files.createDirectories(path.getParent());
-
-        final XmlMapper mapper = new XmlMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userData);
-        System.out.printf("[XML DATA SAVED to %s VIA FASTERXML]%n%n", path.toAbsolutePath());
+//        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + getServiceLocator().getCurrentUser().getName());
+//        final UserData userData = new UserData();
+//        userData.setUser(getServiceLocator().getCurrentUser());
+//        userData.setProjects(new ArrayList<>(getServiceLocator().getProjectService().getAll()));
+//        userData.setTasks(new ArrayList<>(getServiceLocator().getTaskService().getAll()));
+//        Files.createDirectories(path.getParent());
+//
+//        final XmlMapper mapper = new XmlMapper();
+//        mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userData);
+//        System.out.printf("[XML DATA SAVED to %s VIA FASTERXML]%n%n", path.toAbsolutePath());
     }
 }

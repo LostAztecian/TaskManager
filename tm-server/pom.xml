@@ -12,6 +12,14 @@
     <artifactId>tm-server</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>ru.stoliarenkoas</groupId>
+            <artifactId>tm-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
 
@@ -69,10 +77,20 @@
                             </outputDirectory>
                             <destFileName>taskmanager-server.jar</destFileName>
                         </artifactItem>
+                        <artifactItem>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>tm-common</artifactId>
+                            <version>${project.version}</version>
+                            <type>${project.packaging}</type>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>
+                                ${project.parent.build.directory}/tm/lib
+                            </outputDirectory>
+                        </artifactItem>
                     </artifactItems>
                 </configuration>
-
             </plugin>
+
         </plugins>
     </build>
 

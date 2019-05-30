@@ -3,7 +3,7 @@ package tm.server.utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.server.api.ServiceLocator;
-import tm.server.entity.Project;
+import tm.common.entity.Project;
 
 import java.io.BufferedReader;
 import java.io.IOException;

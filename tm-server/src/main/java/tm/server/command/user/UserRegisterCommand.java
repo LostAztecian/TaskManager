@@ -3,8 +3,9 @@ package tm.server.command.user;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.server.command.AbstractCommand;
+import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
-import tm.server.entity.User;
+import tm.common.entity.User;
 import tm.server.service.UserServiceImpl;
 
 import java.io.IOException;
@@ -28,22 +29,14 @@ public class UserRegisterCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[REGISTRING NEW USER]");
-        final String userLogin = requestNewLogin();
-        if (userLogin == null) return;
-        final String userPwd = InputHelper.requestNewPassword();
-        if (userPwd == null) return;
-        ((UserServiceImpl)getServiceLocator().getUserService()).persist(new User(userLogin, userPwd));
-    }
-
-    @Nullable
-    private String requestNewLogin() throws IOException {
-        String userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
-        if (userLogin == null) return null;
-        while (!getServiceLocator().getUserService().getAllByName(userLogin).isEmpty()) {
-            System.out.println("USERNAME IS ALREADY TAKEN, PLEASE TRY AGAIN");
-            userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
-        }
-        return userLogin;
+        final String login = InputHelper.requestLine("ENTER LOGIN:", false);
+        if (login == null) return;
+        final String password = InputHelper.requestNewPassword();
+        if (password == null) return;
+        final User user = new User();
+        final String registerResult = ((UserServiceImpl)getServiceLocator().getUserService()).register(login, password);
+        System.out.println(registerResult);
+        System.out.println();
     }
 
 }

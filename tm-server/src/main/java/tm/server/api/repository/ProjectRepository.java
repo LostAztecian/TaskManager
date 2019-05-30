@@ -1,6 +1,6 @@
 package tm.server.api.repository;
 
-import tm.server.entity.Project;
+import tm.common.entity.Project;
 
 public interface ProjectRepository extends PlannedEntityRepository<Project> {
 

@@ -5,7 +5,7 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.Project;
+import tm.common.entity.Project;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

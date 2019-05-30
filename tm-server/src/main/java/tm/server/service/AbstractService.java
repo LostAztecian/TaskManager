@@ -3,7 +3,7 @@ package tm.server.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.server.api.ServiceLocator;
-import tm.server.api.entity.Entity;
+import tm.common.api.entity.Entity;
 import tm.server.api.repository.Repository;
 import tm.server.api.service.Service;
 

@@ -6,9 +6,9 @@ import tm.server.api.repository.PlannedEntityRepository;
 import tm.server.api.service.ProjectService;
 import tm.server.api.service.Service;
 import tm.server.api.ServiceLocator;
-import tm.server.entity.Project;
-import tm.server.entity.Task;
-import tm.server.comparator.ComparatorType;
+import tm.common.entity.Project;
+import tm.common.entity.Task;
+import tm.common.comparator.ComparatorType;
 
 import java.util.Collection;
 import java.util.Collections;

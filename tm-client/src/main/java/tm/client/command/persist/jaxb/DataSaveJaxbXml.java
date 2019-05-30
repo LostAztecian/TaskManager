@@ -33,16 +33,16 @@ public class DataSaveJaxbXml extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + getServiceLocator().getCurrentUser().getName());
-        final UserData userData = new UserData();
-        userData.setUser(getServiceLocator().getCurrentUser());
-        userData.setProjects(new ArrayList<>(getServiceLocator().getProjectService().getAll()));
-        userData.setTasks(new ArrayList<>(getServiceLocator().getTaskService().getAll()));
-        Files.createDirectories(path.getParent());
-
-        final Marshaller userMarshaller = JAXBContext.newInstance(UserData.class).createMarshaller();
-        userMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        userMarshaller.marshal(userData, path.toFile());
-        System.out.printf("[XML DATA SAVED to %s VIA JAXB]%n%n", path.toAbsolutePath());
+//        final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + getServiceLocator().getCurrentUser().getName());
+//        final UserData userData = new UserData();
+//        userData.setUser(getServiceLocator().getCurrentUser());
+//        userData.setProjects(new ArrayList<>(getServiceLocator().getProjectService().getAll()));
+//        userData.setTasks(new ArrayList<>(getServiceLocator().getTaskService().getAll()));
+//        Files.createDirectories(path.getParent());
+//
+//        final Marshaller userMarshaller = JAXBContext.newInstance(UserData.class).createMarshaller();
+//        userMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//        userMarshaller.marshal(userData, path.toFile());
+//        System.out.printf("[XML DATA SAVED to %s VIA JAXB]%n%n", path.toAbsolutePath());
     }
 }

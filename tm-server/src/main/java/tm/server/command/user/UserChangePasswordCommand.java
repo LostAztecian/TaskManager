@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import java.io.IOException;
 

@@ -2,7 +2,7 @@ package tm.client.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.Project;
+import tm.common.entity.Project;
 import tm.client.utils.InputHelper;
 
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class ProjectCreateCommand extends AbstractCommand {
         }
         project.setEndDate(projectEndDate);
 
-        getServiceLocator().getProjectService().save(project);
+        getServiceLocator().getProjectService().saveProject(project);
         System.out.printf("[PROJECT \'%s\' CREATED] %n%n", project.getName());
     }
 

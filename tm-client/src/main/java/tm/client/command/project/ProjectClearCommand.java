@@ -21,8 +21,8 @@ public class ProjectClearCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        getServiceLocator().getProjectService().deleteAll();
-        getServiceLocator().getProjectService().deleteChildrenByParentId(getServiceLocator().getCurrentUser().getId());
+        getServiceLocator().getTaskService().deleteAllTasks();
+        getServiceLocator().getProjectService().deleteAllProjects();
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();
     }

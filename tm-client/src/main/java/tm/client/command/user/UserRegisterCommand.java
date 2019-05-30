@@ -3,9 +3,8 @@ package tm.client.command.user;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.User;
-import tm.client.service.UserServiceImpl;
 import tm.client.utils.InputHelper;
+import tm.common.entity.User;
 
 import java.io.IOException;
 
@@ -28,22 +27,14 @@ public class UserRegisterCommand extends AbstractCommand {
     @Override
     public void run() throws IOException {
         System.out.println("[REGISTRING NEW USER]");
-        final String userLogin = requestNewLogin();
+        final String userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
         if (userLogin == null) return;
-        final String userPwd = InputHelper.requestNewPassword();
-        if (userPwd == null) return;
-        ((UserServiceImpl)getServiceLocator().getUserService()).persist(new User(userLogin, userPwd));
-    }
-
-    @Nullable
-    private String requestNewLogin() throws IOException {
-        String userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
-        if (userLogin == null) return null;
-        while (!getServiceLocator().getUserService().getAllByName(userLogin).isEmpty()) {
-            System.out.println("USERNAME IS ALREADY TAKEN, PLEASE TRY AGAIN");
-            userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
-        }
-        return userLogin;
+        final String userPassword = InputHelper.requestNewPassword();
+        if (userPassword == null) return;
+        final User user = new User();
+        final Boolean success = getServiceLocator().getUserService().register(userLogin, userPassword);
+        System.out.println(success ? "[USER CREATED]" : "[FAILED TO CREATE NEW USER]");
+        System.out.println();
     }
 
 }

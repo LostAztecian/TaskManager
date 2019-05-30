@@ -2,8 +2,8 @@ package tm.server.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.api.entity.PlannedEntity;
-import tm.server.comparator.ComparatorType;
+import tm.common.api.entity.PlannedEntity;
+import tm.common.comparator.ComparatorType;
 
 import java.util.Collection;
 

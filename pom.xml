@@ -152,6 +152,9 @@
                             </outputDirectory>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy</id>
+                    </execution>
                 </executions>
             </plugin>
 

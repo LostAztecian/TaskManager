@@ -12,7 +12,11 @@
     <artifactId>tm-client</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>ru.stoliarenkoas</groupId>
+            <artifactId>tm-common</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

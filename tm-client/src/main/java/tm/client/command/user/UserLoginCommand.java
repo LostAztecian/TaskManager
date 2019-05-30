@@ -1,13 +1,11 @@
 package tm.client.command.user;
 
 import org.jetbrains.annotations.NotNull;
-import tm.client.api.service.UserService;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.User;
+import tm.common.entity.User;
 import tm.client.utils.InputHelper;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class UserLoginCommand extends AbstractCommand {
 
@@ -35,10 +33,13 @@ public class UserLoginCommand extends AbstractCommand {
             printAuthFailed();
             return;
         }
-        final String pwdHash = InputHelper.getMd5(userPassword);
-        final Optional<User> user = ((UserService)getServiceLocator().getUserService()).validate(userLogin, pwdHash);
-        getServiceLocator().setCurrentUser(user.get());
-        System.out.printf("[LOGGED IN AS %s] %n%n", user.get().getLogin());
+        final User user = getServiceLocator().getUserService().login(userLogin, userPassword);
+        if (user == null) {
+            printAuthFailed();
+            return;
+        }
+        getServiceLocator().setCurrentUser(user);
+        System.out.printf("[LOGGED IN AS %s] %n%n", user.getLogin());
     }
 
     private void printAuthFailed() {

@@ -1,7 +1,7 @@
 package tm.server.api.repository;
 
 import org.jetbrains.annotations.NotNull;
-import tm.server.entity.Task;
+import tm.common.entity.Task;
 
 import java.util.Collection;
 

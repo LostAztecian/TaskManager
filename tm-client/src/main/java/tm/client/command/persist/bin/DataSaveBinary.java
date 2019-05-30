@@ -2,8 +2,8 @@ package tm.client.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.Project;
-import tm.client.entity.Task;
+import tm.common.entity.Project;
+import tm.common.entity.Task;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -35,22 +35,22 @@ public class DataSaveBinary extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
-        final Collection<Project> projects = getServiceLocator().getProjectService().getAll();
-        final Collection<Task> tasks = getServiceLocator().getTaskService().getAll();
-        Files.createDirectories(path.getParent());
-        try(ObjectOutputStream outputStream = new ObjectOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))){
-            outputStream.writeObject(getServiceLocator().getCurrentUser());
-            System.out.println("User write: " + getServiceLocator().getCurrentUser());
-            outputStream.writeInt(projects.size());
-            for (@NotNull final Project project : projects) {
-                outputStream.writeObject(project);
-            }
-            outputStream.writeInt(tasks.size());
-            for (@NotNull final Task task : tasks) {
-                outputStream.writeObject(task);
-            }
-        }
-        System.out.printf("[BINARY DATA SAVED to %s]%n%n", path.toAbsolutePath());
+//        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
+//        final Collection<Project> projects = getServiceLocator().getProjectService().getAll();
+//        final Collection<Task> tasks = getServiceLocator().getTaskService().getAll();
+//        Files.createDirectories(path.getParent());
+//        try(ObjectOutputStream outputStream = new ObjectOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))){
+//            outputStream.writeObject(getServiceLocator().getCurrentUser());
+//            System.out.println("User write: " + getServiceLocator().getCurrentUser());
+//            outputStream.writeInt(projects.size());
+//            for (@NotNull final Project project : projects) {
+//                outputStream.writeObject(project);
+//            }
+//            outputStream.writeInt(tasks.size());
+//            for (@NotNull final Task task : tasks) {
+//                outputStream.writeObject(task);
+//            }
+//        }
+//        System.out.printf("[BINARY DATA SAVED to %s]%n%n", path.toAbsolutePath());
     }
 }

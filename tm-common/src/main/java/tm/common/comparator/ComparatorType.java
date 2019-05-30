@@ -1,7 +1,7 @@
-package tm.client.comparator;
+package tm.common.comparator;
 
 import org.jetbrains.annotations.NotNull;
-import tm.client.api.entity.PlannedEntity;
+import tm.common.api.entity.PlannedEntity;
 
 import java.util.Comparator;
 

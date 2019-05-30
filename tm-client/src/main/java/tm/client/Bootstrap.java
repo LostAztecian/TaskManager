@@ -4,12 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.client.api.Command;
+import tm.client.webservice.ProjectServiceClient;
+import tm.client.webservice.TaskServiceClient;
+import tm.client.webservice.UserServiceClient;
+import tm.common.api.Command;
 import tm.client.api.ServiceLocator;
-import tm.client.api.entity.PlannedEntity;
+import tm.common.api.entity.PlannedEntity;
 import tm.client.command.AbstractCommand;
-import tm.client.comparator.ComparatorType;
-import tm.client.entity.User;
+import tm.common.api.webservice.ProjectWebService;
+import tm.common.api.webservice.TaskWebService;
+import tm.common.api.webservice.UserWebService;
+import tm.common.comparator.ComparatorType;
+import tm.common.entity.User;
 import tm.client.utils.InputHelper;
 
 import java.util.Comparator;
@@ -18,12 +24,20 @@ import java.util.Map;
 
 public class Bootstrap implements ServiceLocator {
 
+    @Getter @Setter
+    private User currentUser = null;
+
     @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();
     private boolean isTerminated = false;
 
-    @Getter @Setter
-    private User currentUser;
+    @Getter
+    private UserWebService userService;
+    @Getter
+    private ProjectWebService projectService;
+    @Getter
+    private TaskWebService taskService;
+
     @Getter @Setter
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
 
@@ -31,9 +45,15 @@ public class Bootstrap implements ServiceLocator {
 
     public void init(@Nullable final Class[] classes) {
         if (classes != null) initCommands(classes);
+        initServices();
         mainLoop();
     }
 
+    private void initServices() {
+        userService = new UserServiceClient();
+        projectService = new ProjectServiceClient();
+        taskService = new TaskServiceClient();
+    }
 
     private void initCommands(@NotNull final Class[] classes) {
         for (@Nullable final Class clazz : classes) {

@@ -1,4 +1,4 @@
-package tm.client.api;
+package tm.common.api;
 
 import org.jetbrains.annotations.NotNull;
 

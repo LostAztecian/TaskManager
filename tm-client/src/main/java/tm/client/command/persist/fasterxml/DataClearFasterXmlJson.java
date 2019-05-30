@@ -30,9 +30,9 @@ public class DataClearFasterXmlJson extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + getServiceLocator().getCurrentUser().getName());
-        Files.deleteIfExists(path);
-        System.out.println("[JSON DATA CLEARED]");
-        System.out.println();
+//        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + getServiceLocator().getCurrentUser().getName());
+//        Files.deleteIfExists(path);
+//        System.out.println("[JSON DATA CLEARED]");
+//        System.out.println();
     }
 }

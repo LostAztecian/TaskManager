@@ -1,8 +1,8 @@
-package tm.server.api.entity;
+package tm.common.api.entity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.Status;
+import tm.common.Status;
 
 import java.util.Date;
 

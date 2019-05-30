@@ -6,8 +6,8 @@ import tm.server.api.ServiceLocator;
 import tm.server.api.repository.PlannedEntityRepository;
 import tm.server.api.repository.TaskRepository;
 import tm.server.api.service.TaskService;
-import tm.server.entity.Task;
-import tm.server.comparator.ComparatorType;
+import tm.common.entity.Task;
+import tm.common.comparator.ComparatorType;
 
 import java.util.Collection;
 import java.util.Collections;

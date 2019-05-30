@@ -3,12 +3,10 @@ package tm.server.command.user;
 import org.jetbrains.annotations.NotNull;
 import tm.server.api.service.UserService;
 import tm.server.command.AbstractCommand;
-import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public class UserLoginCommand extends AbstractCommand {
 
@@ -36,10 +34,13 @@ public class UserLoginCommand extends AbstractCommand {
             printAuthFailed();
             return;
         }
-        final String pwdHash = CypherUtil.getMd5(userPassword);
-        final Optional<User> user = ((UserService)getServiceLocator().getUserService()).validate(userLogin, pwdHash);
-        getServiceLocator().setCurrentUser(user.get());
-        System.out.printf("[LOGGED IN AS %s] %n%n", user.get().getLogin());
+        final User user = ((UserService)getServiceLocator().getUserService()).login(userLogin, userPassword);
+        if (user == null) {
+            printAuthFailed();
+            return;
+        }
+        getServiceLocator().setCurrentUser(user);
+        System.out.printf("[LOGGED IN AS %s] %n%n", user.getLogin());
     }
 
     private void printAuthFailed() {

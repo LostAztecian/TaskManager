@@ -23,7 +23,11 @@ public class TaskClearCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        getServiceLocator().getTaskService().deleteAll();
+        final Boolean success = getServiceLocator().getTaskService().deleteAllTasks();
+        if (!success) {
+            System.out.println("[TASK REMOVAL FAILURE]");
+            return;
+        }
         System.out.printf("[ALL TASKS FOR USER \'%s\' REMOVED] %n%n", getServiceLocator().getCurrentUser().getLogin());
     }
 

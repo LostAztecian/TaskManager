@@ -23,6 +23,7 @@ public final class HelpCommand extends AbstractCommand {
     public void run() {
         final boolean loggedIn = getServiceLocator().getCurrentUser() != null;
         getServiceLocator().getCommands().values().forEach(c -> {if (!c.isPrivate() || loggedIn) System.out.println(c);});
+        System.out.println();
     }
 
 }

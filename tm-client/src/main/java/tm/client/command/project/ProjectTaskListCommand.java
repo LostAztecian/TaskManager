@@ -1,11 +1,10 @@
 package tm.client.command.project;
 
 import org.jetbrains.annotations.NotNull;
-import tm.client.api.service.TaskService;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.Project;
-import tm.client.entity.Task;
 import tm.client.utils.InputHelper;
+import tm.common.entity.Project;
+import tm.common.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -29,11 +28,12 @@ public class ProjectTaskListCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Collection<Project> projects = InputHelper.requestProjectsByName(getServiceLocator());
-        if (projects == null) return;
+        final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
+        if (projectName == null) return;
+        final Collection<Project> projects = getServiceLocator().getProjectService().getProjectsByName(projectName);
         final Collection<Task> tasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
         for (final Project project : projects) {
-            tasks.addAll(((TaskService)(getServiceLocator().getTaskService())).getTasksByProjectId(project.getId()));
+            tasks.addAll(getServiceLocator().getTaskService().getTasksByProjectId(project.getId()));
         }
         if (tasks.isEmpty()) {
             System.out.println("[PROJECT HAS NO TASKS]");

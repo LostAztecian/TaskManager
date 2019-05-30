@@ -2,7 +2,7 @@ package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.entity.Task;
+import tm.common.entity.Task;
 
 import java.io.IOException;
 import java.util.Collection;

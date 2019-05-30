@@ -3,14 +3,14 @@ package tm.server.webservice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.server.api.service.TaskService;
-import tm.server.api.webservice.TaskWebService;
-import tm.server.comparator.ComparatorType;
-import tm.server.entity.Task;
+import tm.common.api.webservice.TaskWebService;
+import tm.common.comparator.ComparatorType;
+import tm.common.entity.Task;
 
 import javax.jws.WebService;
 import java.util.Collection;
 
-@WebService(endpointInterface = "tm.server.api.webservice.TaskWebService")
+@WebService(endpointInterface = "tm.common.api.webservice.TaskWebService")
 public class TaskWebServiceBean implements TaskWebService {
 
     private final TaskService taskService;
@@ -88,5 +88,10 @@ public class TaskWebServiceBean implements TaskWebService {
     @Override @NotNull
     public Boolean deleteAllTasks() {
         return taskService.deleteAll();
+    }
+
+    @Override
+    public @NotNull Collection<Task> getTasksByProjectId(@Nullable String projectId) {
+        return taskService.getTasksByProjectId(projectId);
     }
 }

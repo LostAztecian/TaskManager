@@ -4,16 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.api.Command;
+import tm.common.api.Command;
 import tm.server.api.ServiceLocator;
-import tm.server.api.entity.PlannedEntity;
+import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.ProjectService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
 import tm.server.command.AbstractCommand;
+import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
-import tm.server.entity.User;
-import tm.server.comparator.ComparatorType;
+import tm.common.entity.User;
+import tm.common.comparator.ComparatorType;
 import tm.server.repository.ProjectRepository;
 import tm.server.repository.TaskRepository;
 import tm.server.repository.UserRepository;
@@ -55,8 +56,16 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initUsers() {
-        userService.persist(new User("admin", "admin", User.Role.ADMIN));
-        userService.persist(new User("demo", "demo", User.Role.USER));
+        final User userOne = new User();
+        userOne.setLogin("admin");
+        userOne.setPasswordHash("admin");
+
+        final User userTwo = new User();
+        userOne.setLogin("demo");
+        userOne.setPasswordHash("demo");
+
+        userService.persist(userOne);
+        userService.persist(userTwo);
     }
 
     private void initMethods() {

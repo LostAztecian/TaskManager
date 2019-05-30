@@ -27,7 +27,7 @@ public class ProjectRemoveCommand extends AbstractCommand {
         System.out.println("[PROJECT DELETE]");
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) return;
-        getServiceLocator().getProjectService().deleteByName(projectName);
+        getServiceLocator().getProjectService().deleteProjectsByName(projectName);
         System.out.println("[PROJECT(S) DELETED]");
         System.out.println();
     }

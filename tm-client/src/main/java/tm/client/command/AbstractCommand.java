@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.api.ServiceLocator;
 
 @Getter
-public abstract class AbstractCommand implements tm.client.api.Command {
+public abstract class AbstractCommand implements tm.common.api.Command {
 
     @NotNull @Setter
     private ServiceLocator serviceLocator;
@@ -14,7 +14,7 @@ public abstract class AbstractCommand implements tm.client.api.Command {
     @Override
     public final void execute() throws Exception {
         if (isPrivate() && serviceLocator.getCurrentUser() == null) {
-            System.out.println("COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION");
+            System.out.println("[COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION]");
             return;
         }
         run();

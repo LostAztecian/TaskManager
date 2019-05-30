@@ -2,7 +2,7 @@ package tm.server.command.user;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import java.io.IOException;
 
@@ -30,10 +30,8 @@ public class UserShowProfileCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final User user = getServiceLocator().getCurrentUser();
-        System.out.println("User: " + user.getLogin()); //method can not be invoked when user == null
-        System.out.println("User status: " + user.getRole().getDisplayName());
-        System.out.println("[TO CHANGE PASSWORD TYPE \'user-change-password\']");
+        final String userProfile = getServiceLocator().getUserService().showUserProfile();
+        System.out.println(userProfile);
         System.out.println();
     }
 

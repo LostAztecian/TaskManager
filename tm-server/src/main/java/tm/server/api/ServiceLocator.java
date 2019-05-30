@@ -2,11 +2,12 @@ package tm.server.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.api.entity.PlannedEntity;
+import tm.common.api.Command;
+import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.ProjectService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import javax.xml.ws.Endpoint;
 import java.util.Collection;

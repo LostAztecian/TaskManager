@@ -31,7 +31,7 @@ public class TaskRemoveCommand extends AbstractCommand {
             printNoSuchTask();
             return;
         }
-        getServiceLocator().getTaskService().deleteByName(taskName);
+        getServiceLocator().getTaskService().deleteTasksByName(taskName);
         System.out.println("[TASKS REMOVED]");
         System.out.println();
     }

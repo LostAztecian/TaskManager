@@ -2,7 +2,7 @@ package tm.client.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.entity.Project;
+import tm.common.entity.Project;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -26,7 +26,7 @@ public class ProjectListCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Collection<Project> allProjects = getServiceLocator().getProjectService().getAll();
+        final Collection<Project> allProjects = getServiceLocator().getProjectService().getAllProjects();
         if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();

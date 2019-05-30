@@ -32,9 +32,9 @@ public class DataClearBinary extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
-        Files.deleteIfExists(path);
-        System.out.println("[BINARY DATA CLEARED]");
-        System.out.println();
+//        final Path path = Paths.get("TaskManagerSavedData/binData/" + getServiceLocator().getCurrentUser().getName());
+//        Files.deleteIfExists(path);
+//        System.out.println("[BINARY DATA CLEARED]");
+//        System.out.println();
     }
 }

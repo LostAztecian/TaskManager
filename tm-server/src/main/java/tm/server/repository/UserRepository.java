@@ -2,7 +2,7 @@ package tm.server.repository;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import java.util.*;
 import java.util.stream.Collectors;

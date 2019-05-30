@@ -2,9 +2,9 @@ package tm.server.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.entity.Project;
-import tm.server.entity.Task;
-import tm.server.entity.User;
+import tm.common.entity.Project;
+import tm.common.entity.Task;
+import tm.common.entity.User;
 
 import java.io.ObjectInputStream;
 import java.nio.file.Files;

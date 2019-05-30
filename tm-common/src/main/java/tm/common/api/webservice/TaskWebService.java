@@ -1,9 +1,9 @@
-package tm.server.api.webservice;
+package tm.common.api.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.comparator.ComparatorType;
-import tm.server.entity.Task;
+import tm.common.comparator.ComparatorType;
+import tm.common.entity.Task;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -50,5 +50,8 @@ public interface TaskWebService {
 
     @NotNull @WebMethod(operationName = "deleteAllTasks")
     Boolean deleteAllTasks();
+
+    @NotNull @WebMethod(operationName = "getTasksByProjectId")
+    Collection<Task> getTasksByProjectId(@Nullable String projectId);
 
 }

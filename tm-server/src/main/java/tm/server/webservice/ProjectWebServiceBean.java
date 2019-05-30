@@ -2,16 +2,15 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.api.webservice.ProjectWebService;
+import tm.common.comparator.ComparatorType;
+import tm.common.entity.Project;
 import tm.server.api.service.ProjectService;
-import tm.server.api.webservice.ProjectWebService;
-import tm.server.comparator.ComparatorType;
-import tm.server.entity.Project;
 
 import javax.jws.WebService;
-import javax.xml.bind.JAXBException;
 import java.util.Collection;
 
-@WebService(endpointInterface = "tm.server.api.webservice.ProjectWebService")
+@WebService(endpointInterface = "tm.common.api.webservice.ProjectWebService")
 public class ProjectWebServiceBean implements ProjectWebService {
 
     private final ProjectService projectService;
@@ -21,7 +20,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override
-    public Project getNewProject() throws JAXBException {
+    public Project getNewProject() {
         final Project project = new Project();
         project.setName("pr-01");
         project.setDescription("desc-01");
@@ -88,5 +87,10 @@ public class ProjectWebServiceBean implements ProjectWebService {
     @Override @NotNull
     public Boolean deleteAllProjects() {
         return projectService.deleteAll();
+    }
+
+    @Override @NotNull
+    public Boolean deleteProjectTasks(@Nullable String projectId) {
+        return projectService.deleteChildrenByParentId(projectId);
     }
 }

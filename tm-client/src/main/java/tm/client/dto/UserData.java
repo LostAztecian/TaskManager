@@ -2,9 +2,9 @@ package tm.client.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import tm.client.entity.Project;
-import tm.client.entity.Task;
-import tm.client.entity.User;
+import tm.common.entity.Project;
+import tm.common.entity.Task;
+import tm.common.entity.User;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

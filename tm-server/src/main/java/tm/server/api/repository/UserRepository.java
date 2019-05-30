@@ -1,7 +1,7 @@
 package tm.server.api.repository;
 
 import org.jetbrains.annotations.NotNull;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import java.util.Optional;
 

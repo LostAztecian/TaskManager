@@ -3,15 +3,15 @@ package tm.server.webservice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.server.api.service.UserService;
-import tm.server.api.webservice.UserWebService;
-import tm.server.entity.User;
+import tm.common.api.webservice.UserWebService;
+import tm.common.entity.User;
 import tm.server.utils.CypherUtil;
 
 import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@WebService(endpointInterface = "tm.server.api.webservice.UserWebService")
+@WebService(endpointInterface = "tm.common.api.webservice.UserWebService")
 public class UserWebServiceBean implements UserWebService {
 
     private final UserService userService;
@@ -87,5 +87,30 @@ public class UserWebServiceBean implements UserWebService {
     @Override @NotNull
     public Boolean deleteAllUsers() {
         return userService.deleteAll();
+    }
+
+    @Override @Nullable
+    public User login(@Nullable String login, @Nullable String password) {
+        return userService.login(login, password);
+    }
+
+    @Override @NotNull
+    public Boolean changePassword(@Nullable String oldPassword, @Nullable String newPassword) {
+        return userService.changePassword(oldPassword, newPassword);
+    }
+
+    @Override @NotNull
+    public Boolean logout() {
+        return userService.logout();
+    }
+
+    @Override @NotNull
+    public String showProfile() {
+        return userService.showUserProfile();
+    }
+
+    @Override @NotNull
+    public Boolean register(@Nullable String login, @Nullable String password) {
+        return userService.register(login, password);
     }
 }

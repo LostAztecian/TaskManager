@@ -1,12 +1,12 @@
-package tm.client.entity;
+package tm.common.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.client.Status;
-import tm.client.api.entity.PlannedEntity;
+import tm.common.Status;
+import tm.common.api.entity.PlannedEntity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -18,11 +18,12 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @XmlRootElement
-public class Project implements PlannedEntity, Serializable {
+public class Task implements PlannedEntity, Serializable {
 
-    @NotNull private static final long serialVersionUID = 12345678902L;
+    private static final long serialVersionUID = 12345678903L;
     @NotNull private String id = UUID.randomUUID().toString();
     @NotNull private String userId = "initId";
+    @NotNull private String projectId = "initId";
     @NotNull private Status status = Status.PLANNED;
     @Nullable private String name;
     @Nullable private String description;
@@ -30,19 +31,15 @@ public class Project implements PlannedEntity, Serializable {
     @Nullable private Date startDate;
     @Nullable private Date endDate;
 
-    public Project(@NotNull final String userId) {
+    public Task(@NotNull final String userId, @NotNull final String name) {
         this.userId = userId;
-    }
-
-
-    @NotNull public String getUserId() {
-        return userId;
+        this.name = name;
     }
 
     @Override @NotNull
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        return String.format("Project: %s (%s) belongs to id:=%s.%n"+
+        return String.format("Task: %s (%s) for project id:=%s.%n" +
                 "Creation: %s, Start: %s, End: %s."+
                 "Status: %s.",
                 name,
@@ -58,8 +55,8 @@ public class Project implements PlannedEntity, Serializable {
     public boolean equals(@Nullable final Object obj) {
         if (obj == null) return false;
         if (this == obj) return true;
-        if (!(obj instanceof Project)) return false;
-        return this.id.equals(((Project)obj).id);
+        if (!(obj instanceof Task)) return false;
+        return this.id.equals(((Task)obj).id);
     }
 
     @Override

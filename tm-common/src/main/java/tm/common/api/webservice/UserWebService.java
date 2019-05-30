@@ -1,12 +1,13 @@
-package tm.server.api.webservice;
+package tm.common.api.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.entity.User;
+import tm.common.entity.User;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.Collection;
+import java.util.Optional;
 
 @WebService(name = "userService")
 public interface UserWebService {
@@ -43,5 +44,20 @@ public interface UserWebService {
 
     @NotNull @WebMethod(operationName = "deleteAllUsers")
     Boolean deleteAllUsers();
+
+    @Nullable @WebMethod(operationName = "userLogin")
+    User login(@Nullable String login, @Nullable String password);
+
+    @NotNull @WebMethod(operationName = "changeUserPassword")
+    Boolean changePassword(@Nullable String oldPassword, @Nullable String newPassword);
+
+    @NotNull @WebMethod(operationName = "userLogout")
+    Boolean logout();
+
+    @NotNull @WebMethod(operationName = "userShowProfile")
+    String showProfile();
+
+    @NotNull @WebMethod(operationName = "userRegister")
+    Boolean register(@Nullable String login, @Nullable String password);
 
 }

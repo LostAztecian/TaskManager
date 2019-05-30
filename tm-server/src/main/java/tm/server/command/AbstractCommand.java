@@ -3,10 +3,11 @@ package tm.server.command;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import tm.common.api.Command;
 import tm.server.api.ServiceLocator;
 
 @Getter
-public abstract class AbstractCommand implements tm.server.api.Command {
+public abstract class AbstractCommand implements Command {
 
     @NotNull @Setter
     private ServiceLocator serviceLocator;

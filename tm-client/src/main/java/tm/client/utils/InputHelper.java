@@ -2,15 +2,12 @@ package tm.client.utils;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.client.api.ServiceLocator;
-import tm.client.entity.Project;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 public class InputHelper {

@@ -2,7 +2,7 @@ package tm.server.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.entity.Task;
+import tm.common.entity.Task;
 
 import java.util.Collection;
 
