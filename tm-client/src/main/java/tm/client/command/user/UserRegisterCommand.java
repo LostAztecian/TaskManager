@@ -1,7 +1,6 @@
 package tm.client.command.user;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
 import tm.common.entity.User;

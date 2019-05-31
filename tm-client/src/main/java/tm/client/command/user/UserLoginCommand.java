@@ -2,8 +2,8 @@ package tm.client.command.user;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.entity.User;
 import tm.client.utils.InputHelper;
+import tm.common.entity.User;
 
 import java.io.IOException;
 

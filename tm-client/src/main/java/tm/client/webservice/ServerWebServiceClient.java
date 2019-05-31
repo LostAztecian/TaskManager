@@ -54,7 +54,7 @@ public class ServerWebServiceClient implements ServerWebService {
     @Override
     @WebMethod
     @NotNull
-    public Boolean setSortMethod(@Nullable ComparatorType comparatorType) {
+    public Boolean setSortMethod(@Nullable final ComparatorType comparatorType) {
         return serverService.setSortMethod(comparatorType);
     }
 

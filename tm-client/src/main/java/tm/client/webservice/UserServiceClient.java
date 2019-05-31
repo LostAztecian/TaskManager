@@ -41,42 +41,42 @@ public class UserServiceClient implements UserWebService {
     }
 
     @Override @NotNull
-    public Collection<User> getUsersByName(@Nullable String name) {
+    public Collection<User> getUsersByName(@Nullable final String name) {
         return userService.getUsersByName(name);
     }
 
     @Override @Nullable
-    public User getUser(@Nullable String id) {
+    public User getUser(@Nullable final String id) {
         return userService.getUser(id);
     }
 
     @Override @NotNull
-    public Boolean saveUser(@Nullable User user) {
+    public Boolean saveUser(@Nullable final User user) {
         return userService.saveUser(user);
     }
 
     @Override @NotNull
-    public Boolean persistUser(@Nullable User user) {
+    public Boolean persistUser(@Nullable final User user) {
         return userService.persistUser(user);
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable User user) {
+    public Boolean deleteUser(@Nullable final User user) {
         return userService.deleteUser(user);
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable String id) {
+    public Boolean deleteUser(@Nullable final String id) {
         return userService.deleteUser(id);
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByIds(@Nullable Collection<String> ids) {
+    public Boolean deleteUsersByIds(@Nullable final Collection<String> ids) {
         return userService.deleteUsersByIds(ids);
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByName(@Nullable String name) {
+    public Boolean deleteUsersByName(@Nullable final String name) {
         return userService.deleteUsersByName(name);
     }
 
@@ -86,12 +86,12 @@ public class UserServiceClient implements UserWebService {
     }
 
     @Override @Nullable
-    public User login(@Nullable String login, @Nullable String password) {
+    public User login(@Nullable String login, @Nullable final String password) {
         return userService.login(login, password);
     }
 
-    @Override
-    public @NotNull Boolean changePassword(@Nullable String oldPassword, @Nullable String newPassword) {
+    @Override @NotNull
+    public Boolean changePassword(@Nullable final String oldPassword, @Nullable final String newPassword) {
         return userService.changePassword(oldPassword, newPassword);
     }
 
@@ -106,7 +106,7 @@ public class UserServiceClient implements UserWebService {
     }
 
     @Override @NotNull
-    public Boolean register(@Nullable String login, @Nullable String password) {
+    public Boolean register(@Nullable final String login, @Nullable final String password) {
         return userService.register(login, password);
     }
 }

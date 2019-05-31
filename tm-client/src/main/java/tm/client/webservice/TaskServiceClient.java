@@ -42,52 +42,52 @@ public class TaskServiceClient implements TaskWebService {
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasksSorted(@Nullable ComparatorType comparatorType) {
+    public Collection<Task> getAllTasksSorted(@Nullable final ComparatorType comparatorType) {
         return taskService.getAllTasksSorted(comparatorType);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasksByName(@Nullable String name) {
+    public Collection<Task> getAllTasksByName(@Nullable final String name) {
         return taskService.getAllTasksByName(name);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasksByNameSorted(@Nullable String name, @Nullable ComparatorType comparatorType) {
+    public Collection<Task> getAllTasksByNameSorted(@Nullable final String name, @Nullable final ComparatorType comparatorType) {
         return taskService.getAllTasksByNameSorted(name, comparatorType);
     }
 
     @Override @Nullable
-    public Task getTask(@Nullable String id) {
+    public Task getTask(@Nullable final String id) {
         return taskService.getTask(id);
     }
 
     @Override @NotNull
-    public Collection<Task> searchTask(@Nullable String searchLine) {
+    public Collection<Task> searchTask(@Nullable final String searchLine) {
         return taskService.searchTask(searchLine);
     }
 
     @Override @NotNull
-    public Boolean saveTask(@Nullable Task task) {
+    public Boolean saveTask(@Nullable final Task task) {
         return taskService.saveTask(task);
     }
 
     @Override @NotNull
-    public Boolean deleteTask(@Nullable Task task) {
+    public Boolean deleteTask(@Nullable final Task task) {
         return taskService.deleteTask(task);
     }
 
     @Override @NotNull
-    public Boolean deleteTask(@Nullable String id) {
+    public Boolean deleteTask(@Nullable final String id) {
         return taskService.deleteTask(id);
     }
 
     @Override @NotNull
-    public Boolean deleteTasksByIds(@Nullable Collection<String> ids) {
+    public Boolean deleteTasksByIds(@Nullable final Collection<String> ids) {
         return taskService.deleteTasksByIds(ids);
     }
 
     @Override @NotNull
-    public Boolean deleteTasksByName(@Nullable String name) {
+    public Boolean deleteTasksByName(@Nullable final String name) {
         return taskService.deleteTasksByName(name);
     }
 
@@ -97,7 +97,7 @@ public class TaskServiceClient implements TaskWebService {
     }
 
     @Override @NotNull
-    public Collection<Task> getTasksByProjectId(@Nullable String projectId) {
+    public Collection<Task> getTasksByProjectId(@Nullable final String projectId) {
         return taskService.getTasksByProjectId(projectId);
     }
 }

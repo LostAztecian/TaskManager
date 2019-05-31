@@ -42,52 +42,52 @@ public class ProjectServiceClient implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Collection<Project> getAllProjectsSorted(@Nullable ComparatorType comparatorType) {
+    public Collection<Project> getAllProjectsSorted(@Nullable final ComparatorType comparatorType) {
         return projectService.getAllProjectsSorted(comparatorType);
     }
 
     @Override @NotNull
-    public Collection<Project> getProjectsByName(@Nullable String name) {
+    public Collection<Project> getProjectsByName(@Nullable final String name) {
         return projectService.getProjectsByName(name);
     }
 
     @Override @NotNull
-    public Collection<Project> getProjectsByNameSorted(@Nullable String name, @Nullable ComparatorType comparatorType) {
+    public Collection<Project> getProjectsByNameSorted(@Nullable final String name, @Nullable final ComparatorType comparatorType) {
         return projectService.getProjectsByNameSorted(name, comparatorType);
     }
 
     @Override @Nullable
-    public Project getProject(@Nullable String id) {
+    public Project getProject(@Nullable final String id) {
         return projectService.getProject(id);
     }
 
     @Override @NotNull
-    public Collection<Project> searchProject(@Nullable String searchLine) {
+    public Collection<Project> searchProject(@Nullable final String searchLine) {
         return projectService.searchProject(searchLine);
     }
 
     @Override @NotNull
-    public Boolean saveProject(@Nullable Project project) {
+    public Boolean saveProject(@Nullable final Project project) {
         return projectService.saveProject(project);
     }
 
     @Override @NotNull
-    public Boolean deleteProject(@Nullable Project project) {
+    public Boolean deleteProject(@Nullable final Project project) {
         return projectService.deleteProject(project);
     }
 
     @Override @NotNull
-    public Boolean deleteProject(@Nullable String id) {
+    public Boolean deleteProject(@Nullable final String id) {
         return projectService.deleteProject(id);
     }
 
     @Override @NotNull
-    public Boolean deleteProjectsByIds(@Nullable Collection<String> ids) {
+    public Boolean deleteProjectsByIds(@Nullable final Collection<String> ids) {
         return projectService.deleteProjectsByIds(ids);
     }
 
     @Override @NotNull
-    public Boolean deleteProjectsByName(@Nullable String name) {
+    public Boolean deleteProjectsByName(@Nullable final String name) {
         return projectService.deleteProjectsByName(name);
     }
 
@@ -97,7 +97,7 @@ public class ProjectServiceClient implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProjectTasks(@Nullable String projectId) {
+    public Boolean deleteProjectTasks(@Nullable final String projectId) {
         return projectService.deleteProjectTasks(projectId);
     }
 }

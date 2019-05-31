@@ -2,8 +2,8 @@ package tm.client.command.general;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.comparator.ComparatorType;
 import tm.client.utils.InputHelper;
+import tm.common.comparator.ComparatorType;
 
 import java.io.IOException;
 

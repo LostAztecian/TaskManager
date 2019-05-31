@@ -4,8 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 public class AboutCommand extends AbstractCommand {
 

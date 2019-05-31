@@ -1,6 +1,9 @@
 package tm.client;
 
-import tm.client.command.general.*;
+import tm.client.command.general.AboutCommand;
+import tm.client.command.general.ExitCommand;
+import tm.client.command.general.HelpCommand;
+import tm.client.command.general.SetSortMethodCommand;
 import tm.client.command.persist.bin.DataClearBinary;
 import tm.client.command.persist.bin.DataLoadBinary;
 import tm.client.command.persist.bin.DataSaveBinary;

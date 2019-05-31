@@ -15,8 +15,10 @@ import java.util.Map;
 
 public interface ServiceLocator {
 
+    @Nullable
     User getCurrentUser();
-    void setCurrentUser(User user);
+
+    void setCurrentUser(@Nullable User user);
 
     @NotNull
     UserWebService getUserService();
@@ -33,12 +35,12 @@ public interface ServiceLocator {
     @NotNull
     Comparator<PlannedEntity> getCurrentSortMethod();
 
-    void setCurrentSortMethod(final @NotNull Comparator<PlannedEntity> comparator);
+    void setCurrentSortMethod(@NotNull Comparator<PlannedEntity> comparator);
 
     @NotNull
     Map<String, Command> getCommands();
 
-    void init(final @Nullable Class[] classes);
+    void init(@Nullable Class[] classes);
 
     void terminate();
 
