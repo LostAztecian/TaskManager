@@ -4,8 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Command {
 
-    void execute() throws Exception;
-
     @NotNull
     String getName();
 
@@ -13,5 +11,7 @@ public interface Command {
     String getDescription();
 
     boolean isPrivate();
+
+    void execute() throws Exception;
 
 }

@@ -7,7 +7,6 @@ import tm.common.entity.Project;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.xml.bind.JAXBException;
 import java.util.Collection;
 
 @WebService(name = "projectService")

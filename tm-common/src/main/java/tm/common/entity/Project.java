@@ -9,15 +9,15 @@ import tm.common.Status;
 import tm.common.api.entity.PlannedEntity;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.*;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @XmlRootElement
+@NoArgsConstructor
 public class Project implements PlannedEntity, Serializable {
 
     private static final long serialVersionUID = 12345678902L;

@@ -7,8 +7,7 @@ public enum Status {
     IN_PROGRESS("in-progress"),
     COMPLETE("complete");
 
-    @NotNull
-    public final String displayName;
+    @NotNull public final String displayName;
 
     Status(@NotNull final String displayName) {
         this.displayName = displayName;

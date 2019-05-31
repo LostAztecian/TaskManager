@@ -7,7 +7,6 @@ import tm.common.entity.User;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.Collection;
-import java.util.Optional;
 
 @WebService(name = "userService")
 public interface UserWebService {

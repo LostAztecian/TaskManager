@@ -14,7 +14,7 @@ public enum ComparatorType {
     public @NotNull final Comparator<PlannedEntity> comparator;
     public @NotNull final String commandName;
 
-    private ComparatorType(@NotNull final Comparator<PlannedEntity> comparator, @NotNull final String commandName) {
+    ComparatorType(@NotNull final Comparator<PlannedEntity> comparator, @NotNull final String commandName) {
         this.comparator = comparator;
         this.commandName = commandName;
     }

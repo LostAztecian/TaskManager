@@ -22,14 +22,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User implements Entity, Serializable {
 
-    @NotNull private static final long serialVersionUID = 12345678904L;
+    private static final long serialVersionUID = 12345678904L;
 
     public enum Role {
         USER("user"),
         ADMIN("administrator");
 
         @Getter
-        private final String displayName;
+        @NotNull private final String displayName;
 
         Role(@NotNull final String displayName) {
             this.displayName = displayName;
