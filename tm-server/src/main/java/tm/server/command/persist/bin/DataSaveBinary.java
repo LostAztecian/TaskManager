@@ -1,9 +1,9 @@
 package tm.server.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
-import tm.server.command.AbstractCommand;
 import tm.common.entity.Project;
 import tm.common.entity.Task;
+import tm.server.command.AbstractCommand;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;

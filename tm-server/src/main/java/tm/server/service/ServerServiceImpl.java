@@ -37,7 +37,7 @@ public class ServerServiceImpl implements ServerService {
 
     private final ServiceLocator serviceLocator;
 
-    public ServerServiceImpl(ServiceLocator serviceLocator) {
+    public ServerServiceImpl(@NotNull final ServiceLocator serviceLocator) {
         this.serviceLocator = serviceLocator;
     }
 

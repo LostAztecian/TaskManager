@@ -15,7 +15,7 @@ public class ServerWebServiceBean implements ServerWebService {
 
     private ServerService serverService;
 
-    public ServerWebServiceBean(ServerService serverService) {
+    public ServerWebServiceBean(@NotNull final ServerService serverService) {
         this.serverService = serverService;
     }
 
@@ -35,7 +35,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean setSortMethod(@Nullable ComparatorType comparatorType) {
+    public Boolean setSortMethod(@Nullable final ComparatorType comparatorType) {
         return serverService.setSortMethod(comparatorType);
     }
 

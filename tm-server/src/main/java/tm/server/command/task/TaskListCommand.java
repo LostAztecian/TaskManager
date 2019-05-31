@@ -1,8 +1,8 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
-import tm.server.command.AbstractCommand;
 import tm.common.entity.Task;
+import tm.server.command.AbstractCommand;
 
 import java.io.IOException;
 import java.util.Collection;

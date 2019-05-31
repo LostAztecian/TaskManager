@@ -15,7 +15,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
 
     private final ProjectService projectService;
 
-    public ProjectWebServiceBean(ProjectService projectService) {
+    public ProjectWebServiceBean(@NotNull final ProjectService projectService) {
         this.projectService = projectService;
     }
 
@@ -50,7 +50,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @Nullable
-    public Project getProject(@Nullable String id) {
+    public Project getProject(@Nullable final String id) {
         return projectService.get(id);
     }
 
@@ -90,7 +90,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProjectTasks(@Nullable String projectId) {
+    public Boolean deleteProjectTasks(@Nullable final String projectId) {
         return projectService.deleteChildrenByParentId(projectId);
     }
 }

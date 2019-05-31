@@ -16,7 +16,7 @@ public class UserWebServiceBean implements UserWebService {
 
     private final UserService userService;
 
-    public UserWebServiceBean(UserService userService) {
+    public UserWebServiceBean(@NotNull final UserService userService) {
         this.userService = userService;
     }
 
@@ -90,12 +90,12 @@ public class UserWebServiceBean implements UserWebService {
     }
 
     @Override @Nullable
-    public User login(@Nullable String login, @Nullable String password) {
+    public User login(@Nullable final String login, @Nullable final String password) {
         return userService.login(login, password);
     }
 
     @Override @NotNull
-    public Boolean changePassword(@Nullable String oldPassword, @Nullable String newPassword) {
+    public Boolean changePassword(@Nullable final String oldPassword, @Nullable final String newPassword) {
         return userService.changePassword(oldPassword, newPassword);
     }
 
@@ -110,7 +110,7 @@ public class UserWebServiceBean implements UserWebService {
     }
 
     @Override @NotNull
-    public Boolean register(@Nullable String login, @Nullable String password) {
+    public Boolean register(@Nullable final String login, @Nullable final String password) {
         return userService.register(login, password);
     }
 }

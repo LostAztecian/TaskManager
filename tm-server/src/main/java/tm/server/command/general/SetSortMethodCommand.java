@@ -1,9 +1,9 @@
 package tm.server.command.general;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.comparator.ComparatorType;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
-import tm.common.comparator.ComparatorType;
 
 import java.io.IOException;
 

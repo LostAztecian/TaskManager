@@ -1,9 +1,9 @@
 package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Project;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
-import tm.common.entity.Project;
 
 import java.io.IOException;
 import java.util.Collection;

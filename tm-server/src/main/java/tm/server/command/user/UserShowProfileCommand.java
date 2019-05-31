@@ -11,14 +11,12 @@ public class UserShowProfileCommand extends AbstractCommand {
     @NotNull public static final String NAME = "user-show-profile";
     @NotNull private static final String DESCRIPTION = "display profile of current user";
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getName() {
         return NAME;
     }
 
-    @NotNull
-    @Override
+    @Override @NotNull
     public String getDescription() {
         return DESCRIPTION;
     }

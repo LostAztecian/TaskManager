@@ -1,12 +1,10 @@
 package tm.server.command.user;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import tm.server.command.AbstractCommand;
-import tm.server.utils.CypherUtil;
-import tm.server.utils.InputHelper;
 import tm.common.entity.User;
+import tm.server.command.AbstractCommand;
 import tm.server.service.UserServiceImpl;
+import tm.server.utils.InputHelper;
 
 import java.io.IOException;
 

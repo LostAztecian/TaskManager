@@ -14,17 +14,20 @@ public interface Repository<T extends Entity> {
     @NotNull
     Collection<T> findByName(@NotNull String userId, @NotNull String name);
 
+    @Nullable
     T findOne(@NotNull String userId, @NotNull String id);
 
-    Boolean persist(T object);
+    @NotNull
+    Boolean persist(@NotNull T object);
 
-    Boolean merge(@NotNull String userId, T object);
+    @NotNull
+    Boolean merge(@NotNull String userId, @NotNull T object);
 
     @Nullable
     String remove(@NotNull String userId, @NotNull String id);
 
     @Nullable
-    String remove(@NotNull String userId, T object);
+    String remove(@NotNull String userId, @NotNull T object);
 
     @NotNull
     Collection<String> removeByName(@NotNull String userId, @NotNull String name);

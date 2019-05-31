@@ -15,7 +15,7 @@ public class TaskWebServiceBean implements TaskWebService {
 
     private final TaskService taskService;
 
-    public TaskWebServiceBean(TaskService taskService) {
+    public TaskWebServiceBean(@NotNull final TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -91,7 +91,7 @@ public class TaskWebServiceBean implements TaskWebService {
     }
 
     @Override
-    public @NotNull Collection<Task> getTasksByProjectId(@Nullable String projectId) {
+    public @NotNull Collection<Task> getTasksByProjectId(@Nullable final String projectId) {
         return taskService.getTasksByProjectId(projectId);
     }
 }

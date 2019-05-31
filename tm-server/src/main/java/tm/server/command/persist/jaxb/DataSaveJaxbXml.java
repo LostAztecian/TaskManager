@@ -2,14 +2,6 @@ package tm.server.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.dto.UserData;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class DataSaveJaxbXml extends AbstractCommand {
 

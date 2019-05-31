@@ -10,11 +10,11 @@ import java.util.Collection;
 public interface PlannedEntityRepository<T extends PlannedEntity> extends Repository<T> {
 
     @NotNull
-    Collection<T> findAllAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType);
+    Collection<T> findAllAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType);
 
     @NotNull
-    Collection<T> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull String name);
+    Collection<T> findByNameAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType, @NotNull String name);
 
     @NotNull
-    Collection<T> search(@NotNull final String userId, @Nullable final String searchLine);
+    Collection<T> search(@NotNull String userId, @Nullable String searchLine);
 }

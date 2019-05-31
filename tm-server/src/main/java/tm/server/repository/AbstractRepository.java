@@ -29,7 +29,7 @@ public abstract class AbstractRepository<T extends PlannedEntity> implements Pla
     }
 
     @Override @NotNull
-    public Collection<T> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull String name) {
+    public Collection<T> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull final String name) {
         return getSorted(findByName(userId, name), comparatorType);
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractRepository<T extends PlannedEntity> implements Pla
         return map.values().stream().filter(e -> userId.equals(e.getUserId()) && e.getId().equals(id)).findAny().orElse(null);
     }
 
-    @Override
+    @Override @NotNull
     public Boolean persist(@NotNull final PlannedEntity object) {
         try {
             map.putIfAbsent(object.getId(), (T)object);
@@ -49,7 +49,7 @@ public abstract class AbstractRepository<T extends PlannedEntity> implements Pla
         return true;
     }
 
-    @Override
+    @Override @NotNull
     public Boolean merge(@NotNull final String userId, @NotNull final PlannedEntity object) {
         if (map.get(object.getId()) != null && userId.equals(map.get(object.getId()).getUserId())) return false;
         try {

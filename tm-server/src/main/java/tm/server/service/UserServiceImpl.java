@@ -57,7 +57,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override @NotNull
-    public Boolean register(@Nullable String login, @Nullable String password) {
+    public Boolean register(@Nullable final String login, @Nullable final String password) {
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) return false;
         final User user = new User();
         user.setLogin(login);

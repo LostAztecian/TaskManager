@@ -32,19 +32,19 @@ public class UserRepository implements tm.server.api.repository.UserRepository {
         return findAll(userId).stream().filter(u -> name.equals(u.getLogin())).collect(Collectors.toSet());
     }
 
-    @Override
+    @Override @Nullable
     public User findOne(@NotNull final String userId, @NotNull final String id) {
         final User user = map.get(userId);
         if (user == null || user.getRole() != User.Role.ADMIN) return null;
         return user;
     }
 
-    @Override
+    @Override @NotNull
     public Boolean persist(@NotNull final User user) {
         return map.putIfAbsent(user.getId(), user) != null;
     }
 
-    @Override
+    @Override @NotNull
     public Boolean merge(@NotNull final String userId, @NotNull final User user) {
         final User currentUser = map.get(userId);
         if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return false;

@@ -18,7 +18,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     final ServiceLocator serviceLocator;
 
     AbstractService(@NotNull final Repository<T> repository,
-                           @NotNull final ServiceLocator serviceLocator) {
+                    @NotNull final ServiceLocator serviceLocator) {
         this.repository = repository;
         this.serviceLocator = serviceLocator;
     }

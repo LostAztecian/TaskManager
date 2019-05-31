@@ -4,11 +4,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
+import tm.common.entity.User;
 import tm.server.api.service.ProjectService;
 import tm.server.api.service.ServerService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
-import tm.common.entity.User;
 
 import javax.xml.ws.Endpoint;
 import java.util.Collection;
@@ -32,12 +32,12 @@ public interface ServiceLocator {
     @Nullable
     User getCurrentUser();
 
-    void setCurrentUser(final @Nullable User user);
+    void setCurrentUser(@Nullable User user);
 
     @NotNull
     Comparator<PlannedEntity> getCurrentSortMethod();
 
-    void setCurrentSortMethod(final @NotNull Comparator<PlannedEntity> comparator);
+    void setCurrentSortMethod(@NotNull Comparator<PlannedEntity> comparator);
 
     @NotNull
     Map<String, Command> getCommands();
@@ -45,7 +45,7 @@ public interface ServiceLocator {
     @NotNull
     Collection<Endpoint> getEndpoints();
 
-    void init(final @Nullable Class[] classes);
+    void init(@Nullable Class[] classes);
 
     void terminate();
 
