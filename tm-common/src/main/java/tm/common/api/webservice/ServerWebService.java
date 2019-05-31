@@ -6,6 +6,7 @@ import tm.common.comparator.ComparatorType;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 @WebService(name = "serverService")
@@ -33,22 +34,22 @@ public interface ServerWebService {
     Boolean dataLoadBinary() throws IOException, ClassNotFoundException;
 
     @NotNull @WebMethod
-    Boolean dataClearJaxbXml();
+    Boolean dataClearJaxbXml() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataSaveJaxbXml();
+    Boolean dataSaveJaxbXml() throws IOException, JAXBException;
 
     @NotNull @WebMethod
-    Boolean dataLoadJaxbXml();
+    Boolean dataLoadJaxbXml() throws JAXBException;
 
     @NotNull @WebMethod
-    Boolean dataClearJaxbJson();
+    Boolean dataClearJaxbJson() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataSaveJaxbJson();
+    Boolean dataSaveJaxbJson() throws IOException, JAXBException;
 
     @NotNull @WebMethod
-    Boolean dataLoadJaxbJson();
+    Boolean dataLoadJaxbJson() throws JAXBException;
 
     @NotNull @WebMethod
     Boolean dataClearFasterXml();

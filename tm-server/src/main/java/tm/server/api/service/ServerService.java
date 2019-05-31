@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 public interface ServerService {
@@ -30,22 +31,22 @@ public interface ServerService {
     Boolean dataLoadBinary() throws IOException, ClassNotFoundException;
 
     @NotNull
-    Boolean dataClearJaxbXml();
+    Boolean dataClearJaxbXml() throws IOException;
 
     @NotNull
-    Boolean dataSaveJaxbXml();
+    Boolean dataSaveJaxbXml() throws JAXBException, IOException;
 
     @NotNull
-    Boolean dataLoadJaxbXml();
+    Boolean dataLoadJaxbXml() throws JAXBException;
 
     @NotNull
-    Boolean dataClearJaxbJson();
+    Boolean dataClearJaxbJson() throws IOException;
 
     @NotNull
-    Boolean dataSaveJaxbJson();
+    Boolean dataSaveJaxbJson() throws IOException, JAXBException;
 
     @NotNull
-    Boolean dataLoadJaxbJson();
+    Boolean dataLoadJaxbJson() throws JAXBException;
 
     @NotNull
     Boolean dataClearFasterXml();

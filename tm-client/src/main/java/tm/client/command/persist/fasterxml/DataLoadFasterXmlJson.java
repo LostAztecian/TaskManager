@@ -1,18 +1,7 @@
 package tm.client.command.persist.fasterxml;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.dto.UserData;
-
-import javax.xml.bind.JAXBContext;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DataLoadFasterXmlJson extends AbstractCommand {
 

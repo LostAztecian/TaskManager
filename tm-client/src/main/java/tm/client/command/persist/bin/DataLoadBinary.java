@@ -2,15 +2,6 @@ package tm.client.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.entity.Project;
-import tm.common.entity.Task;
-import tm.common.entity.User;
-
-import java.io.ObjectInputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 public class DataLoadBinary extends AbstractCommand {
 

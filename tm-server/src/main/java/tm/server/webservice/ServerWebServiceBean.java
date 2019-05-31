@@ -7,6 +7,7 @@ import tm.common.comparator.ComparatorType;
 import tm.server.api.service.ServerService;
 
 import javax.jws.WebService;
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 @WebService(endpointInterface = "tm.common.api.webservice.ServerWebService")
@@ -54,32 +55,32 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbXml() {
+    public Boolean dataClearJaxbXml() throws IOException {
         return serverService.dataClearJaxbXml();
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbXml() {
+    public Boolean dataSaveJaxbXml() throws IOException, JAXBException {
         return serverService.dataSaveJaxbXml();
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbXml() {
+    public Boolean dataLoadJaxbXml() throws JAXBException {
         return serverService.dataLoadJaxbXml();
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbJson() {
+    public Boolean dataClearJaxbJson() throws IOException {
         return serverService.dataClearJaxbJson();
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbJson() {
+    public Boolean dataSaveJaxbJson() throws IOException, JAXBException {
         return serverService.dataSaveJaxbJson();
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbJson() {
+    public Boolean dataLoadJaxbJson() throws JAXBException {
         return serverService.dataLoadJaxbJson();
     }
 

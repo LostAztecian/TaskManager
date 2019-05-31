@@ -10,7 +10,7 @@ import tm.client.command.project.*;
 import tm.client.command.task.*;
 import tm.client.command.user.*;
 
-public class Application {
+public class ClientApplication {
 
     private static final Class[] CLASSES = {
             HelpCommand.class, AboutCommand.class,

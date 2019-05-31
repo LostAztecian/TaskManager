@@ -4,9 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DataClearFasterXmlJson extends AbstractCommand {
 

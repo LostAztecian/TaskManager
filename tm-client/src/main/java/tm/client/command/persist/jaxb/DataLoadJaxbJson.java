@@ -1,19 +1,7 @@
 package tm.client.command.persist.jaxb;
 
-import org.eclipse.persistence.jaxb.JAXBContextProperties;
-import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.dto.UserData;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DataLoadJaxbJson extends AbstractCommand {
 

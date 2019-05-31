@@ -1,13 +1,7 @@
 package tm.client.command.persist.fasterxml;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.client.dto.UserData;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DataLoadFasterXmlXml extends AbstractCommand {
 

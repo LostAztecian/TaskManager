@@ -1,5 +1,8 @@
 package tm.server.service;
 
+import org.eclipse.persistence.jaxb.JAXBContextProperties;
+import org.eclipse.persistence.jaxb.MarshallerProperties;
+import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
@@ -9,7 +12,13 @@ import tm.common.entity.User;
 import tm.server.api.ServiceLocator;
 import tm.server.api.service.ServerService;
 import tm.server.command.general.AboutCommand;
+import tm.server.dto.UserData;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Collection;
-import java.util.Properties;
+import java.util.*;
 
 public class ServerServiceImpl implements ServerService {
 
@@ -140,75 +148,164 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbXml() {
-        System.out.println("dataClearJaxbXml");
-        return false;
+    public Boolean dataClearJaxbXml() throws IOException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + currentUser.getName());
+        Files.deleteIfExists(path);
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbXml() {
-        System.out.println("dataSaveJaxbXml");
-        return false;
+    public Boolean dataSaveJaxbXml() throws IOException, JAXBException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + currentUser.getName());
+        final UserData userData = new UserData();
+        userData.setUser(currentUser);
+        userData.setProjects(new ArrayList<>(serviceLocator.getProjectService().getAll()));
+        userData.setTasks(new ArrayList<>(serviceLocator.getTaskService().getAll()));
+        Files.createDirectories(path.getParent());
+
+        final Marshaller userMarshaller = JAXBContext.newInstance(UserData.class).createMarshaller();
+        userMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        userMarshaller.marshal(userData, path.toFile());
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbXml() {
-        System.out.println("dataLoadJaxbXml");
-        return false;
+    public Boolean dataLoadJaxbXml() throws JAXBException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + currentUser.getName());
+        if (Files.notExists(path)) return false;
+        final Unmarshaller userUnmarshaller = JAXBContext.newInstance(UserData.class).createUnmarshaller();
+        final UserData userData = (UserData) userUnmarshaller.unmarshal(path.toFile());
+        //clear old data
+        serviceLocator.getTaskService().deleteAll();
+        serviceLocator.getProjectService().deleteAll();
+        serviceLocator.getUserService().delete(currentUser);
+        //save new data
+        serviceLocator.getUserService().save(userData.getUser());
+        serviceLocator.setCurrentUser(userData.getUser());
+        if (userData.getProjects() != null) userData.getProjects().forEach(serviceLocator.getProjectService()::save);
+        if (userData.getTasks() != null) userData.getTasks().forEach(serviceLocator.getTaskService()::save);
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbJson() {
-        System.out.println("dataClearJaxbJson");
-        return false;
+    public Boolean dataClearJaxbJson() throws IOException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + currentUser.getName());
+        Files.deleteIfExists(path);
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbJson() {
-        System.out.println("dataSaveJaxbJson");
-        return false;
+    public Boolean dataSaveJaxbJson() throws IOException, JAXBException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + currentUser.getName());
+        final UserData userData = new UserData();
+        userData.setUser(currentUser);
+        userData.setProjects(new ArrayList<>(serviceLocator.getProjectService().getAll()));
+        userData.setTasks(new ArrayList<>(serviceLocator.getTaskService().getAll()));
+        Files.createDirectories(path.getParent());
+
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
+        properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
+        properties.put(JAXBContextProperties.JSON_WRAPPER_AS_ARRAY_NAME, true);
+        final JAXBContext context = org.eclipse.persistence.jaxb.JAXBContextFactory.createContext(new Class[]{UserData.class}, properties);
+
+        final Marshaller userMarshaller = context.createMarshaller();
+        userMarshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");
+        userMarshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
+        userMarshaller.setProperty(MarshallerProperties.JSON_WRAPPER_AS_ARRAY_NAME, true);
+        userMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        userMarshaller.marshal(userData, path.toFile());
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbJson() {
-        System.out.println("dataLoadJaxbJson");
-        return false;
+    public Boolean dataLoadJaxbJson() throws JAXBException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + currentUser.getName());
+        if (Files.notExists(path)) return false;
+
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
+        properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
+        properties.put(JAXBContextProperties.JSON_WRAPPER_AS_ARRAY_NAME, true);
+        final JAXBContext context = org.eclipse.persistence.jaxb.JAXBContextFactory.createContext(new Class[]{UserData.class}, properties);
+
+        final Unmarshaller unmarshaller = context.createUnmarshaller();
+        unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
+        unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, true);
+        unmarshaller.setProperty(MarshallerProperties.JSON_WRAPPER_AS_ARRAY_NAME, true);
+        final StreamSource jsonSource = new StreamSource(path.toFile());
+        final UserData userData = unmarshaller.unmarshal(jsonSource, UserData.class).getValue();
+
+        //remove old data
+        serviceLocator.getTaskService().deleteAll();
+        serviceLocator.getProjectService().deleteAll();
+        serviceLocator.getUserService().delete(serviceLocator.getCurrentUser());
+        //save persisted data
+        serviceLocator.getUserService().save(userData.getUser());
+        serviceLocator.setCurrentUser(userData.getUser());
+        if (userData.getProjects() != null) userData.getProjects().forEach(serviceLocator.getProjectService()::save);
+        if (userData.getTasks() != null) userData.getTasks().forEach(serviceLocator.getTaskService()::save);
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataClearFasterXml() {
-        System.out.println("dataClearFasterXml");
-        return false;
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataSaveFasterXml() {
-        System.out.println("dataSaveFasterXml");
-        return false;
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataLoadFasterXml() {
-        System.out.println("dataLoadFasterXml");
-        return false;
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataClearFasterJson() {
-        System.out.println("dataClearFasterJson");
-        return false;
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataSaveFasterJson() {
-        System.out.println("dataSaveFasterJson");
-        return false;
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataLoadFasterJson() {
-        System.out.println("dataLoadFasterJson");
-        return false;
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+
+        return true;
     }
 
 }

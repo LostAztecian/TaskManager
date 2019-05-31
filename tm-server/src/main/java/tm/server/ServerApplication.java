@@ -10,7 +10,7 @@ import tm.server.command.project.*;
 import tm.server.command.task.*;
 import tm.server.command.user.*;
 
-public class Application {
+public class ServerApplication {
 
     private static final Class[] CLASSES = {
             HelpCommand.class, AboutCommand.class, PublishEndpoints.class,
