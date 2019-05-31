@@ -3,7 +3,7 @@ package tm.client.command.user;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.entity.User;
+import tm.common.entity.Session;
 
 import java.io.IOException;
 
@@ -33,13 +33,13 @@ public class UserLoginCommand extends AbstractCommand {
             printAuthFailed();
             return;
         }
-        final User user = getServiceLocator().getUserService().login(userLogin, userPassword);
-        if (user == null) {
+        final Session session = getServiceLocator().getUserService().login(userLogin, userPassword);
+        if (session == null) {
             printAuthFailed();
             return;
         }
-        getServiceLocator().setCurrentUser(user);
-        System.out.printf("[LOGGED IN AS %s] %n%n", user.getLogin());
+        getServiceLocator().setCurrentSession(session);
+        System.out.printf("[LOGGED IN AS %s] %n%n", session.getUserLogin());
     }
 
     private void printAuthFailed() {

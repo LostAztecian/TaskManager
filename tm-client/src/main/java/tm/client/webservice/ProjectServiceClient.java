@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.api.webservice.ProjectWebService;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.Project;
+import tm.common.entity.Session;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -37,67 +38,67 @@ public class ProjectServiceClient implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Collection<Project> getAllProjects() {
-        return projectService.getAllProjects();
+    public Collection<Project> getAllProjects(@Nullable final Session session) {
+        return projectService.getAllProjects(session);
     }
 
     @Override @NotNull
-    public Collection<Project> getAllProjectsSorted(@Nullable final ComparatorType comparatorType) {
-        return projectService.getAllProjectsSorted(comparatorType);
+    public Collection<Project> getAllProjectsSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
+        return projectService.getAllProjectsSorted(session, comparatorType);
     }
 
     @Override @NotNull
-    public Collection<Project> getProjectsByName(@Nullable final String name) {
-        return projectService.getProjectsByName(name);
+    public Collection<Project> getProjectsByName(@Nullable final Session session, @Nullable final String name) {
+        return projectService.getProjectsByName(session, name);
     }
 
     @Override @NotNull
-    public Collection<Project> getProjectsByNameSorted(@Nullable final String name, @Nullable final ComparatorType comparatorType) {
-        return projectService.getProjectsByNameSorted(name, comparatorType);
+    public Collection<Project> getProjectsByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) {
+        return projectService.getProjectsByNameSorted(session, name, comparatorType);
     }
 
     @Override @Nullable
-    public Project getProject(@Nullable final String id) {
-        return projectService.getProject(id);
+    public Project getProject(@Nullable final Session session, @Nullable final String id) {
+        return projectService.getProject(session, id);
     }
 
     @Override @NotNull
-    public Collection<Project> searchProject(@Nullable final String searchLine) {
-        return projectService.searchProject(searchLine);
+    public Collection<Project> searchProject(@Nullable final Session session, @Nullable final String searchLine) {
+        return projectService.searchProject(session, searchLine);
     }
 
     @Override @NotNull
-    public Boolean saveProject(@Nullable final Project project) {
-        return projectService.saveProject(project);
+    public Boolean saveProject(@Nullable final Session session, @Nullable final Project project) {
+        return projectService.saveProject(session, project);
     }
 
     @Override @NotNull
-    public Boolean deleteProject(@Nullable final Project project) {
-        return projectService.deleteProject(project);
+    public Boolean deleteProject(@Nullable final Session session, @Nullable final Project project) {
+        return projectService.deleteProject(session, project);
     }
 
     @Override @NotNull
-    public Boolean deleteProject(@Nullable final String id) {
-        return projectService.deleteProject(id);
+    public Boolean deleteProject(@Nullable final Session session, @Nullable final String id) {
+        return projectService.deleteProject(session, id);
     }
 
     @Override @NotNull
-    public Boolean deleteProjectsByIds(@Nullable final Collection<String> ids) {
-        return projectService.deleteProjectsByIds(ids);
+    public Boolean deleteProjectsByIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+        return projectService.deleteProjectsByIds(session, ids);
     }
 
     @Override @NotNull
-    public Boolean deleteProjectsByName(@Nullable final String name) {
-        return projectService.deleteProjectsByName(name);
+    public Boolean deleteProjectsByName(@Nullable final Session session, @Nullable final String name) {
+        return projectService.deleteProjectsByName(session, name);
     }
 
     @Override @NotNull
-    public Boolean deleteAllProjects() {
-        return projectService.deleteAllProjects();
+    public Boolean deleteAllProjects(@Nullable final Session session) {
+        return projectService.deleteAllProjects(session);
     }
 
     @Override @NotNull
-    public Boolean deleteProjectTasks(@Nullable final String projectId) {
-        return projectService.deleteProjectTasks(projectId);
+    public Boolean deleteProjectTasks(@Nullable final Session session, @Nullable final String projectId) {
+        return projectService.deleteProjectTasks(session, projectId);
     }
 }

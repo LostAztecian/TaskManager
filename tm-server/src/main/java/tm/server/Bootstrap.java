@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
+import tm.common.entity.Session;
+import tm.common.entity.User;
 import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.ProjectService;
@@ -15,7 +17,6 @@ import tm.server.command.AbstractCommand;
 import tm.server.service.ServerServiceImpl;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
-import tm.common.entity.User;
 import tm.common.comparator.ComparatorType;
 import tm.server.repository.ProjectRepository;
 import tm.server.repository.TaskRepository;
@@ -23,6 +24,7 @@ import tm.server.repository.UserRepository;
 import tm.server.service.ProjectServiceImpl;
 import tm.server.service.TaskServiceImpl;
 import tm.server.service.UserServiceImpl;
+import tm.server.utils.SessionUtil;
 
 import javax.xml.ws.Endpoint;
 import java.util.*;
@@ -37,7 +39,7 @@ public class Bootstrap implements ServiceLocator {
     private final Collection<Endpoint> endpoints = new LinkedHashSet<>();
 
     @Getter @Setter
-    private User currentUser;
+    private Session currentSession;
     @Getter @Setter
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
 
@@ -53,18 +55,23 @@ public class Bootstrap implements ServiceLocator {
     public void terminate() { isTerminated = true; }
 
     public void init(@Nullable final Class[] classes) {
-        initMethods();
+        initServices();
         if (classes != null) initCommands(classes);
         initUsers();
         mainLoop();
     }
 
     private void initUsers() {
-        userService.register("admin", "admin");
+        final User admin = new User();
+        admin.setLogin("admin");
+        admin.setPasswordHash(CypherUtil.getMd5("admin"));
+        admin.setRole(User.Role.ADMIN);
+
+        ((UserServiceImpl)userService).persist(SessionUtil.getSessionForUser(admin), admin);
         userService.register("demo", "demo");
     }
 
-    private void initMethods() {
+    private void initServices() {
         taskService = new TaskServiceImpl(new TaskRepository(), this);
         projectService = new ProjectServiceImpl(new ProjectRepository(), this);
         userService = new UserServiceImpl((new UserRepository()), this);

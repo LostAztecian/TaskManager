@@ -1,6 +1,7 @@
 package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
@@ -24,10 +25,12 @@ public class ProjectRemoveCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[PROJECT DELETE]");
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) return;
-        getServiceLocator().getProjectService().deleteByName(projectName);
+        getServiceLocator().getProjectService().deleteByName(session, projectName);
         System.out.println("[PROJECT(S) DELETED]");
         System.out.println();
     }

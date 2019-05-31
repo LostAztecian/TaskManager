@@ -2,26 +2,21 @@ package tm.server.api.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.entity.Session;
 import tm.common.entity.User;
 
 public interface UserService extends Service<User> {
 
-    @NotNull
-    Boolean persist(@Nullable User user);
-
     @Nullable
-    User login(@Nullable String login, @Nullable String password);
+    Session login(@Nullable String login, @Nullable String password);
 
     @NotNull
     Boolean register(@Nullable String login, @Nullable String password);
 
     @NotNull
-    Boolean logout();
+    String showUserProfile(@Nullable Session session);
 
     @NotNull
-    String showUserProfile();
-
-    @NotNull
-    Boolean changePassword(@Nullable String oldPassword, @Nullable String newPassword);
+    Boolean changePassword(@Nullable Session session, @Nullable String oldPassword, @Nullable String newPassword);
 
 }

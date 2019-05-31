@@ -13,7 +13,7 @@ public abstract class AbstractCommand implements tm.common.api.Command {
 
     @Override
     public final void execute() throws Exception {
-        if (isPrivate() && serviceLocator.getCurrentUser() == null) {
+        if (isPrivate() && serviceLocator.getCurrentSession() == null) {
             System.out.println("[COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION]");
             return;
         }

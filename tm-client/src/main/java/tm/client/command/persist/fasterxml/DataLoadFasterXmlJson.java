@@ -2,6 +2,7 @@ package tm.client.command.persist.fasterxml;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 public class DataLoadFasterXmlJson extends AbstractCommand {
 
@@ -25,7 +26,9 @@ public class DataLoadFasterXmlJson extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Boolean success = getServiceLocator().getServerService().dataLoadFasterJson();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataLoadFasterJson(session);
         System.out.println(success ? "[JSON DATA LOADED]" : "[DATA LOAD FAILURE]");
     }
 }

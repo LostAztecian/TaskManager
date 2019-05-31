@@ -2,6 +2,7 @@ package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import tm.common.entity.Project;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
@@ -27,9 +28,12 @@ public class ProjectSearchCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[PROJECT SEARCH]");
         final String searchRequest = InputHelper.requestLine("ENTER TEXT TO SEARCH:", true);
-        final Collection<Project> searchResult = getServiceLocator().getProjectService().search(searchRequest);
+        final Collection<Project> searchResult = getServiceLocator().getProjectService()
+                .search(session, searchRequest);
         if (searchRequest == null || searchRequest.isEmpty()) {
             System.out.println("[FOUND NOTHING]");
             System.out.println();

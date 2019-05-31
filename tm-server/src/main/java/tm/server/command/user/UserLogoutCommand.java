@@ -23,8 +23,8 @@ public class UserLogoutCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Boolean success = getServiceLocator().getUserService().logout();
-        System.out.println(success ? "LOGGED OUT" : "FAILED TO LOG OUT");
+        getServiceLocator().setCurrentSession(null);
+        System.out.println("LOGGED OUT");
     }
 
 }

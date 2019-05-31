@@ -21,7 +21,7 @@ public class ExitCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        getServiceLocator().getServerService().shutdown();
+        getServiceLocator().getServerService().shutdown(getServiceLocator().getCurrentSession());
     }
 
 }

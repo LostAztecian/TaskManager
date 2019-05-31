@@ -2,12 +2,13 @@ package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.comparator.ComparatorType;
+import tm.common.entity.Session;
+import tm.common.entity.Task;
 import tm.server.api.ServiceLocator;
 import tm.server.api.repository.PlannedEntityRepository;
 import tm.server.api.repository.TaskRepository;
 import tm.server.api.service.TaskService;
-import tm.common.entity.Task;
-import tm.common.comparator.ComparatorType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,42 +20,42 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
     }
 
     @Override
-    public Boolean deleteChildrenByParentId(@Nullable final String id) { //no children = no problem
+    public Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) { //no children = no problem
         return true;
     }
 
     @Override
-    public Boolean deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
+    public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
         return true;
     }
 
    @Override @NotNull
-   public Collection<Task> getTasksByProjectId(@Nullable final String projectId) {
-        final String userId = getCurrentUserId();
+   public Collection<Task> getTasksByProjectId(@Nullable final Session session, @Nullable final String projectId) {
+        final String userId = getCurrentUserId(session);
         if (userId == null || projectId == null) return Collections.emptySet();
         return ((TaskRepository)repository).findByProjectId(userId, projectId);
     }
 
     @Override @NotNull
-    public Collection<Task> search(@Nullable final String searchLine) {
-        final String userId = getCurrentUserId();
+    public Collection<Task> search(@Nullable final Session session, @Nullable final String searchLine) {
+        final String userId = getCurrentUserId(session);
         if (userId == null || searchLine == null || searchLine.isEmpty()) return Collections.emptySet();
         return ((PlannedEntityRepository<Task>)repository).search(userId, searchLine);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllSorted(@Nullable final ComparatorType comparatorType) {
-        final String userId = getCurrentUserId();
+    public Collection<Task> getAllSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
+        final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptySet();
-        if (comparatorType == null) return getAll();
+        if (comparatorType == null) return getAll(session);
         return ((PlannedEntityRepository<Task>)repository).findAllAndSort(userId, comparatorType);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllByNameSorted(@Nullable final String name, @Nullable final ComparatorType comparatorType) {
-        final String userId = getCurrentUserId();
+    public Collection<Task> getAllByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) {
+        final String userId = getCurrentUserId(session);
         if (userId == null || name == null) return Collections.emptySet();
-        if (comparatorType == null) return getAllByName(name);
+        if (comparatorType == null) return getAllByName(session, name);
         return ((PlannedEntityRepository<Task>)repository).findByNameAndSort(userId, comparatorType, name);
     }
 

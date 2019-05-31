@@ -1,6 +1,7 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.common.entity.Task;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
@@ -27,15 +28,18 @@ public class TaskSearchCommand extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[TASK SEARCH]");
         final String searchRequest = InputHelper.requestLine("ENTER TEXT TO SEARCH:", true);
-        final Collection<Task> searchResult = getServiceLocator().getTaskService().search(searchRequest);
+        final Collection<Task> searchResult = getServiceLocator().getTaskService()
+                .search(getServiceLocator().getCurrentSession(), searchRequest);
         if (searchRequest == null || searchRequest.isEmpty()) {
             System.out.println("[FOUND NOTHING]");
             System.out.println();
             return;
         }
-        final Collection<Task> sortedTasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
+        final Collection<Task> sortedTasks = new TreeSet<>(session.getSortMethod().comparator);
         sortedTasks.addAll(searchResult);
         System.out.println("TASKS MATCHING CRITERIA:");
         int index = 1;

@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
 import tm.common.entity.Project;
+import tm.common.entity.Session;
 
 import java.io.IOException;
 import java.util.Date;
@@ -26,10 +27,12 @@ public class ProjectCreateCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
         if (input == null) return;
-        final Project project = new Project(getServiceLocator().getCurrentUser().getId()); //method can be invoked only when user != null
+        final Project project = new Project(session.getUserId());
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
 
@@ -47,7 +50,7 @@ public class ProjectCreateCommand extends AbstractCommand {
         }
         project.setEndDate(projectEndDate);
 
-        getServiceLocator().getProjectService().saveProject(project);
+        getServiceLocator().getProjectService().saveProject(session, project);
         System.out.printf("[PROJECT \'%s\' CREATED] %n%n", project.getName());
     }
 

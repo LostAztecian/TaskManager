@@ -1,6 +1,7 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 
 import java.io.IOException;
@@ -23,8 +24,10 @@ public class TaskClearCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        getServiceLocator().getTaskService().deleteAll();
-        System.out.printf("[ALL TASKS FOR USER \'%s\' REMOVED] %n%n", getServiceLocator().getCurrentUser().getLogin());
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        getServiceLocator().getTaskService().deleteAll(session);
+        System.out.printf("[ALL TASKS FOR USER \'%s\' REMOVED] %n%n", session.getUserId());
     }
 
 }

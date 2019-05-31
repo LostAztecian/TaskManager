@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
 import tm.common.entity.Project;
+import tm.common.entity.Session;
 import tm.common.entity.Task;
 
 import java.io.IOException;
@@ -29,10 +30,12 @@ public class TaskCreateCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[TASK CREATE]");
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) return;
-        final Collection<Project> projects = getServiceLocator().getProjectService().getProjectsByName(projectName);
+        final Collection<Project> projects = getServiceLocator().getProjectService().getProjectsByName(session, projectName);
         if (projects.isEmpty()) {
             System.out.println("[NO SUCH PROJECT]");
             System.out.println("[END]");
@@ -57,12 +60,12 @@ public class TaskCreateCommand extends AbstractCommand {
             taskEndDate = new Date();
         }
 
-        final Task task = new Task(getServiceLocator().getCurrentUser().getId(), taskName);
+        final Task task = new Task(session.getUserId(), taskName);
         task.setProjectId(project.get().getId());
         task.setDescription(taskDescription);
         task.setStartDate(taskStartDate);
         task.setEndDate(taskEndDate);
-        getServiceLocator().getTaskService().saveTask(task);
+        getServiceLocator().getTaskService().saveTask(session, task);
         System.out.printf("[TASK \'%s\' CREATED] %n%n", task.getName());
     }
 

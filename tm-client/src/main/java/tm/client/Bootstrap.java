@@ -18,7 +18,7 @@ import tm.common.api.webservice.ServerWebService;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.api.webservice.UserWebService;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.User;
+import tm.common.entity.Session;
 
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class Bootstrap implements ServiceLocator {
 
     @Getter @Setter
-    private User currentUser = null;
+    private Session currentSession = null;
 
     @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();

@@ -2,6 +2,7 @@ package tm.client.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 import java.io.IOException;
 
@@ -29,7 +30,9 @@ public class DataClearBinary extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Boolean success = getServiceLocator().getServerService().dataClearBinary();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataClearBinary(session);
         System.out.println(success ? "[BINARY DATA CLEARED]" : "[DATA CLEAR FAILURE]");
         System.out.println();
     }

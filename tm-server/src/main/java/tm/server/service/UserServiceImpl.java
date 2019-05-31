@@ -2,6 +2,7 @@ package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.entity.Session;
 import tm.server.api.*;
 import tm.server.api.repository.Repository;
 import tm.server.api.service.Service;
@@ -11,6 +12,7 @@ import tm.common.entity.User;
 import tm.server.command.user.UserChangePasswordCommand;
 import tm.server.repository.UserRepository;
 import tm.server.utils.CypherUtil;
+import tm.server.utils.SessionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,38 +24,39 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         super(repository, serviceLocator);
     }
 
+    @NotNull
+    private Boolean isValid(@Nullable final Session session, @Nullable final User user) {
+        if (session == null || user == null) return false;
+        if (user.getLogin() == null || user.getLogin().isEmpty()) return false;
+        if (!session.getUserId().equals(user.getId())) return false;
+        return user.getPasswordHash() != null && !user.getPasswordHash().isEmpty();
+    }
+
     @Override @NotNull
-    public Boolean save(@Nullable final User user) {
-        if (!isValid(user)) return false;
-        user.setPasswordHash(CypherUtil.getMd5(user.getPasswordHash()));
+    public Boolean save(@Nullable final Session session, @Nullable final User user) {
+        if (!isValid(session, user)) return false;
+        user.setPasswordHash(CypherUtil.getMd5(user.getPasswordHash())); //checked in validation method
         repository.merge(user.getId(), user);
         return true;
     }
 
-    @Override @NotNull
-    public Boolean persist(@Nullable final User user) {
-        if (!isValid(user)) return false;
-        repository.persist(user);
+    @NotNull
+    public Boolean persist(@Nullable final Session session, @Nullable final User user) {
+        if (!isValid(session, user)) return false;
+        repository.persist(user); //checked in validation method
         return true;
     }
 
     @Override @NotNull
-    public Boolean deleteChildrenByParentId(@Nullable final String id) {
+    public Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) {
         final Service<Project> childService = serviceLocator.getProjectService();
-        return childService.deleteByIds(Collections.singleton(id));
+        return childService.deleteByIds(session, Collections.singleton(id));
     }
 
     @Override @NotNull
-    public Boolean deleteChildrenByParentIds(@Nullable final Collection<String> ids) {
+    public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
         final Service<Project> childService = serviceLocator.getProjectService();
-        return childService.deleteByIds(ids);
-    }
-
-    @NotNull
-    private Boolean isValid(@Nullable final User user) {
-        if (user == null) return false;
-        if (user.getLogin() == null || user.getLogin().isEmpty()) return false;
-        return user.getPasswordHash() != null && !user.getPasswordHash().isEmpty();
+        return childService.deleteByIds(session, ids);
     }
 
     @Override @NotNull
@@ -62,42 +65,35 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         final User user = new User();
         user.setLogin(login);
         user.setPasswordHash(CypherUtil.getMd5(password));
-        return persist(user);
+        final Session session = SessionUtil.getSessionForUser(user);
+        return persist(session, user);
     }
 
     @Override @Nullable
-    public User login(@Nullable final String login, @Nullable final String password) {
+    public Session login(@Nullable final String login, @Nullable final String password) {
         System.out.printf("[AUTH] Login: %s, Password: %s %n", login, password);
         if (login == null || login.isEmpty()) return null;
         if (password == null || password.isEmpty()) return null;
         final String passwordHash = CypherUtil.getMd5(password);
         final User user = ((UserRepository)repository).validate(login, passwordHash).orElse(null);
-        if (user != null) serviceLocator.setCurrentUser(user);
-        return user;
+        if (user == null) return null;
+        return SessionUtil.getSessionForUser(user);
     }
 
     @Override @NotNull
-    public Boolean logout() {
-        serviceLocator.setCurrentUser(null);
-        return true;
-    }
-
-    @Override @NotNull
-    public String showUserProfile() {
-        final User currentUser = serviceLocator.getCurrentUser();
+    public String showUserProfile(@Nullable final Session session) {
+        final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return "[YOU ARE NOT LOGGED IN]";
-        final StringBuilder sb = new StringBuilder();
-        sb.append("USER PROFILE:").append("\n");
-        sb.append("User: ").append(currentUser.getLogin()).append("\n");
-        sb.append("User status: ").append(currentUser.getRole().getDisplayName()).append("\n");
-        sb.append("[TO CHANGE PASSWORD TYPE")
-                .append("\'").append(UserChangePasswordCommand.NAME).append("\']").append("\n");
-        return sb.toString();
+        return "USER PROFILE:" + "\n" +
+                "User: " + currentUser.getLogin() + "\n" +
+                "User status: " + currentUser.getRole().getDisplayName() + "\n" +
+                "[TO CHANGE PASSWORD TYPE" +
+                "\'" + UserChangePasswordCommand.NAME + "\']" + "\n";
     }
 
     @Override @NotNull
-    public Boolean changePassword(@Nullable final String oldPassword, @Nullable final String newPassword) {
-        final User currentUser = serviceLocator.getCurrentUser();
+    public Boolean changePassword(@Nullable final Session session, @Nullable final String oldPassword, @Nullable final String newPassword) {
+        final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (oldPassword == null || newPassword == null || newPassword.isEmpty()) return false;
         if (currentUser == null || CypherUtil.getMd5(oldPassword).equals(currentUser.getPasswordHash())) return false;
         currentUser.setPasswordHash(CypherUtil.getMd5(newPassword));

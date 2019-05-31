@@ -1,6 +1,7 @@
 package tm.server.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 
 import java.io.IOException;
@@ -27,7 +28,9 @@ public class DataClearJaxbJson extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Boolean success = getServiceLocator().getServerService().dataClearJaxbJson();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataClearJaxbJson(session);
         System.out.println(success ? "[JSON DATA CLEARED]" : "[DATA CLEAR FAILURE]");
     }
 }

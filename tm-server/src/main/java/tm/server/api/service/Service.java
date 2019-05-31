@@ -3,34 +3,31 @@ package tm.server.api.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.entity.Entity;
+import tm.common.entity.Session;
 
 import java.util.Collection;
 
 public interface Service<T extends Entity> {
 
     @NotNull
-    Collection<T> getAll();
+    Collection<T> getAll(@Nullable Session session);
 
     @NotNull
-    Collection<T> getAllByName(@Nullable String name);
+    Collection<T> getAllByName(@Nullable Session session, @Nullable String name);
 
     @Nullable
-    T get(@Nullable String id);
+    T get(@Nullable Session session, @Nullable String id);
 
-    Boolean save(@Nullable T object);
+    Boolean save(@Nullable Session session, @Nullable T object);
 
-    Boolean delete(@Nullable String id);
+    Boolean delete(@Nullable Session session, @Nullable String id);
 
-    Boolean delete(@Nullable T object);
+    Boolean delete(@Nullable Session session, @Nullable T object);
 
-    Boolean deleteByIds(@Nullable Collection<String> ids);
+    Boolean deleteByIds(@Nullable Session session, @Nullable Collection<String> ids);
 
-    Boolean deleteByName(@Nullable String name);
+    Boolean deleteByName(@Nullable Session session, @Nullable String name);
 
-    Boolean deleteChildrenByParentId(@Nullable String id);
-
-    Boolean deleteChildrenByParentIds(@Nullable Collection<String> ids);
-
-    Boolean deleteAll();
+    Boolean deleteAll(@Nullable Session session);
 
 }

@@ -2,6 +2,7 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.entity.Session;
 import tm.server.api.service.UserService;
 import tm.common.api.webservice.UserWebService;
 import tm.common.entity.User;
@@ -40,73 +41,63 @@ public class UserWebServiceBean implements UserWebService {
     }
 
     @Override @NotNull
-    public Collection<User> getAllUsers() {
-        return userService.getAll();
+    public Collection<User> getAllUsers(@Nullable final Session session) {
+        return userService.getAll(session);
     }
 
     @Override @NotNull
-    public Collection<User> getUsersByName(@Nullable final String name) {
-        return userService.getAllByName(name);
+    public Collection<User> getUsersByName(@Nullable final Session session, @Nullable final String name) {
+        return userService.getAllByName(session, name);
     }
 
     @Override @Nullable
-    public User getUser(@Nullable final String id) {
-        return userService.get(id);
+    public User getUser(@Nullable final Session session, @Nullable final String id) {
+        return userService.get(session, id);
     }
 
     @Override @NotNull
-    public Boolean saveUser(@Nullable final User user) {
-        return userService.save(user);
+    public Boolean saveUser(@Nullable final Session session, @Nullable final User user) {
+        return userService.save(session, user);
     }
 
     @Override @NotNull
-    public Boolean persistUser(@Nullable final User user) {
-        return userService.persist(user);
+    public Boolean deleteUser(@Nullable final Session session, @Nullable final User user) {
+        return userService.delete(session, user);
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable final User user) {
-        return userService.delete(user);
+    public Boolean deleteUser(@Nullable final Session session, @Nullable final String id) {
+        return userService.delete(session, id);
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable final String id) {
-        return userService.delete(id);
+    public Boolean deleteUsersByIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+        return userService.deleteByIds(session, ids);
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByIds(@Nullable final Collection<String> ids) {
-        return userService.deleteByIds(ids);
+    public Boolean deleteUsersByName(@Nullable final Session session, @Nullable final String name) {
+        return userService.deleteByName(session, name);
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByName(@Nullable final String name) {
-        return userService.deleteByName(name);
-    }
-
-    @Override @NotNull
-    public Boolean deleteAllUsers() {
-        return userService.deleteAll();
+    public Boolean deleteAllUsers(@Nullable final Session session) {
+        return userService.deleteAll(session);
     }
 
     @Override @Nullable
-    public User login(@Nullable final String login, @Nullable final String password) {
+    public Session login(@Nullable final String login, @Nullable final String password) {
         return userService.login(login, password);
     }
 
     @Override @NotNull
-    public Boolean changePassword(@Nullable final String oldPassword, @Nullable final String newPassword) {
-        return userService.changePassword(oldPassword, newPassword);
+    public Boolean changePassword(@Nullable final Session session, @Nullable final String oldPassword, @Nullable final String newPassword) {
+        return userService.changePassword(session, oldPassword, newPassword);
     }
 
     @Override @NotNull
-    public Boolean logout() {
-        return userService.logout();
-    }
-
-    @Override @NotNull
-    public String showProfile() {
-        return userService.showUserProfile();
+    public String showProfile(@Nullable final Session session) {
+        return userService.showUserProfile(session);
     }
 
     @Override @NotNull

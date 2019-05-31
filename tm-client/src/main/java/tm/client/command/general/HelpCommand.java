@@ -2,6 +2,7 @@ package tm.client.command.general;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 public final class HelpCommand extends AbstractCommand {
 
@@ -21,7 +22,9 @@ public final class HelpCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        final String help = getServiceLocator().getServerService().showHelp();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final String help = getServiceLocator().getServerService().showHelp(session);
         System.out.println(help);
     }
 

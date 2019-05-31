@@ -2,6 +2,7 @@ package tm.client.command.persist.fasterxml;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 import java.io.IOException;
 
@@ -27,7 +28,9 @@ public class DataClearFasterXmlXml extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Boolean success = getServiceLocator().getServerService().dataClearFasterXml();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataClearFasterXml(session);
         System.out.println(success ? "[XML DATA CLEARED]" : "[DATA CLEAR FAILURE]");
     }
 }

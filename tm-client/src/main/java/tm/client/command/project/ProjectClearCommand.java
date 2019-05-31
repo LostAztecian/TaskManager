@@ -2,6 +2,7 @@ package tm.client.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 public class ProjectClearCommand extends AbstractCommand {
 
@@ -21,8 +22,9 @@ public class ProjectClearCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        getServiceLocator().getTaskService().deleteAllTasks();
-        getServiceLocator().getProjectService().deleteAllProjects();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        getServiceLocator().getProjectService().deleteAllProjects(session);
         System.out.println("[ALL PROJECTS REMOVED]");
         System.out.println();
     }

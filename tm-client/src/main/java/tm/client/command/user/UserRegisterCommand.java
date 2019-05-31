@@ -3,7 +3,6 @@ package tm.client.command.user;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.entity.User;
 
 import java.io.IOException;
 
@@ -30,7 +29,6 @@ public class UserRegisterCommand extends AbstractCommand {
         if (userLogin == null) return;
         final String userPassword = InputHelper.requestNewPassword();
         if (userPassword == null) return;
-        final User user = new User();
         final Boolean success = getServiceLocator().getUserService().register(userLogin, userPassword);
         System.out.println(success ? "[USER CREATED]" : "[FAILED TO CREATE NEW USER]");
         System.out.println();

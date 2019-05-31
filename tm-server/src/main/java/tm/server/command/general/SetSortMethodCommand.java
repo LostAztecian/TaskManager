@@ -46,7 +46,7 @@ public class SetSortMethodCommand extends AbstractCommand {
             return;
         }
 
-        getServiceLocator().getServerService().setSortMethod(comparatorType);
+        getServiceLocator().getServerService().setSortMethod(getServiceLocator().getCurrentSession(), comparatorType);
         System.out.println("[SORT METHOD UPDATED]");
     }
 }

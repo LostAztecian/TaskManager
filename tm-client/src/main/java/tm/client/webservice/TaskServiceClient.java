@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.comparator.ComparatorType;
+import tm.common.entity.Session;
 import tm.common.entity.Task;
 
 import javax.xml.namespace.QName;
@@ -37,67 +38,67 @@ public class TaskServiceClient implements TaskWebService {
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    public Collection<Task> getAllTasks(@Nullable final Session session) {
+        return taskService.getAllTasks(session);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasksSorted(@Nullable final ComparatorType comparatorType) {
-        return taskService.getAllTasksSorted(comparatorType);
+    public Collection<Task> getAllTasksSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
+        return taskService.getAllTasksSorted(session, comparatorType);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasksByName(@Nullable final String name) {
-        return taskService.getAllTasksByName(name);
+    public Collection<Task> getAllTasksByName(@Nullable final Session session, @Nullable final String name) {
+        return taskService.getAllTasksByName(session, name);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllTasksByNameSorted(@Nullable final String name, @Nullable final ComparatorType comparatorType) {
-        return taskService.getAllTasksByNameSorted(name, comparatorType);
+    public Collection<Task> getAllTasksByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) {
+        return taskService.getAllTasksByNameSorted(session, name, comparatorType);
     }
 
     @Override @Nullable
-    public Task getTask(@Nullable final String id) {
-        return taskService.getTask(id);
+    public Task getTask(@Nullable final Session session, @Nullable final String id) {
+        return taskService.getTask(session, id);
     }
 
     @Override @NotNull
-    public Collection<Task> searchTask(@Nullable final String searchLine) {
-        return taskService.searchTask(searchLine);
+    public Collection<Task> searchTask(@Nullable final Session session, @Nullable final String searchLine) {
+        return taskService.searchTask(session, searchLine);
     }
 
     @Override @NotNull
-    public Boolean saveTask(@Nullable final Task task) {
-        return taskService.saveTask(task);
+    public Boolean saveTask(@Nullable final Session session, @Nullable final Task task) {
+        return taskService.saveTask(session, task);
     }
 
     @Override @NotNull
-    public Boolean deleteTask(@Nullable final Task task) {
-        return taskService.deleteTask(task);
+    public Boolean deleteTask(@Nullable final Session session, @Nullable final Task task) {
+        return taskService.deleteTask(session, task);
     }
 
     @Override @NotNull
-    public Boolean deleteTask(@Nullable final String id) {
-        return taskService.deleteTask(id);
+    public Boolean deleteTask(@Nullable final Session session, @Nullable final String id) {
+        return taskService.deleteTask(session, id);
     }
 
     @Override @NotNull
-    public Boolean deleteTasksByIds(@Nullable final Collection<String> ids) {
-        return taskService.deleteTasksByIds(ids);
+    public Boolean deleteTasksByIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+        return taskService.deleteTasksByIds(session, ids);
     }
 
     @Override @NotNull
-    public Boolean deleteTasksByName(@Nullable final String name) {
-        return taskService.deleteTasksByName(name);
+    public Boolean deleteTasksByName(@Nullable final Session session, @Nullable final String name) {
+        return taskService.deleteTasksByName(session, name);
     }
 
     @Override @NotNull
-    public Boolean deleteAllTasks() {
-        return taskService.deleteAllTasks();
+    public Boolean deleteAllTasks(@Nullable final Session session) {
+        return taskService.deleteAllTasks(session);
     }
 
     @Override @NotNull
-    public Collection<Task> getTasksByProjectId(@Nullable final String projectId) {
-        return taskService.getTasksByProjectId(projectId);
+    public Collection<Task> getTasksByProjectId(@Nullable final Session session, @Nullable final String projectId) {
+        return taskService.getTasksByProjectId(session, projectId);
     }
 }

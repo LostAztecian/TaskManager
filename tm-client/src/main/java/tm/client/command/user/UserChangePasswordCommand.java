@@ -3,7 +3,7 @@ package tm.client.command.user;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.entity.User;
+import tm.common.entity.Session;
 
 import java.io.IOException;
 
@@ -25,7 +25,8 @@ public class UserChangePasswordCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final User user = getServiceLocator().getCurrentUser();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
 
         final String oldPassword = InputHelper.requestLine("ENTER OLD PASSWORD:", false);
         if (oldPassword == null) return;
@@ -34,7 +35,7 @@ public class UserChangePasswordCommand extends AbstractCommand {
         final String newPassword = InputHelper.requestNewPassword();
         if (newPassword == null) return;
 
-        final Boolean success = getServiceLocator().getUserService().changePassword(oldPassword, newPassword);
+        final Boolean success = getServiceLocator().getUserService().changePassword(session, oldPassword, newPassword);
         System.out.println(success ? "[PASSWORD UPDATED]" : "[PASSWORD UPDATE FAILURE]");
         System.out.println();
     }

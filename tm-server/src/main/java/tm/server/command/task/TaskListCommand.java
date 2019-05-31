@@ -1,6 +1,7 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.common.entity.Task;
 import tm.server.command.AbstractCommand;
 
@@ -25,7 +26,9 @@ public class TaskListCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Collection<Task> allTasks = getServiceLocator().getTaskService().getAll();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Collection<Task> allTasks = getServiceLocator().getTaskService().getAll(session);
         if (allTasks.isEmpty()) {
             System.out.println("[TASK LIST IS EMPTY]");
             System.out.println();

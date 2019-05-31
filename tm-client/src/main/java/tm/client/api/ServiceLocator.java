@@ -8,6 +8,7 @@ import tm.common.api.webservice.ProjectWebService;
 import tm.common.api.webservice.ServerWebService;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.api.webservice.UserWebService;
+import tm.common.entity.Session;
 import tm.common.entity.User;
 
 import java.util.Comparator;
@@ -16,9 +17,9 @@ import java.util.Map;
 public interface ServiceLocator {
 
     @Nullable
-    User getCurrentUser();
+    Session getCurrentSession();
 
-    void setCurrentUser(@Nullable User user);
+    void setCurrentSession(@Nullable Session user);
 
     @NotNull
     UserWebService getUserService();

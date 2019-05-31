@@ -1,6 +1,7 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
@@ -24,6 +25,8 @@ public class TaskRemoveCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[TASK DELETE]");
 
         final String taskName = InputHelper.requestLine("ENTER TASK NAME:", true);
@@ -31,7 +34,7 @@ public class TaskRemoveCommand extends AbstractCommand {
             printNoSuchTask();
             return;
         }
-        getServiceLocator().getTaskService().deleteByName(taskName);
+        getServiceLocator().getTaskService().deleteByName(session, taskName);
         System.out.println("[TASKS REMOVED]");
         System.out.println();
     }

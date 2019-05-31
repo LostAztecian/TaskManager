@@ -21,7 +21,7 @@ public final class HelpCommand extends AbstractCommand {
 
     @Override
     public void run() {
-        final String help = getServiceLocator().getServerService().showHelp();
+        final String help = getServiceLocator().getServerService().showHelp(getServiceLocator().getCurrentSession());
         System.out.println(help);
     }
 

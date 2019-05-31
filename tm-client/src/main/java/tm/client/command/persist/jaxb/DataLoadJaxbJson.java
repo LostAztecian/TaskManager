@@ -2,6 +2,7 @@ package tm.client.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 public class DataLoadJaxbJson extends AbstractCommand {
 
@@ -25,7 +26,9 @@ public class DataLoadJaxbJson extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Boolean success = getServiceLocator().getServerService().dataLoadJaxbJson();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataLoadJaxbJson(session);
         System.out.println(success ? "[JSON DATA LOADED]" : "[DATA LOAD FAILURE]");
     }
 }

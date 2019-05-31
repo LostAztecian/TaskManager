@@ -29,7 +29,8 @@ public class UserChangePasswordCommand extends AbstractCommand {
         System.out.println("[SET UP NEW PASSWORD]");
         final String newPassword = InputHelper.requestNewPassword();
         if (newPassword == null) return;
-        final Boolean success = getServiceLocator().getUserService().changePassword(oldPassword, newPassword);
+        final Boolean success = getServiceLocator().getUserService()
+                .changePassword(getServiceLocator().getCurrentSession(), oldPassword, newPassword);
         System.out.println(success ? "[PASSWORD UPDATED]" : "[PASSWORD UPDATE FAILED]");
     }
 

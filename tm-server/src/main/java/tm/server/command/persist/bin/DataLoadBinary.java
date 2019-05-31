@@ -1,6 +1,7 @@
 package tm.server.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 
 public class DataLoadBinary extends AbstractCommand {
@@ -25,7 +26,9 @@ public class DataLoadBinary extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Boolean success = getServiceLocator().getServerService().dataLoadBinary();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataLoadBinary(session);
         System.out.println(success ? "[BINARY DATA LOADED]" : "[DATA LOAD FAILURE]");
     }
 }

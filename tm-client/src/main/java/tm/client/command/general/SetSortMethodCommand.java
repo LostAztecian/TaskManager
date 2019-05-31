@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
 import tm.common.comparator.ComparatorType;
+import tm.common.entity.Session;
 
 import java.io.IOException;
 
@@ -25,6 +26,8 @@ public class SetSortMethodCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
         System.out.println("[SELECT SORT METHOD]");
         System.out.println("OPTIONS:");
         for (ComparatorType comparatorType : ComparatorType.values()) {
@@ -46,7 +49,7 @@ public class SetSortMethodCommand extends AbstractCommand {
             return;
         }
 
-        final Boolean success = getServiceLocator().getServerService().setSortMethod(comparatorType);
+        final Boolean success = getServiceLocator().getServerService().setSortMethod(session, comparatorType);
         System.out.println(success ? "[SORT METHOD UPDATED]" : "[SORT METHOD UPDATE FAILURE]");
         System.out.println();
     }

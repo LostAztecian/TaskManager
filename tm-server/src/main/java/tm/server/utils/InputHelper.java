@@ -2,8 +2,9 @@ package tm.server.utils;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.api.ServiceLocator;
 import tm.common.entity.Project;
+import tm.common.entity.Session;
+import tm.server.api.ServiceLocator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,10 +65,10 @@ public class InputHelper {
     }
 
     @Nullable
-    public static Collection<Project> requestProjectsByName(@NotNull final ServiceLocator serviceLocator) throws IOException {
+    public static Collection<Project> requestProjectsByName(@NotNull final Session session, @NotNull final ServiceLocator serviceLocator) throws IOException {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) throw new IllegalArgumentException("null request name");
-        final Collection<Project> projectsWithName = serviceLocator.getProjectService().getAllByName(projectName);
+        final Collection<Project> projectsWithName = serviceLocator.getProjectService().getAllByName(session, projectName);
         if (projectsWithName.isEmpty()) {
             System.out.println("[NO PROJECTS MATCH GIVEN NAME]");
             System.out.println("[END]");

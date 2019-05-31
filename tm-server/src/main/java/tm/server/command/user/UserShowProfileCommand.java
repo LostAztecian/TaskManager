@@ -28,7 +28,8 @@ public class UserShowProfileCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final String userProfile = getServiceLocator().getUserService().showUserProfile();
+        final String userProfile = getServiceLocator().getUserService()
+                .showUserProfile(getServiceLocator().getCurrentSession());
         System.out.println(userProfile);
     }
 

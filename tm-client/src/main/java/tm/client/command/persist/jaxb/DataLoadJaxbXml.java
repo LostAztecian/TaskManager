@@ -2,6 +2,7 @@ package tm.client.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.common.entity.Session;
 
 public class DataLoadJaxbXml extends AbstractCommand {
 
@@ -25,7 +26,9 @@ public class DataLoadJaxbXml extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Boolean success = getServiceLocator().getServerService().dataLoadJaxbXml();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataLoadJaxbXml(session);
         System.out.println(success ? "[XML DATA LOADED]" : "[DATA LOAD FAILURE]");
     }
 }

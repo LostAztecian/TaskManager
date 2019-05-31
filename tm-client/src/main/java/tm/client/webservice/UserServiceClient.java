@@ -3,6 +3,7 @@ package tm.client.webservice;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.webservice.UserWebService;
+import tm.common.entity.Session;
 import tm.common.entity.User;
 
 import javax.xml.namespace.QName;
@@ -36,73 +37,63 @@ public class UserServiceClient implements UserWebService {
     }
 
     @Override @NotNull
-    public Collection<User> getAllUsers() {
-        return userService.getAllUsers();
+    public Collection<User> getAllUsers(@Nullable final Session session) {
+        return userService.getAllUsers(session);
     }
 
     @Override @NotNull
-    public Collection<User> getUsersByName(@Nullable final String name) {
-        return userService.getUsersByName(name);
+    public Collection<User> getUsersByName(@Nullable final Session session,  @Nullable final String name) {
+        return userService.getUsersByName(session, name);
     }
 
     @Override @Nullable
-    public User getUser(@Nullable final String id) {
-        return userService.getUser(id);
+    public User getUser(@Nullable final Session session,  @Nullable final String id) {
+        return userService.getUser(session, id);
     }
 
     @Override @NotNull
-    public Boolean saveUser(@Nullable final User user) {
-        return userService.saveUser(user);
+    public Boolean saveUser(@Nullable final Session session,  @Nullable final User user) {
+        return userService.saveUser(session, user);
     }
 
     @Override @NotNull
-    public Boolean persistUser(@Nullable final User user) {
-        return userService.persistUser(user);
+    public Boolean deleteUser(@Nullable final Session session,  @Nullable final User user) {
+        return userService.deleteUser(session, user);
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable final User user) {
-        return userService.deleteUser(user);
+    public Boolean deleteUser(@Nullable final Session session,  @Nullable final String id) {
+        return userService.deleteUser(session, id);
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable final String id) {
-        return userService.deleteUser(id);
+    public Boolean deleteUsersByIds(@Nullable final Session session,  @Nullable final Collection<String> ids) {
+        return userService.deleteUsersByIds(session, ids);
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByIds(@Nullable final Collection<String> ids) {
-        return userService.deleteUsersByIds(ids);
+    public Boolean deleteUsersByName(@Nullable final Session session,  @Nullable final String name) {
+        return userService.deleteUsersByName(session, name);
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByName(@Nullable final String name) {
-        return userService.deleteUsersByName(name);
-    }
-
-    @Override @NotNull
-    public Boolean deleteAllUsers() {
-        return userService.deleteAllUsers();
+    public Boolean deleteAllUsers(@Nullable final Session session) {
+        return userService.deleteAllUsers(session);
     }
 
     @Override @Nullable
-    public User login(@Nullable String login, @Nullable final String password) {
+    public Session login(@Nullable final String login, @Nullable final String password) {
         return userService.login(login, password);
     }
 
     @Override @NotNull
-    public Boolean changePassword(@Nullable final String oldPassword, @Nullable final String newPassword) {
-        return userService.changePassword(oldPassword, newPassword);
+    public Boolean changePassword(@Nullable final Session session,  @Nullable final String oldPassword, @Nullable final String newPassword) {
+        return userService.changePassword(session, oldPassword, newPassword);
     }
 
     @Override @NotNull
-    public Boolean logout() {
-        return userService.logout();
-    }
-
-    @Override @NotNull
-    public String showProfile() {
-        return userService.showProfile();
+    public String showProfile(@Nullable final Session session) {
+        return userService.showProfile(session);
     }
 
     @Override @NotNull

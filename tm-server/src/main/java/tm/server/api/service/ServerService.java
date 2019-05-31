@@ -3,6 +3,7 @@ package tm.server.api.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
+import tm.common.entity.Session;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -13,57 +14,57 @@ public interface ServerService {
     String showAbout();
 
     @NotNull
-    Boolean shutdown();
+    Boolean shutdown(@Nullable Session session);
 
     @NotNull
-    String showHelp();
+    String showHelp(@Nullable Session session);
 
     @NotNull
-    Boolean setSortMethod(@Nullable ComparatorType comparatorType);
+    Boolean setSortMethod(@Nullable Session session, @Nullable ComparatorType comparatorType);
 
     @NotNull
-    Boolean dataClearBinary() throws IOException;
+    Boolean dataClearBinary(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataSaveBinary() throws IOException;
+    Boolean dataSaveBinary(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataLoadBinary() throws IOException, ClassNotFoundException;
+    Boolean dataLoadBinary(@Nullable Session session) throws IOException, ClassNotFoundException;
 
     @NotNull
-    Boolean dataClearJaxbXml() throws IOException;
+    Boolean dataClearJaxbXml(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataSaveJaxbXml() throws JAXBException, IOException;
+    Boolean dataSaveJaxbXml(@Nullable Session session) throws JAXBException, IOException;
 
     @NotNull
-    Boolean dataLoadJaxbXml() throws JAXBException;
+    Boolean dataLoadJaxbXml(@Nullable Session session) throws JAXBException;
 
     @NotNull
-    Boolean dataClearJaxbJson() throws IOException;
+    Boolean dataClearJaxbJson(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataSaveJaxbJson() throws IOException, JAXBException;
+    Boolean dataSaveJaxbJson(@Nullable Session session) throws IOException, JAXBException;
 
     @NotNull
-    Boolean dataLoadJaxbJson() throws JAXBException;
+    Boolean dataLoadJaxbJson(@Nullable Session session) throws JAXBException;
 
     @NotNull
-    Boolean dataClearFasterXml() throws IOException;
+    Boolean dataClearFasterXml(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataSaveFasterXml() throws IOException;
+    Boolean dataSaveFasterXml(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataLoadFasterXml() throws IOException;
+    Boolean dataLoadFasterXml(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataClearFasterJson() throws IOException;
+    Boolean dataClearFasterJson(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataSaveFasterJson() throws IOException;
+    Boolean dataSaveFasterJson(@Nullable Session session) throws IOException;
 
     @NotNull
-    Boolean dataLoadFasterJson() throws IOException;
+    Boolean dataLoadFasterJson(@Nullable Session session) throws IOException;
 
 }

@@ -1,6 +1,7 @@
 package tm.server.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
+import tm.common.entity.Session;
 import tm.server.command.AbstractCommand;
 
 public class DataSaveJaxbJson extends AbstractCommand {
@@ -25,7 +26,9 @@ public class DataSaveJaxbJson extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Boolean success = getServiceLocator().getServerService().dataSaveJaxbJson();
+        final Session session = getServiceLocator().getCurrentSession();
+        if (session == null) return;
+        final Boolean success = getServiceLocator().getServerService().dataSaveJaxbJson(session);
         System.out.println(success ? "[JSON DATA SAVED]" : "[DATA SAVE FAILURE]");
     }
 }
