@@ -3,6 +3,9 @@ package tm.server.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
+import tm.common.entity.Project;
+import tm.common.entity.Task;
+import tm.common.entity.User;
 import tm.server.api.ServiceLocator;
 import tm.server.api.service.ServerService;
 import tm.server.command.general.AboutCommand;
@@ -10,6 +13,13 @@ import tm.server.command.general.AboutCommand;
 import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Collection;
 import java.util.Properties;
 
 public class ServerServiceImpl implements ServerService {
@@ -67,78 +77,138 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataClearBinary() {
-        return null;
+    public Boolean dataClearBinary() throws IOException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/binData/" + currentUser.getName());
+        Files.deleteIfExists(path);
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataSaveBinary() {
-        return null;
+    public Boolean dataSaveBinary() throws IOException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/binData/" + currentUser.getName());
+        final Collection<Project> projects = serviceLocator.getProjectService().getAll();
+        final Collection<Task> tasks = serviceLocator.getTaskService().getAll();
+        Files.createDirectories(path.getParent());
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))){
+            outputStream.writeObject(currentUser);
+            System.out.println("User write: " + currentUser);
+            outputStream.writeInt(projects.size());
+            for (@NotNull final Project project : projects) {
+                outputStream.writeObject(project);
+            }
+            outputStream.writeInt(tasks.size());
+            for (@NotNull final Task task : tasks) {
+                outputStream.writeObject(task);
+            }
+        }
+        return true;
     }
 
     @Override @NotNull
-    public Boolean dataLoadBinary() {
-        return null;
+    public Boolean dataLoadBinary() throws IOException, ClassNotFoundException {
+        final User currentUser = serviceLocator.getCurrentUser();
+        if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/binData/" + currentUser.getName());
+        if (Files.notExists(path)) {
+            System.out.println("[NO SAVED DATA FOUND]");
+            return false;
+        }
+        Files.createDirectories(path.getParent());
+        try(ObjectInputStream inputStream = new ObjectInputStream(Files.newInputStream(path, StandardOpenOption.READ))){
+            final User user = (User)inputStream.readObject();
+            System.out.println("User read: " + user.toString());
+            serviceLocator.getUserService().save(user);
+            serviceLocator.setCurrentUser(user);
+            final int numOfProjects = inputStream.readInt();
+            for (int i = 0; i < numOfProjects; i++) {
+                final Project project = (Project)inputStream.readObject();
+                serviceLocator.getProjectService().save(project);
+                System.out.println("Project saved: " + project.toString());
+            }
+            final int numOfTasks = inputStream.readInt();
+            for (int i = 0; i < numOfTasks; i++) {
+                final Task task = (Task)inputStream.readObject();
+                serviceLocator.getTaskService().save(task);
+                System.out.println("Task saved: " + task.toString());
+            }
+        }
+        return true;
     }
 
     @Override @NotNull
     public Boolean dataClearJaxbXml() {
-        return null;
+        System.out.println("dataClearJaxbXml");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataSaveJaxbXml() {
-        return null;
+        System.out.println("dataSaveJaxbXml");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataLoadJaxbXml() {
-        return null;
+        System.out.println("dataLoadJaxbXml");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataClearJaxbJson() {
-        return null;
+        System.out.println("dataClearJaxbJson");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataSaveJaxbJson() {
-        return null;
+        System.out.println("dataSaveJaxbJson");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataLoadJaxbJson() {
-        return null;
+        System.out.println("dataLoadJaxbJson");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataClearFasterXml() {
-        return null;
+        System.out.println("dataClearFasterXml");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataSaveFasterXml() {
-        return null;
+        System.out.println("dataSaveFasterXml");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataLoadFasterXml() {
-        return null;
+        System.out.println("dataLoadFasterXml");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataClearFasterJson() {
-        return null;
+        System.out.println("dataClearFasterJson");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataSaveFasterJson() {
-        return null;
+        System.out.println("dataSaveFasterJson");
+        return false;
     }
 
     @Override @NotNull
     public Boolean dataLoadFasterJson() {
-        return null;
+        System.out.println("dataLoadFasterJson");
+        return false;
     }
 
 }

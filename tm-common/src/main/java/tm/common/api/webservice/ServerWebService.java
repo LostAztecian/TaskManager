@@ -6,6 +6,7 @@ import tm.common.comparator.ComparatorType;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.io.IOException;
 
 @WebService(name = "serverService")
 public interface ServerWebService {
@@ -23,13 +24,13 @@ public interface ServerWebService {
     Boolean setSortMethod(@Nullable ComparatorType comparatorType);
 
     @NotNull @WebMethod
-    Boolean dataClearBinary();
+    Boolean dataClearBinary() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataSaveBinary();
+    Boolean dataSaveBinary() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataLoadBinary();
+    Boolean dataLoadBinary() throws IOException, ClassNotFoundException;
 
     @NotNull @WebMethod
     Boolean dataClearJaxbXml();

@@ -8,6 +8,7 @@ import tm.common.comparator.ComparatorType;
 import javax.jws.WebMethod;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -58,19 +59,19 @@ public class ServerWebServiceClient implements ServerWebService {
 
     @Override
     @NotNull
-    public Boolean dataClearBinary() {
+    public Boolean dataClearBinary() throws IOException {
         return serverService.dataClearBinary();
     }
 
     @Override
     @NotNull
-    public Boolean dataSaveBinary() {
+    public Boolean dataSaveBinary() throws IOException {
         return serverService.dataSaveBinary();
     }
 
     @Override
     @NotNull
-    public Boolean dataLoadBinary() {
+    public Boolean dataLoadBinary() throws IOException, ClassNotFoundException {
         return serverService.dataLoadBinary();
     }
 

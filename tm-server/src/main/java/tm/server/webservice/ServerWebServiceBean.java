@@ -7,6 +7,7 @@ import tm.common.comparator.ComparatorType;
 import tm.server.api.service.ServerService;
 
 import javax.jws.WebService;
+import java.io.IOException;
 
 @WebService(endpointInterface = "tm.common.api.webservice.ServerWebService")
 public class ServerWebServiceBean implements ServerWebService {
@@ -38,17 +39,17 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearBinary() {
+    public Boolean dataClearBinary() throws IOException {
         return serverService.dataClearBinary();
     }
 
     @Override @NotNull
-    public Boolean dataSaveBinary() {
+    public Boolean dataSaveBinary() throws IOException {
         return serverService.dataSaveBinary();
     }
 
     @Override @NotNull
-    public Boolean dataLoadBinary() {
+    public Boolean dataLoadBinary() throws IOException, ClassNotFoundException {
         return serverService.dataLoadBinary();
     }
 

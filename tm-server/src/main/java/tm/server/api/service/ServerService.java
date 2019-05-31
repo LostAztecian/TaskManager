@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
 
+import java.io.IOException;
+
 public interface ServerService {
 
     @NotNull
@@ -19,13 +21,13 @@ public interface ServerService {
     Boolean setSortMethod(@Nullable ComparatorType comparatorType);
 
     @NotNull
-    Boolean dataClearBinary();
+    Boolean dataClearBinary() throws IOException;
 
     @NotNull
-    Boolean dataSaveBinary();
+    Boolean dataSaveBinary() throws IOException;
 
     @NotNull
-    Boolean dataLoadBinary();
+    Boolean dataLoadBinary() throws IOException, ClassNotFoundException;
 
     @NotNull
     Boolean dataClearJaxbXml();
