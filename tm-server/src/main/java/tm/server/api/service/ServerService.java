@@ -49,21 +49,21 @@ public interface ServerService {
     Boolean dataLoadJaxbJson() throws JAXBException;
 
     @NotNull
-    Boolean dataClearFasterXml();
+    Boolean dataClearFasterXml() throws IOException;
 
     @NotNull
-    Boolean dataSaveFasterXml();
+    Boolean dataSaveFasterXml() throws IOException;
 
     @NotNull
-    Boolean dataLoadFasterXml();
+    Boolean dataLoadFasterXml() throws IOException;
 
     @NotNull
-    Boolean dataClearFasterJson();
+    Boolean dataClearFasterJson() throws IOException;
 
     @NotNull
-    Boolean dataSaveFasterJson();
+    Boolean dataSaveFasterJson() throws IOException;
 
     @NotNull
-    Boolean dataLoadFasterJson();
+    Boolean dataLoadFasterJson() throws IOException;
 
 }

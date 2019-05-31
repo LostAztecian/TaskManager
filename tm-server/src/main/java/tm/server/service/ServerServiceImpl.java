@@ -1,5 +1,8 @@
 package tm.server.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
@@ -261,50 +264,93 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterXml() {
+    public Boolean dataClearFasterXml() throws IOException {
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return false;
-
+        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + currentUser.getName());
+        Files.deleteIfExists(path);
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterXml() {
+    public Boolean dataSaveFasterXml() throws IOException {
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + currentUser.getName());
+        final UserData userData = new UserData();
+        userData.setUser(currentUser);
+        userData.setProjects(new ArrayList<>(serviceLocator.getProjectService().getAll()));
+        userData.setTasks(new ArrayList<>(serviceLocator.getTaskService().getAll()));
+        Files.createDirectories(path.getParent());
 
+        final XmlMapper mapper = new XmlMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userData);
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterXml() {
+    public Boolean dataLoadFasterXml() throws IOException {
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + currentUser.getName());
+        if (Files.notExists(path)) return false;
 
+        final UserData userData = new XmlMapper().readValue(path.toFile(), UserData.class);
+        //clear old data
+        serviceLocator.getTaskService().deleteAll();
+        serviceLocator.getProjectService().deleteAll();
+        serviceLocator.getUserService().delete(currentUser);
+        //save new data
+        serviceLocator.getUserService().save(userData.getUser());
+        serviceLocator.setCurrentUser(userData.getUser());
+        if (userData.getProjects() != null) userData.getProjects().forEach(serviceLocator.getProjectService()::save);
+        if (userData.getTasks() != null) userData.getTasks().forEach(serviceLocator.getTaskService()::save);
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterJson() {
+    public Boolean dataClearFasterJson() throws IOException {
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return false;
-
+        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + currentUser.getName());
+        Files.deleteIfExists(path);
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterJson() {
+    public Boolean dataSaveFasterJson() throws IOException {
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + currentUser.getName());
+        final UserData userData = new UserData();
+        userData.setUser(currentUser);
+        userData.setProjects(new ArrayList<>(serviceLocator.getProjectService().getAll()));
+        userData.setTasks(new ArrayList<>(serviceLocator.getTaskService().getAll()));
+        Files.createDirectories(path.getParent());
 
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userData);
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterJson() {
+    public Boolean dataLoadFasterJson() throws IOException {
         final User currentUser = serviceLocator.getCurrentUser();
         if (currentUser == null) return false;
+        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + currentUser.getName());
+        if (Files.notExists(path)) return false;
 
+        final TypeReference<UserData> typeReference = new TypeReference<UserData>(){};
+        final UserData userData = new ObjectMapper().readValue(path.toFile(), typeReference);
+        //remove old data
+        serviceLocator.getTaskService().deleteAll();
+        serviceLocator.getProjectService().deleteAll();
+        serviceLocator.getUserService().delete(currentUser);
+        //save persisted data
+        serviceLocator.getUserService().save(userData.getUser());
+        serviceLocator.setCurrentUser(userData.getUser());
+        if (userData.getProjects() != null) userData.getProjects().forEach(serviceLocator.getProjectService()::save);
+        if (userData.getTasks() != null) userData.getTasks().forEach(serviceLocator.getTaskService()::save);
         return true;
     }
 

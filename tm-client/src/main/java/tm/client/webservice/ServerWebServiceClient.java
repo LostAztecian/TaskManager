@@ -114,37 +114,37 @@ public class ServerWebServiceClient implements ServerWebService {
 
     @Override
     @NotNull
-    public Boolean dataClearFasterXml() {
+    public Boolean dataClearFasterXml() throws IOException {
         return serverService.dataClearFasterXml();
     }
 
     @Override
     @NotNull
-    public Boolean dataSaveFasterXml() {
+    public Boolean dataSaveFasterXml() throws IOException {
         return serverService.dataSaveFasterXml();
     }
 
     @Override
     @NotNull
-    public Boolean dataLoadFasterXml() {
+    public Boolean dataLoadFasterXml() throws IOException {
         return serverService.dataLoadFasterXml();
     }
 
     @Override
     @NotNull
-    public Boolean dataClearFasterJson() {
+    public Boolean dataClearFasterJson() throws IOException {
         return serverService.dataClearFasterJson();
     }
 
     @Override
     @NotNull
-    public Boolean dataSaveFasterJson() {
+    public Boolean dataSaveFasterJson() throws IOException {
         return serverService.dataSaveFasterJson();
     }
 
     @Override
     @NotNull
-    public Boolean dataLoadFasterJson() {
+    public Boolean dataLoadFasterJson() throws IOException {
         return serverService.dataLoadFasterJson();
     }
 

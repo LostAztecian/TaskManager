@@ -1,5 +1,6 @@
 package tm.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +41,7 @@ public class User implements Entity, Serializable {
     @XmlElement @Nullable private String passwordHash;
     @XmlElement @NotNull private Role role = Role.USER;
 
-    @Override @Nullable
+    @Override @Nullable @JsonIgnore
     public String getName() {
         return login;
     }

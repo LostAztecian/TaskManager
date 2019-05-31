@@ -4,9 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DataClearFasterXmlXml extends AbstractCommand {
 
@@ -30,9 +27,7 @@ public class DataClearFasterXmlXml extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + getServiceLocator().getCurrentUser().getName());
-        Files.deleteIfExists(path);
-        System.out.println("[XML DATA CLEARED]");
-        System.out.println();
+        final Boolean success = getServiceLocator().getServerService().dataClearFasterXml();
+        System.out.println(success ? "[XML DATA CLEARED]" : "[DATA CLEAR FAILURE]");
     }
 }

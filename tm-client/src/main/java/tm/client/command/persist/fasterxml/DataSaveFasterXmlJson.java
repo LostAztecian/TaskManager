@@ -26,6 +26,6 @@ public class DataSaveFasterXmlJson extends AbstractCommand {
     @Override
     protected void run() throws Exception {
         final Boolean success = getServiceLocator().getServerService().dataSaveFasterJson();
-        System.out.println(success ? "[JSON DATA SAVED]%n%n" : "[DATA LOAD FAILURE]");
+        System.out.println(success ? "[JSON DATA SAVED]" : "[DATA LOAD FAILURE]");
     }
 }

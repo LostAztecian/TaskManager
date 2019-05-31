@@ -52,21 +52,21 @@ public interface ServerWebService {
     Boolean dataLoadJaxbJson() throws JAXBException;
 
     @NotNull @WebMethod
-    Boolean dataClearFasterXml();
+    Boolean dataClearFasterXml() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataSaveFasterXml();
+    Boolean dataSaveFasterXml() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataLoadFasterXml();
+    Boolean dataLoadFasterXml() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataClearFasterJson();
+    Boolean dataClearFasterJson() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataSaveFasterJson();
+    Boolean dataSaveFasterJson() throws IOException;
 
     @NotNull @WebMethod
-    Boolean dataLoadFasterJson();
+    Boolean dataLoadFasterJson() throws IOException;
 
 }

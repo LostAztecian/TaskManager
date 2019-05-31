@@ -1,14 +1,7 @@
 package tm.server.command.persist.fasterxml;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.dto.UserData;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class DataSaveFasterXmlJson extends AbstractCommand {
 
@@ -32,16 +25,7 @@ public class DataSaveFasterXmlJson extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + getServiceLocator().getCurrentUser().getName());
-        final UserData userData = new UserData();
-        userData.setUser(getServiceLocator().getCurrentUser());
-        userData.setProjects(new ArrayList<>(getServiceLocator().getProjectService().getAll()));
-        userData.setTasks(new ArrayList<>(getServiceLocator().getTaskService().getAll()));
-        Files.createDirectories(path.getParent());
-
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), userData);
-
-        System.out.printf("[XML DATA SAVED to %s VIA FASTERXML]%n%n", path.toAbsolutePath());
+        final Boolean success = getServiceLocator().getServerService().dataSaveFasterJson();
+        System.out.println(success ? "[JSON DATA SAVED]" : "[DATA LOAD FAILURE]");
     }
 }

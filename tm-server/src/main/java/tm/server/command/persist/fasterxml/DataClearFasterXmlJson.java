@@ -4,9 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class DataClearFasterXmlJson extends AbstractCommand {
 
@@ -30,9 +27,7 @@ public class DataClearFasterXmlJson extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + getServiceLocator().getCurrentUser().getName());
-        Files.deleteIfExists(path);
-        System.out.println("[JSON DATA CLEARED]");
-        System.out.println();
+        final Boolean success = getServiceLocator().getServerService().dataClearFasterJson();
+        System.out.println(success ? "[JSON DATA CLEARED]" : "[DATA CLEAR FAILURE]");
     }
 }
