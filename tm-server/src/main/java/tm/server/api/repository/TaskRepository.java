@@ -10,5 +10,8 @@ public interface TaskRepository extends PlannedEntityRepository<Task> {
     @NotNull
     Collection<Task> findByProjectId(@NotNull String userId, @NotNull String projectId);
 
+    @NotNull
+    Collection<String> removeByProjectIds(@NotNull Collection<String> ids);
+
 
 }

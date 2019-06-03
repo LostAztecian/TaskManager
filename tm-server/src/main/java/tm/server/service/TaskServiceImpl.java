@@ -29,11 +29,18 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
         return true;
     }
 
-   @Override @NotNull
-   public Collection<Task> getTasksByProjectId(@Nullable final Session session, @Nullable final String projectId) {
+    @Override @NotNull
+    public Collection<Task> getTasksByProjectId(@Nullable final Session session, @Nullable final String projectId) {
         final String userId = getCurrentUserId(session);
         if (userId == null || projectId == null) return Collections.emptySet();
         return ((TaskRepository)repository).findByProjectId(userId, projectId);
+    }
+
+    @Override
+    public @NotNull Collection<String> removeTasksByProjectIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+        final String userId = getCurrentUserId(session);
+        if (userId == null || ids == null || ids.isEmpty()) return Collections.emptySet();
+        return ((TaskRepository)repository).removeByProjectIds(ids);
     }
 
     @Override @NotNull

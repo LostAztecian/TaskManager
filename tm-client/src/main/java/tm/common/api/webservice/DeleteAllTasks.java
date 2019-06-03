@@ -30,10 +30,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "deleteAllTasks", propOrder = {
     "arg0"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:20+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
 public class DeleteAllTasks {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:20+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     protected Session arg0;
 
     /**
@@ -44,7 +44,7 @@ public class DeleteAllTasks {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:20+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     public Session getArg0() {
         return arg0;
     }
@@ -57,7 +57,7 @@ public class DeleteAllTasks {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:20+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(Session value) {
         this.arg0 = value;
     }

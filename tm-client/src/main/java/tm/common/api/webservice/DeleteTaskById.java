@@ -32,12 +32,12 @@ import javax.xml.bind.annotation.XmlType;
     "arg0",
     "arg1"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
 public class DeleteTaskById {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
     protected Session arg0;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
     protected String arg1;
 
     /**
@@ -48,7 +48,7 @@ public class DeleteTaskById {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
     public Session getArg0() {
         return arg0;
     }
@@ -61,7 +61,7 @@ public class DeleteTaskById {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(Session value) {
         this.arg0 = value;
     }
@@ -74,7 +74,7 @@ public class DeleteTaskById {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
     public String getArg1() {
         return arg1;
     }
@@ -87,7 +87,7 @@ public class DeleteTaskById {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T11:22:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
     public void setArg1(String value) {
         this.arg1 = value;
     }

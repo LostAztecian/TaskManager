@@ -34,14 +34,14 @@ import javax.xml.bind.annotation.XmlType;
     "arg1",
     "arg2"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
 public class ChangeUserPassword {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected Session arg0;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected String arg1;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected String arg2;
 
     /**
@@ -52,7 +52,7 @@ public class ChangeUserPassword {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public Session getArg0() {
         return arg0;
     }
@@ -65,7 +65,7 @@ public class ChangeUserPassword {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(Session value) {
         this.arg0 = value;
     }
@@ -78,7 +78,7 @@ public class ChangeUserPassword {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public String getArg1() {
         return arg1;
     }
@@ -91,7 +91,7 @@ public class ChangeUserPassword {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setArg1(String value) {
         this.arg1 = value;
     }
@@ -104,7 +104,7 @@ public class ChangeUserPassword {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public String getArg2() {
         return arg2;
     }
@@ -117,7 +117,7 @@ public class ChangeUserPassword {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setArg2(String value) {
         this.arg2 = value;
     }

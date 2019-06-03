@@ -12,4 +12,7 @@ public interface TaskService extends PlannedEntityService<Task> {
     @NotNull
     Collection<Task> getTasksByProjectId(@Nullable Session session, @Nullable String projectId);
 
+    @NotNull
+    Collection<String> removeTasksByProjectIds(@Nullable Session session, @Nullable Collection<String> ids);
+
 }

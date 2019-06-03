@@ -37,17 +37,17 @@ import javax.xml.bind.annotation.XmlType;
     "passwordHash",
     "role"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
 public class User {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected String id;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected String login;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected String passwordHash;
     @XmlSchemaType(name = "string")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected Role role;
 
     /**
@@ -58,7 +58,7 @@ public class User {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public String getId() {
         return id;
     }
@@ -71,7 +71,7 @@ public class User {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setId(String value) {
         this.id = value;
     }
@@ -84,7 +84,7 @@ public class User {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public String getLogin() {
         return login;
     }
@@ -97,7 +97,7 @@ public class User {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setLogin(String value) {
         this.login = value;
     }
@@ -110,7 +110,7 @@ public class User {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -123,7 +123,7 @@ public class User {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setPasswordHash(String value) {
         this.passwordHash = value;
     }
@@ -136,7 +136,7 @@ public class User {
      *     {@link Role }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public Role getRole() {
         return role;
     }
@@ -149,7 +149,7 @@ public class User {
      *     {@link Role }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setRole(Role value) {
         this.role = value;
     }

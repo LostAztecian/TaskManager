@@ -28,6 +28,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     @Nullable
     protected String getCurrentUserId(@Nullable final Session session) {
         if (session == null || !SessionUtil.isValid(session)) return null;
+        if (!serviceLocator.getSessionService().isOpen(session.getId())) return null;
         return session.getUserId();
     }
 

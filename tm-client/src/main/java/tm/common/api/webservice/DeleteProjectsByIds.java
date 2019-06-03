@@ -34,12 +34,12 @@ import javax.xml.bind.annotation.XmlType;
     "arg0",
     "arg1"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
 public class DeleteProjectsByIds {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     protected Session arg0;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     protected List<String> arg1;
 
     /**
@@ -50,7 +50,7 @@ public class DeleteProjectsByIds {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     public Session getArg0() {
         return arg0;
     }
@@ -63,7 +63,7 @@ public class DeleteProjectsByIds {
      *     {@link Session }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(Session value) {
         this.arg0 = value;
     }
@@ -90,7 +90,7 @@ public class DeleteProjectsByIds {
      * 
      * 
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:25+03:00", comments = "JAXB RI v2.3.2")
     public List<String> getArg1() {
         if (arg1 == null) {
             arg1 = new ArrayList<String>();

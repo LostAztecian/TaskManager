@@ -5,10 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
 import tm.common.entity.Session;
-import tm.server.api.service.ProjectService;
-import tm.server.api.service.ServerService;
-import tm.server.api.service.TaskService;
-import tm.server.api.service.UserService;
+import tm.server.api.service.*;
 
 import javax.xml.ws.Endpoint;
 import java.util.Collection;
@@ -28,6 +25,9 @@ public interface ServiceLocator {
 
     @NotNull
     ServerService getServerService();
+
+    @NotNull
+    SessionService getSessionService();
 
     @Nullable
     Session getCurrentSession();

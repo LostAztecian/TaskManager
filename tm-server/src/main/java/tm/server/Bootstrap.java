@@ -9,21 +9,16 @@ import tm.common.entity.Session;
 import tm.common.entity.User;
 import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
-import tm.server.api.service.ProjectService;
-import tm.server.api.service.ServerService;
-import tm.server.api.service.TaskService;
-import tm.server.api.service.UserService;
+import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
-import tm.server.service.ServerServiceImpl;
+import tm.server.repository.SessionRepository;
+import tm.server.service.*;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.InputHelper;
 import tm.common.comparator.ComparatorType;
 import tm.server.repository.ProjectRepository;
 import tm.server.repository.TaskRepository;
 import tm.server.repository.UserRepository;
-import tm.server.service.ProjectServiceImpl;
-import tm.server.service.TaskServiceImpl;
-import tm.server.service.UserServiceImpl;
 import tm.server.utils.SessionUtil;
 
 import javax.xml.ws.Endpoint;
@@ -51,6 +46,8 @@ public class Bootstrap implements ServiceLocator {
     private UserService userService;
     @Getter
     private ServerService serverService;
+    @Getter
+    private SessionService sessionService;
 
     public void terminate() { isTerminated = true; }
 
@@ -76,6 +73,7 @@ public class Bootstrap implements ServiceLocator {
         projectService = new ProjectServiceImpl(new ProjectRepository(), this);
         userService = new UserServiceImpl((new UserRepository()), this);
         serverService = new ServerServiceImpl(this);
+        sessionService = new SessionServiceImpl(new SessionRepository(), this);
     }
 
     private void initCommands(@NotNull final Class[] classes) {

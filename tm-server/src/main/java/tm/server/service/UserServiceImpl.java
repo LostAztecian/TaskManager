@@ -77,7 +77,15 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         final String passwordHash = CypherUtil.getMd5(password);
         final User user = ((UserRepository)repository).validate(login, passwordHash).orElse(null);
         if (user == null) return null;
-        return SessionUtil.getSessionForUser(user);
+        final Session session = SessionUtil.getSessionForUser(user);
+        serviceLocator.getSessionService().open(session);
+        return session;
+    }
+
+    @Override
+    public @NotNull Boolean logout(@Nullable final Session session) {
+        if (session == null) return false;
+        return serviceLocator.getSessionService().closeById(session.getId());
     }
 
     @Override @NotNull

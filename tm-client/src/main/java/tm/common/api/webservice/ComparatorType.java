@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "comparatorType")
 @XmlEnum
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
 public enum ComparatorType {
 
     BY_CREATION_DATE,

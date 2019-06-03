@@ -91,6 +91,11 @@ public class UserWebServiceBean implements UserWebService {
     }
 
     @Override @NotNull
+    public Boolean logout(@Nullable final Session session) {
+        return userService.logout(session);
+    }
+
+    @Override @NotNull
     public Boolean changePassword(@Nullable final Session session, @Nullable final String oldPassword, @Nullable final String newPassword) {
         return userService.changePassword(session, oldPassword, newPassword);
     }

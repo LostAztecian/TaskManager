@@ -11,6 +11,9 @@ public interface UserService extends Service<User> {
     Session login(@Nullable String login, @Nullable String password);
 
     @NotNull
+    Boolean logout (@Nullable Session session);
+
+    @NotNull
     Boolean register(@Nullable String login, @Nullable String password);
 
     @NotNull

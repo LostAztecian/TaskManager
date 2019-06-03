@@ -88,11 +88,11 @@ public abstract class AbstractRepository<T extends PlannedEntity> implements Pla
     @Override @NotNull
     public Collection<String> removeAll(@NotNull final String userId) {
         final Collection<String> ids = new HashSet<>();
-        final Iterator<String> keysetiterator = map.keySet().iterator();
-        while (keysetiterator.hasNext()) {
-            final T entity = map.get(keysetiterator.next());
+        final Iterator<String> iterator = map.keySet().iterator();
+        while (iterator.hasNext()) {
+            final T entity = map.get(iterator.next());
             if (!userId.equals(entity.getUserId())) continue;
-            map.remove(entity.getId());
+            iterator.remove();
             ids.add(entity.getId());
         }
         return ids;

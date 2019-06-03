@@ -31,11 +31,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "getByIdResponse", propOrder = {
     "_return"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
 public class GetByIdResponse {
 
     @XmlElement(name = "return")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     protected User _return;
 
     /**
@@ -46,7 +46,7 @@ public class GetByIdResponse {
      *     {@link User }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public User getReturn() {
         return _return;
     }
@@ -59,7 +59,7 @@ public class GetByIdResponse {
      *     {@link User }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T03:21:21+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T06:45:26+03:00", comments = "JAXB RI v2.3.2")
     public void setReturn(User value) {
         this._return = value;
     }

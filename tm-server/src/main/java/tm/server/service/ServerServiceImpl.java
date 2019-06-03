@@ -46,6 +46,7 @@ public class ServerServiceImpl implements ServerService {
     @Nullable
     protected String getCurrentUserId(@Nullable final Session session) {
         if (session == null || !SessionUtil.isValid(session)) return null;
+        if (!serviceLocator.getSessionService().isOpen(session.getId())) return null;
         return session.getUserId();
     }
 
@@ -94,7 +95,9 @@ public class ServerServiceImpl implements ServerService {
     @Override @NotNull
     public Boolean setSortMethod(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
         if (comparatorType == null || session == null || !SessionUtil.isValid(session)) return false;
-        serviceLocator.setCurrentSortMethod(comparatorType.comparator);
+        if (!serviceLocator.getSessionService().isOpen(session.getId())) return false;
+        session.setSortMethod(comparatorType);
+        SessionUtil.sign(session);
         return true;
     }
 

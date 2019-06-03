@@ -10,6 +10,7 @@ import tm.server.api.ServiceLocator;
 import tm.common.entity.Project;
 import tm.common.entity.Task;
 import tm.common.comparator.ComparatorType;
+import tm.server.api.service.TaskService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,8 +29,9 @@ public class ProjectServiceImpl extends AbstractService<Project> implements Proj
 
     @Override
     public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
-        final Service<Task> childService = serviceLocator.getTaskService();
-        return childService.deleteByIds(session, ids);
+        final TaskService childService = serviceLocator.getTaskService();
+        childService.removeTasksByProjectIds(session, ids);
+        return true;
     }
 
     @Override @NotNull

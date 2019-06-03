@@ -45,6 +45,9 @@ public interface UserWebService {
     @Nullable @WebMethod(operationName = "userLogin")
     Session login(@Nullable String login, @Nullable String password);
 
+    @NotNull @WebMethod(operationName = "userLogout")
+    Boolean logout(@Nullable Session session);
+
     @NotNull @WebMethod(operationName = "changeUserPassword")
     Boolean changePassword(@Nullable Session session, @Nullable String oldPassword, @Nullable String newPassword);
 
