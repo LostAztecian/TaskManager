@@ -3,7 +3,7 @@ package tm.client.command.user;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.entity.Session;
+import tm.common.api.webservice.Session;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public class UserLoginCommand extends AbstractCommand {
             printAuthFailed();
             return;
         }
-        final Session session = getServiceLocator().getUserService().login(userLogin, userPassword);
+        final Session session = getServiceLocator().getUserService().userLogin(userLogin, userPassword);
         if (session == null) {
             printAuthFailed();
             return;

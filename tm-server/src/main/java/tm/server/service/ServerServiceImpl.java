@@ -143,12 +143,14 @@ public class ServerServiceImpl implements ServerService {
             final int numOfProjects = inputStream.readInt();
             for (int i = 0; i < numOfProjects; i++) {
                 final Project project = (Project)inputStream.readObject();
+                project.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getProjectService().save(session, project);
                 System.out.println("Project saved: " + project.toString());
             }
             final int numOfTasks = inputStream.readInt();
             for (int i = 0; i < numOfTasks; i++) {
                 final Task task = (Task)inputStream.readObject();
+                task.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getTaskService().save(session, task);
                 System.out.println("Task saved: " + task.toString());
             }
@@ -195,10 +197,16 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save new data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> serviceLocator.getProjectService().save(session, p));
+            userData.getProjects().forEach(p -> {
+                p.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getProjectService().save(session, p);
+            });
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t ->serviceLocator.getTaskService().save(session, t));
+            userData.getTasks().forEach(t -> {
+                t.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getTaskService().save(session, t);
+            });
         }
         return true;
     }
@@ -263,10 +271,16 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save persisted data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> serviceLocator.getProjectService().save(session, p));
+            userData.getProjects().forEach(p -> {
+                p.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getProjectService().save(session, p);
+            });
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t -> serviceLocator.getTaskService().save(session, t));
+            userData.getTasks().forEach(t -> {
+                t.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getTaskService().save(session, t);
+            });
         }
         return true;
     }
@@ -309,10 +323,16 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save new data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> serviceLocator.getProjectService().save(session, p));
+            userData.getProjects().forEach(p -> {
+                p.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getProjectService().save(session, p);
+            });
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t -> serviceLocator.getTaskService().save(session, t));
+            userData.getTasks().forEach(t -> {
+                t.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getTaskService().save(session, t);
+            });
         }
         return true;
     }
@@ -356,10 +376,16 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save persisted data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p ->serviceLocator.getProjectService().save(session, p));
+            userData.getProjects().forEach(p -> {
+                p.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getProjectService().save(session, p);
+            });
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t ->serviceLocator.getTaskService().save(session, t));
+            userData.getTasks().forEach(t ->{
+                t.setUserId(currentUser.getId()); //cause users are not persisted
+                serviceLocator.getTaskService().save(session, t);
+            });
         }
         return true;
     }

@@ -2,8 +2,8 @@ package tm.client.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.api.webservice.Session;
+import tm.common.api.webservice.Task;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -37,7 +37,9 @@ public class TaskListCommand extends AbstractCommand {
         System.out.println("TASK LIST");
         int index = 1;
         for (final Task task : allTasks) {
-            System.out.printf("%d. %s %n", index++, task);
+            System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
+            System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
+            System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
         }
         System.out.println();
     }

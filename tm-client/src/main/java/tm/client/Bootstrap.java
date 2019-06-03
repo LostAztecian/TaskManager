@@ -7,18 +7,18 @@ import org.jetbrains.annotations.Nullable;
 import tm.client.api.ServiceLocator;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.client.webservice.ProjectServiceClient;
-import tm.client.webservice.ServerWebServiceClient;
-import tm.client.webservice.TaskServiceClient;
-import tm.client.webservice.UserServiceClient;
-import tm.common.api.Command;
-import tm.common.api.entity.PlannedEntity;
-import tm.common.api.webservice.ProjectWebService;
-import tm.common.api.webservice.ServerWebService;
-import tm.common.api.webservice.TaskWebService;
-import tm.common.api.webservice.UserWebService;
-import tm.common.comparator.ComparatorType;
-import tm.common.entity.Session;
+import tm.client.api.Command;
+import tm.client.api.PlannedEntity;
+import tm.client.comparator.ComparatorType;
+import tm.common.api.webservice.ProjectService;
+import tm.common.api.webservice.ServerService;
+import tm.common.api.webservice.TaskService;
+import tm.common.api.webservice.UserService;
+import tm.common.api.webservice.Session;
+import tm.server.webservice.ProjectWebServiceBeanService;
+import tm.server.webservice.ServerWebServiceBeanService;
+import tm.server.webservice.TaskWebServiceBeanService;
+import tm.server.webservice.UserWebServiceBeanService;
 
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -34,13 +34,13 @@ public class Bootstrap implements ServiceLocator {
     private boolean isTerminated = false;
 
     @Getter
-    private UserWebService userService;
+    private UserService userService;
     @Getter
-    private ProjectWebService projectService;
+    private ProjectService projectService;
     @Getter
-    private TaskWebService taskService;
+    private TaskService taskService;
     @Getter
-    private ServerWebService serverService;
+    private ServerService serverService;
 
     @Getter @Setter
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
@@ -54,10 +54,10 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initServices() {
-        userService = new UserServiceClient();
-        projectService = new ProjectServiceClient();
-        taskService = new TaskServiceClient();
-        serverService = new ServerWebServiceClient();
+        userService = new UserWebServiceBeanService().getUserWebServiceBeanPort();
+        projectService = new ProjectWebServiceBeanService().getProjectWebServiceBeanPort();
+        taskService = new TaskWebServiceBeanService().getTaskWebServiceBeanPort();
+        serverService = new ServerWebServiceBeanService().getServerWebServiceBeanPort();
     }
 
     private void initCommands(@NotNull final Class[] classes) {

@@ -2,12 +2,11 @@ package tm.client.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
+import tm.common.api.webservice.Project;
+import tm.common.api.webservice.Session;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.TreeSet;
 
 public class ProjectListCommand extends AbstractCommand {
 
@@ -35,12 +34,12 @@ public class ProjectListCommand extends AbstractCommand {
             System.out.println();
             return;
         }
-        final Collection<Project> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-        sortedProjects.addAll(allProjects);
         System.out.println("PROJECT LIST");
         int index = 1;
-        for (final Project project : sortedProjects) {
-            System.out.printf("%d. %s %n", index++, project);
+        for (final Project project : allProjects) {
+            System.out.println(index++ + " " + project.getName() + ": " + project.getDescription());
+            System.out.println("\tBelongs to user: " + project.getUserId());
+            System.out.println("\tCreated: " + project.getCreationDate() + " Start: " + project.getStartDate() + " End: " + project.getEndDate());
         }
         System.out.println();
     }

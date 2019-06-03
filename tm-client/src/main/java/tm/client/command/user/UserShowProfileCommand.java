@@ -2,7 +2,7 @@ package tm.client.command.user;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.entity.Session;
+import tm.common.api.webservice.Session;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ public class UserShowProfileCommand extends AbstractCommand {
     public void run() throws IOException {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
-        final String profile = getServiceLocator().getUserService().showProfile(session);
+        final String profile = getServiceLocator().getUserService().userShowProfile(session);
         System.out.println(profile);
         System.out.println();
     }

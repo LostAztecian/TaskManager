@@ -2,10 +2,11 @@ package tm.client.command.task;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.client.utils.BindHelper;
 import tm.client.utils.InputHelper;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.api.webservice.Project;
+import tm.common.api.webservice.Session;
+import tm.common.api.webservice.Task;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -60,11 +61,13 @@ public class TaskCreateCommand extends AbstractCommand {
             taskEndDate = new Date();
         }
 
-        final Task task = new Task(session.getUserId(), taskName);
+        final Task task = new Task();
+        task.setUserId(session.getUserId());
+        task.setName(taskName);
         task.setProjectId(project.get().getId());
         task.setDescription(taskDescription);
-        task.setStartDate(taskStartDate);
-        task.setEndDate(taskEndDate);
+        task.setStartDate(BindHelper.toXMLGregorianCalendar(taskStartDate));
+        task.setEndDate(BindHelper.toXMLGregorianCalendar(taskEndDate));
         getServiceLocator().getTaskService().saveTask(session, task);
         System.out.printf("[TASK \'%s\' CREATED] %n%n", task.getName());
     }

@@ -2,14 +2,13 @@ package tm.client.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.api.Command;
-import tm.common.api.entity.PlannedEntity;
-import tm.common.api.webservice.ProjectWebService;
-import tm.common.api.webservice.ServerWebService;
-import tm.common.api.webservice.TaskWebService;
-import tm.common.api.webservice.UserWebService;
-import tm.common.entity.Session;
-import tm.common.entity.User;
+import tm.client.api.Command;
+import tm.client.api.PlannedEntity;
+import tm.common.api.webservice.ProjectService;
+import tm.common.api.webservice.ServerService;
+import tm.common.api.webservice.TaskService;
+import tm.common.api.webservice.UserService;
+import tm.common.api.webservice.Session;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -22,16 +21,16 @@ public interface ServiceLocator {
     void setCurrentSession(@Nullable Session user);
 
     @NotNull
-    UserWebService getUserService();
+    UserService getUserService();
 
     @NotNull
-    ProjectWebService getProjectService();
+    ProjectService getProjectService();
 
     @NotNull
-    TaskWebService getTaskService();
+    TaskService getTaskService();
 
     @NotNull
-    ServerWebService getServerService();
+    ServerService getServerService();
 
     @NotNull
     Comparator<PlannedEntity> getCurrentSortMethod();

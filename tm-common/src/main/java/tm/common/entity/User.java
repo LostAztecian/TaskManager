@@ -56,7 +56,9 @@ public class User implements Entity, Serializable {
         if (obj == null) return false;
         if (this == obj) return true;
         if (!(obj instanceof User)) return false;
-        return this.id.equals(((User)obj).id);
+        final User other = (User) obj;
+        if (other.login == null) return false;
+        return other.id.equals(this.id) && other.login.equals(this.login);
     }
 
     @Override

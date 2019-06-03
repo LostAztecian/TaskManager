@@ -35,7 +35,7 @@ public class UserRepository implements tm.server.api.repository.UserRepository {
     @Override @Nullable
     public User findOne(@NotNull final String userId, @NotNull final String id) {
         final User user = map.get(userId);
-        if (user == null || user.getRole() != User.Role.ADMIN) return null;
+        if (user == null) return null;
         return user;
     }
 

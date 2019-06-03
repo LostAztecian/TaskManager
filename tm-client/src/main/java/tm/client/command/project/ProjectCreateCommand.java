@@ -2,9 +2,10 @@ package tm.client.command.project;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
+import tm.client.utils.BindHelper;
 import tm.client.utils.InputHelper;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
+import tm.common.api.webservice.Project;
+import tm.common.api.webservice.Session;
 
 import java.io.IOException;
 import java.util.Date;
@@ -32,7 +33,8 @@ public class ProjectCreateCommand extends AbstractCommand {
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
         if (input == null) return;
-        final Project project = new Project(session.getUserId());
+        final Project project = new Project();
+        project.setUserId(session.getUserId());
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
 
@@ -41,14 +43,14 @@ public class ProjectCreateCommand extends AbstractCommand {
             System.out.println("[DATE INPUT ERROR, DATE SET TO CURRENT]");
             projectStartDate = new Date();
         }
-        project.setStartDate(projectStartDate);
+        project.setStartDate(BindHelper.toXMLGregorianCalendar(projectStartDate));
 
         Date projectEndDate = InputHelper.requestDate("END");
         if (projectEndDate == null) {
             System.out.println("[DATE INPUT ERROR, DATE SET TO CURRENT]");
             projectEndDate = new Date();
         }
-        project.setEndDate(projectEndDate);
+        project.setEndDate(BindHelper.toXMLGregorianCalendar(projectEndDate));
 
         getServiceLocator().getProjectService().saveProject(session, project);
         System.out.printf("[PROJECT \'%s\' CREATED] %n%n", project.getName());

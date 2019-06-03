@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.api.ServiceLocator;
 
 @Getter
-public abstract class AbstractCommand implements tm.common.api.Command {
+public abstract class AbstractCommand implements tm.client.api.Command {
 
     @NotNull @Setter
     private ServiceLocator serviceLocator;

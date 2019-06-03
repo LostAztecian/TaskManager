@@ -2,6 +2,7 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.ServerException;
 import tm.common.api.webservice.ServerWebService;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.Session;
@@ -41,77 +42,180 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearBinary(@Nullable final Session session) throws IOException {
-        return serverService.dataClearBinary(session);
+    public Boolean dataClearBinary(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataClearBinary(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
     }
 
     @Override @NotNull
-    public Boolean dataSaveBinary(@Nullable final Session session) throws IOException {
-        return serverService.dataSaveBinary(session);
+    public Boolean dataSaveBinary(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataSaveBinary(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
     }
 
     @Override @NotNull
-    public Boolean dataLoadBinary(@Nullable final Session session) throws IOException, ClassNotFoundException {
-        return serverService.dataLoadBinary(session);
+    public Boolean dataLoadBinary(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataLoadBinary(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbXml(@Nullable final Session session) throws IOException {
-        return serverService.dataClearJaxbXml(session);
+    public Boolean dataClearJaxbXml(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataClearJaxbXml(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbXml(@Nullable final Session session) throws IOException, JAXBException {
-        return serverService.dataSaveJaxbXml(session);
+    public Boolean dataSaveJaxbXml(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataSaveJaxbXml(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbXml(@Nullable final Session session) throws JAXBException {
-        return serverService.dataLoadJaxbXml(session);
+    public Boolean dataLoadJaxbXml(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataLoadJaxbXml(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbJson(@Nullable final Session session) throws IOException {
-        return serverService.dataClearJaxbJson(session);
+    public Boolean dataClearJaxbJson(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataClearJaxbJson(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbJson(@Nullable final Session session) throws IOException, JAXBException {
-        return serverService.dataSaveJaxbJson(session);
+    public Boolean dataSaveJaxbJson(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataSaveJaxbJson(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbJson(@Nullable final Session session) throws JAXBException {
-        return serverService.dataLoadJaxbJson(session);
+    public Boolean dataLoadJaxbJson(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataLoadJaxbJson(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterXml(@Nullable final Session session) throws IOException {
-        return serverService.dataClearFasterXml(session);
+    public Boolean dataClearFasterXml(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataClearFasterXml(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterXml(@Nullable final Session session) throws IOException {
-        return serverService.dataSaveFasterXml(session);
+    public Boolean dataSaveFasterXml(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataSaveFasterXml(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterXml(@Nullable final Session session) throws IOException {
-        return serverService.dataLoadFasterXml(session);
+    public Boolean dataLoadFasterXml(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataLoadFasterXml(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterJson(@Nullable final Session session) throws IOException {
-        return serverService.dataClearFasterJson(session);
+    public Boolean dataClearFasterJson(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataClearFasterJson(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterJson(@Nullable final Session session) throws IOException {
-        return serverService.dataSaveFasterJson(session);
+    public Boolean dataSaveFasterJson(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataSaveFasterJson(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterJson(@Nullable final Session session) throws IOException {
-        return serverService.dataLoadFasterJson(session);
+    public Boolean dataLoadFasterJson(@Nullable final Session session) throws ServerException {
+        Boolean result = false;
+        try {
+            result = serverService.dataLoadFasterJson(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
+        return result;
+
     }
 }

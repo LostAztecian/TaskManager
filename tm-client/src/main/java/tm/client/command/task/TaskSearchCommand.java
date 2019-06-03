@@ -3,8 +3,8 @@ package tm.client.command.task;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.api.webservice.Session;
+import tm.common.api.webservice.Task;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -38,12 +38,12 @@ public class TaskSearchCommand extends AbstractCommand {
             System.out.println();
             return;
         }
-        final Collection<Task> sortedTasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-        sortedTasks.addAll(searchResult);
         System.out.println("TASKS MATCHING CRITERIA:");
         int index = 1;
-        for (final Task task : sortedTasks) {
-            System.out.printf("%d. %s %n", index++, task);
+        for (final Task task : searchResult) {
+            System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
+            System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
+            System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
         }
         System.out.println();
     }

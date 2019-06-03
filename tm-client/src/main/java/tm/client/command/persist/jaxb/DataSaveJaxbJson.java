@@ -2,7 +2,7 @@ package tm.client.command.persist.jaxb;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.entity.Session;
+import tm.common.api.webservice.Session;
 
 public class DataSaveJaxbJson extends AbstractCommand {
 

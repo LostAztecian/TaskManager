@@ -29,7 +29,7 @@ public class UserRegisterCommand extends AbstractCommand {
         if (userLogin == null) return;
         final String userPassword = InputHelper.requestNewPassword();
         if (userPassword == null) return;
-        final Boolean success = getServiceLocator().getUserService().register(userLogin, userPassword);
+        final Boolean success = getServiceLocator().getUserService().userRegister(userLogin, userPassword);
         System.out.println(success ? "[USER CREATED]" : "[FAILED TO CREATE NEW USER]");
         System.out.println();
     }

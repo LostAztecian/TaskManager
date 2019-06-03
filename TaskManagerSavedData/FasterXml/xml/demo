@@ -1,0 +1,21 @@
+<UserData>
+  <user>
+    <id>2f3d1323-d4e0-4e05-bd10-f68f54af1428</id>
+    <login>demo</login>
+    <passwordHash>05552c2c4bffc8fdb138b62093fc5651</passwordHash>
+    <role>USER</role>
+  </user>
+  <projects>
+    <projects>
+      <id>8ccad17a-ba57-4e02-9686-9ba4dbb75bea</id>
+      <userId>2f3d1323-d4e0-4e05-bd10-f68f54af1428</userId>
+      <status>PLANNED</status>
+      <name>pr-01</name>
+      <description>desc01</description>
+      <creationDate>1559291355921</creationDate>
+      <startDate>642456000000</startDate>
+      <endDate>1559291362295</endDate>
+    </projects>
+  </projects>
+  <tasks/>
+</UserData>

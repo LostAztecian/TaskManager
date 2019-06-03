@@ -12,10 +12,17 @@
     <artifactId>tm-client</artifactId>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>ru.stoliarenkoas</groupId>-->
+            <!--<artifactId>tm-common</artifactId>-->
+            <!--<version>1.0</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-codegen-plugin -->
         <dependency>
-            <groupId>ru.stoliarenkoas</groupId>
-            <artifactId>tm-common</artifactId>
-            <version>1.0</version>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>3.3.2</version>
         </dependency>
     </dependencies>
 
@@ -78,6 +85,60 @@
                         </artifactItem>
                     </artifactItems>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>3.3.2</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>
+                                wsdl2java
+                            </goal>
+                        </goals>
+                        <configuration>
+                            <sourceRoot>${project.build.sourceDirectory}</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>
+                                        http://localhost:8080/taskService/?wsdl
+                                    </wsdl>
+                                    <extraargs>
+                                        <extraarg>-mark-generated</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>
+                                        http://localhost:8080/projectService/?wsdl
+                                    </wsdl>
+                                    <extraargs>
+                                        <extraarg>-mark-generated</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>
+                                        http://localhost:8080/userService/?wsdl
+                                    </wsdl>
+                                    <extraargs>
+                                        <extraarg>-mark-generated</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>
+                                        http://localhost:8080/serverService/?wsdl
+                                    </wsdl>
+                                    <extraargs>
+                                        <extraarg>-mark-generated</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

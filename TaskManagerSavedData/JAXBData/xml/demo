@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<userData>
+    <user>
+        <id>36ec8fd0-9fc9-4635-b921-7f9fa385002e</id>
+        <login>demo</login>
+        <passwordHash>fe01ce2a7fbac8fafaed7c982a04e229</passwordHash>
+        <role>USER</role>
+    </user>
+    <projects>
+        <project>
+            <creationDate>2019-06-03T13:14:48.226+03:00</creationDate>
+            <description>desc01</description>
+            <endDate>2019-06-03T13:14:48.218+03:00</endDate>
+            <id>c1e697f4-acfd-49be-aa58-c1ed99793b05</id>
+            <name>pr-01</name>
+            <startDate>2019-06-03T13:14:41.546+03:00</startDate>
+            <status>PLANNED</status>
+            <userId>36ec8fd0-9fc9-4635-b921-7f9fa385002e</userId>
+        </project>
+    </projects>
+    <tasks/>
+</userData>
