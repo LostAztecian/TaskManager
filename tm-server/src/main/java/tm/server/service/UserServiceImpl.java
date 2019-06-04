@@ -10,13 +10,12 @@ import tm.server.api.service.UserService;
 import tm.common.entity.Project;
 import tm.common.entity.User;
 import tm.server.command.user.UserChangePasswordCommand;
-import tm.server.repository.UserRepository;
+import tm.server.repository.map.UserRepositoryMap;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.SessionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 
 public class UserServiceImpl extends AbstractService<User> implements UserService {
 
@@ -75,7 +74,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (login == null || login.isEmpty()) return null;
         if (password == null || password.isEmpty()) return null;
         final String passwordHash = CypherUtil.getMd5(password);
-        final User user = ((UserRepository)repository).validate(login, passwordHash).orElse(null);
+        final User user = ((UserRepositoryMap)repository).validate(login, passwordHash).orElse(null);
         if (user == null) return null;
         final Session session = SessionUtil.getSessionForUser(user);
         serviceLocator.getSessionService().open(session);

@@ -1,4 +1,4 @@
-package tm.server.repository;
+package tm.server.repository.map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class TaskRepository extends AbstractRepository<Task> implements tm.server.api.repository.TaskRepository {
+public class TaskRepositoryMap extends AbstractRepositoryMap<Task> implements tm.server.api.repository.TaskRepository {
 
     @Override @NotNull
     public Collection<Task> findByProjectId(@NotNull final String userId, @NotNull final String projectId) {
@@ -25,7 +25,7 @@ public class TaskRepository extends AbstractRepository<Task> implements tm.serve
     }
 
     @Override @NotNull
-    public Collection<Task> search(@NotNull final String userId, @Nullable final String searchLine) {
+    public Collection<Task> search(@NotNull final String userId, @NotNull final String searchLine) {
         return findAll(userId).stream().filter(t ->
                 Optional.ofNullable(t.getName()).orElse("").contains(searchLine) ||
                 Optional.ofNullable(t.getDescription()).orElse("").contains(searchLine))

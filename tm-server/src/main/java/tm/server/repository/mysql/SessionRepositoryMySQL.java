@@ -1,56 +1,52 @@
-package tm.server.repository;
+package tm.server.repository.mysql;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.Session;
+import tm.server.api.repository.SessionRepository;
 
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-public class SessionRepository implements tm.server.api.repository.SessionRepository {
-
-    private final Map<String, Session> map = new LinkedHashMap<>();
-
+public class SessionRepositoryMySQL implements SessionRepository {
+    
     @Override @NotNull
     public Collection<Session> findAll() {
-        return map.values();
+        return null;
     }
 
     @Override @NotNull
     public Collection<Session> findByUserId(@NotNull final String userId) {
-        return map.values().stream().filter(s -> userId.equals(s.getUserId())).collect(Collectors.toSet());
+        return null;
     }
 
     @Override @Nullable
     public Session findById(@NotNull final String id) {
-        return map.get(id);
+        return null;
     }
 
     @Override @NotNull
     public Boolean containsId(@NotNull final String id) {
-        return map.containsKey(id);
+        return null;
     }
 
     @Override @NotNull
     public Boolean persist(@NotNull final Session session) {
-        return map.putIfAbsent(session.getId(), session) == null;
+        return null;
     }
 
     @Override @NotNull
     public Boolean deleteById(@NotNull final String id) {
-        return map.remove(id) != null;
+        return null;
     }
 
     @Override @NotNull
     public Boolean deleteByUserId(@NotNull final String userId) {
-        return map.values().removeIf(s -> userId.equals(s.getUserId()));
+        return null;
     }
 
     @Override @NotNull
     public Boolean deleteAll() {
-        map.clear();
-        return true;
+        return null;
     }
+    
 }

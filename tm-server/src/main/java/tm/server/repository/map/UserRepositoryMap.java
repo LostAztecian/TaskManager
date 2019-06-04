@@ -1,4 +1,4 @@
-package tm.server.repository;
+package tm.server.repository.map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -7,7 +7,7 @@ import tm.common.entity.User;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class UserRepository implements tm.server.api.repository.UserRepository {
+public class UserRepositoryMap implements tm.server.api.repository.UserRepository {
 
     private @NotNull final Map<String, User> map = new LinkedHashMap<>();
 

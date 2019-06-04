@@ -33,6 +33,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 
 public class ServerServiceImpl implements ServerService {
@@ -77,6 +79,15 @@ public class ServerServiceImpl implements ServerService {
         if (user == null || user.getRole() != User.Role.ADMIN) return false;
         serviceLocator.getEndpoints().forEach(Endpoint::stop);
         System.out.println("[ENDPOINTS STOPPED]");
+        final Connection databaseConnection = serviceLocator.getDatabaseConnection();
+        if (databaseConnection != null) {
+            try {
+                databaseConnection.close();
+                System.out.println("[DATABASE CONNECTION CLOSED]");
+            } catch (SQLException e) {
+                System.out.println("[FAILED TO CLOSE DATABASE CONNECTION]");
+            }
+        }
         serviceLocator.terminate();
         System.out.println("[SERVER TERMINATED]");
         return true; //TODO check if its working after stopping endpoints

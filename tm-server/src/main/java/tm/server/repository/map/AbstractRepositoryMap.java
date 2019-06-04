@@ -1,4 +1,4 @@
-package tm.server.repository;
+package tm.server.repository.map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import tm.common.comparator.ComparatorType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractRepository<T extends PlannedEntity> implements PlannedEntityRepository<T> {
+public abstract class AbstractRepositoryMap<T extends PlannedEntity> implements PlannedEntityRepository<T> {
 
     protected @NotNull final Map<String, T> map = new LinkedHashMap<>();
 

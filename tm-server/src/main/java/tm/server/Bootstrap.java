@@ -11,32 +11,37 @@ import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
-import tm.server.repository.SessionRepository;
+import tm.server.repository.map.SessionRepositoryMap;
 import tm.server.service.*;
 import tm.server.utils.CypherUtil;
+import tm.server.utils.DatabaseConnectionUtil;
 import tm.server.utils.InputHelper;
 import tm.common.comparator.ComparatorType;
-import tm.server.repository.ProjectRepository;
-import tm.server.repository.TaskRepository;
-import tm.server.repository.UserRepository;
+import tm.server.repository.map.ProjectRepositoryMap;
+import tm.server.repository.map.TaskRepositoryMap;
+import tm.server.repository.map.UserRepositoryMap;
 import tm.server.utils.SessionUtil;
 
 import javax.xml.ws.Endpoint;
+import java.sql.Connection;
 import java.util.*;
 
 public class Bootstrap implements ServiceLocator {
 
-    @Getter
+    @NotNull @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();
     private boolean isTerminated = false;
 
-    @Getter
+    @NotNull @Getter
     private final Collection<Endpoint> endpoints = new LinkedHashSet<>();
 
-    @Getter @Setter
+    @Nullable @Getter @Setter
     private Session currentSession;
-    @Getter @Setter
+    @NotNull @Getter @Setter
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
+
+    @Nullable @Getter
+    Connection databaseConnection;
 
     @Getter
     private ProjectService projectService;
@@ -52,8 +57,9 @@ public class Bootstrap implements ServiceLocator {
     public void terminate() { isTerminated = true; }
 
     public void init(@Nullable final Class[] classes) {
+        initConnections();
         initServices();
-        if (classes != null) initCommands(classes);
+        initCommands(classes);
         initUsers();
         mainLoop();
     }
@@ -68,15 +74,20 @@ public class Bootstrap implements ServiceLocator {
         userService.register("demo", "demo");
     }
 
-    private void initServices() {
-        taskService = new TaskServiceImpl(new TaskRepository(), this);
-        projectService = new ProjectServiceImpl(new ProjectRepository(), this);
-        userService = new UserServiceImpl((new UserRepository()), this);
-        serverService = new ServerServiceImpl(this);
-        sessionService = new SessionServiceImpl(new SessionRepository(), this);
+    private void initConnections() {
+        databaseConnection = DatabaseConnectionUtil.getDatabaseConnection();
     }
 
-    private void initCommands(@NotNull final Class[] classes) {
+    private void initServices() {
+        taskService = new TaskServiceImpl(new TaskRepositoryMap(), this);
+        projectService = new ProjectServiceImpl(new ProjectRepositoryMap(), this);
+        userService = new UserServiceImpl((new UserRepositoryMap()), this);
+        serverService = new ServerServiceImpl(this);
+        sessionService = new SessionServiceImpl(new SessionRepositoryMap(), this);
+    }
+
+    private void initCommands(@Nullable final Class[] classes) {
+        if (classes == null) return;
         for (@Nullable final Class clazz : classes) {
             if (clazz == null || !AbstractCommand.class.isAssignableFrom(clazz)) continue;
             try {

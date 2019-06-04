@@ -8,11 +8,15 @@ import tm.common.entity.Session;
 import tm.server.api.service.*;
 
 import javax.xml.ws.Endpoint;
+import java.sql.Connection;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 
 public interface ServiceLocator {
+
+    @Nullable
+    Connection getDatabaseConnection();
 
     @NotNull
     UserService getUserService();

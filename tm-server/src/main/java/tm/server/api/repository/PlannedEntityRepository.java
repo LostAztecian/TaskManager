@@ -16,5 +16,5 @@ public interface PlannedEntityRepository<T extends PlannedEntity> extends Reposi
     Collection<T> findByNameAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType, @NotNull String name);
 
     @NotNull
-    Collection<T> search(@NotNull String userId, @Nullable String searchLine);
+    Collection<T> search(@NotNull String userId, @NotNull String searchLine);
 }
