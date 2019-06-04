@@ -12,6 +12,7 @@ import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
 import tm.server.repository.map.SessionRepositoryMap;
+import tm.server.repository.mysql.UserRepositoryMySQL;
 import tm.server.service.*;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.DatabaseConnectionUtil;
@@ -81,7 +82,7 @@ public class Bootstrap implements ServiceLocator {
     private void initServices() {
         taskService = new TaskServiceImpl(new TaskRepositoryMap(), this);
         projectService = new ProjectServiceImpl(new ProjectRepositoryMap(), this);
-        userService = new UserServiceImpl((new UserRepositoryMap()), this);
+        userService = new UserServiceImpl(new UserRepositoryMySQL(databaseConnection), this);
         serverService = new ServerServiceImpl(this);
         sessionService = new SessionServiceImpl(new SessionRepositoryMap(), this);
     }

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.entity.Session;
 import tm.server.api.*;
 import tm.server.api.repository.Repository;
+import tm.server.api.repository.UserRepository;
 import tm.server.api.service.Service;
 import tm.server.api.service.UserService;
 import tm.common.entity.Project;
@@ -74,7 +75,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (login == null || login.isEmpty()) return null;
         if (password == null || password.isEmpty()) return null;
         final String passwordHash = CypherUtil.getMd5(password);
-        final User user = ((UserRepositoryMap)repository).validate(login, passwordHash).orElse(null);
+        final User user = ((UserRepository)repository).validate(login, passwordHash).orElse(null);
         if (user == null) return null;
         final Session session = SessionUtil.getSessionForUser(user);
         serviceLocator.getSessionService().open(session);
