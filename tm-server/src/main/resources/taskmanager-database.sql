@@ -12,10 +12,11 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
-CREATE TABLE IF NOT EXISTS `session` (
+CREATE TABLE `session` (
 	`id` VARCHAR(36) NOT NULL,
 	`userId` VARCHAR(36) NOT NULL,
 	`userLogin` VARCHAR(16) NOT NULL,
+	`hash` VARCHAR(32) NOT NULL,
 	`creationDate` DATETIME NOT NULL,
 	`sortMethod` VARCHAR(32) NOT NULL,
 	PRIMARY KEY (`id`),
