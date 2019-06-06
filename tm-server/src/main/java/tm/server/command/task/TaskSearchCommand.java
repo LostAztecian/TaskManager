@@ -27,7 +27,7 @@ public class TaskSearchCommand extends AbstractCommand {
     }
 
     @Override
-    protected void run() throws IOException {
+    protected void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[TASK SEARCH]");

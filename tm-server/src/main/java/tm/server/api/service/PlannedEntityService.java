@@ -11,12 +11,12 @@ import java.util.Collection;
 public interface PlannedEntityService<T extends PlannedEntity> extends Service<T> {
 
     @NotNull
-    Collection<T> search(@Nullable Session session, @Nullable String searchLine);
+    Collection<T> search(@Nullable Session session, @Nullable String searchLine) throws Exception;
 
     @NotNull
-    Collection<T> getAllSorted(@Nullable Session session, @Nullable ComparatorType comparatorType);
+    Collection<T> getAllSorted(@Nullable Session session, @Nullable ComparatorType comparatorType) throws Exception;
 
     @NotNull
-    Collection<T> getAllByNameSorted(@Nullable Session session, @Nullable String name, @Nullable ComparatorType comparatorType);
+    Collection<T> getAllByNameSorted(@Nullable Session session, @Nullable String name, @Nullable ComparatorType comparatorType) throws Exception;
 
 }

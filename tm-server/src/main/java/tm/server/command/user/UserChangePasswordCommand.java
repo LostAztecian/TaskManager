@@ -23,7 +23,7 @@ public class UserChangePasswordCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final String oldPassword = InputHelper.requestLine("ENTER OLD PASSWORD:", false);
         if (oldPassword == null) return;
         System.out.println("[SET UP NEW PASSWORD]");

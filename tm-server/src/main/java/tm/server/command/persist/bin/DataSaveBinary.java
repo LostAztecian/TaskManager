@@ -35,7 +35,7 @@ public class DataSaveBinary extends AbstractCommand {
     }
 
     @Override
-    protected void run() throws IOException {
+    protected void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Path path = Paths.get("TaskManagerSavedData/binData/" + session.getUserLogin());

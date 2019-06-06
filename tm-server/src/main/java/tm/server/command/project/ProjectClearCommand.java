@@ -21,7 +21,7 @@ public class ProjectClearCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() {
+    public void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         getServiceLocator().getProjectService().deleteAll(session);

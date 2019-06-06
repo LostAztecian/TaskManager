@@ -20,38 +20,38 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
     }
 
     @Override
-    public Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) { //no children = no problem
+    public Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) throws Exception { //no children = no problem
         return true;
     }
 
     @Override
-    public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+    public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws Exception {
         return true;
     }
 
     @Override @NotNull
-    public Collection<Task> getTasksByProjectId(@Nullable final Session session, @Nullable final String projectId) {
+    public Collection<Task> getTasksByProjectId(@Nullable final Session session, @Nullable final String projectId) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || projectId == null) return Collections.emptySet();
         return ((TaskRepository)repository).findByProjectId(userId, projectId);
     }
 
     @Override
-    public @NotNull Collection<String> removeTasksByProjectIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+    public @NotNull Collection<String> removeTasksByProjectIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || ids == null || ids.isEmpty()) return Collections.emptySet();
         return ((TaskRepository)repository).removeByProjectIds(ids);
     }
 
     @Override @NotNull
-    public Collection<Task> search(@Nullable final Session session, @Nullable final String searchLine) {
+    public Collection<Task> search(@Nullable final Session session, @Nullable final String searchLine) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || searchLine == null || searchLine.isEmpty()) return Collections.emptySet();
         return ((PlannedEntityRepository<Task>)repository).search(userId, searchLine);
     }
 
     @Override @NotNull
-    public Collection<Task> getAllSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
+    public Collection<Task> getAllSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptySet();
         if (comparatorType == null) return getAll(session);
@@ -59,7 +59,7 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
     }
 
     @Override @NotNull
-    public Collection<Task> getAllByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) {
+    public Collection<Task> getAllByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null) return Collections.emptySet();
         if (comparatorType == null) return getAllByName(session, name);

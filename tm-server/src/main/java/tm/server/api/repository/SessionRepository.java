@@ -9,27 +9,27 @@ import java.util.Collection;
 public interface SessionRepository {
 
     @NotNull
-    Collection<Session> findAll();
+    Collection<Session> findAll() throws Exception;
 
     @NotNull
-    Collection<Session> findByUserId(@NotNull String userId);
+    Collection<Session> findByUserId(@NotNull String userId) throws Exception;
 
     @Nullable
-    Session findById(@NotNull String id);
+    Session findById(@NotNull String id) throws Exception;
 
     @NotNull
-    Boolean containsId(@NotNull String id);
+    Boolean containsId(@NotNull String id) throws Exception;
 
     @NotNull
-    Boolean persist(@NotNull Session session);
+    Boolean persist(@NotNull Session session) throws Exception;
 
     @NotNull
-    Boolean deleteById(@NotNull String id);
+    Boolean deleteById(@NotNull String id) throws Exception;
 
     @NotNull
-    Boolean deleteByUserId(@NotNull String userId);
+    Boolean deleteByUserId(@NotNull String userId) throws Exception;
 
     @NotNull
-    Boolean deleteAll();
+    Boolean deleteAll() throws Exception;
 
 }

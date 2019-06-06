@@ -25,7 +25,7 @@ public class UserRegisterCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         System.out.println("[REGISTERING NEW USER]");
         final String login = InputHelper.requestLine("ENTER LOGIN:", false);
         if (login == null) return;

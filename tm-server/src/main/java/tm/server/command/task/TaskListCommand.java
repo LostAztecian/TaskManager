@@ -25,7 +25,7 @@ public class TaskListCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Collection<Task> allTasks = getServiceLocator().getTaskService().getAll(session);
@@ -37,7 +37,9 @@ public class TaskListCommand extends AbstractCommand {
         System.out.println("TASK LIST");
         int index = 1;
         for (final Task task : allTasks) {
-            System.out.printf("%d. %s %n", index++, task);
+            System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
+            System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
+            System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
         }
         System.out.println();
     }

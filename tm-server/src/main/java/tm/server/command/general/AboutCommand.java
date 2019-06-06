@@ -26,7 +26,7 @@ public class AboutCommand extends AbstractCommand {
     }
 
     @Override
-    protected void run() throws IOException {
+    protected void run() throws Throwable {
         final String about = getServiceLocator().getServerService().showAbout();
         System.out.println(about);
     }

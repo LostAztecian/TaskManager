@@ -25,7 +25,7 @@ public class DataLoadJaxbJson extends AbstractCommand {
     }
 
     @Override
-    protected void run() throws Exception {
+    protected void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Boolean success = getServiceLocator().getServerService().dataLoadJaxbJson(session);

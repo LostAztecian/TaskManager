@@ -17,28 +17,48 @@ public class ServerWebServiceBean implements ServerWebService {
 
     private ServerService serverService;
 
-    public ServerWebServiceBean(@NotNull final ServerService serverService) {
-        this.serverService = serverService;
+    public ServerWebServiceBean(@NotNull final ServerService serverService) throws ServerException {
+        try {
+            this.serverService = serverService;
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public String showAbout() {
-        return serverService.showAbout();
+    public String showAbout() throws ServerException {
+        try {
+            return serverService.showAbout();
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean shutdown(@Nullable final Session session) {
-        return serverService.shutdown(session);
+    public Boolean shutdown(@Nullable final Session session) throws ServerException {
+        try {
+            return serverService.shutdown(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public String showHelp(@Nullable final Session session) {
-        return serverService.showHelp(session);
+    public String showHelp(@Nullable final Session session) throws ServerException {
+        try {
+            return serverService.showHelp(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean setSortMethod(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
-        return serverService.setSortMethod(session, comparatorType);
+    public Boolean setSortMethod(@Nullable final Session session, @Nullable final ComparatorType comparatorType) throws ServerException {
+        try {
+            return serverService.setSortMethod(session, comparatorType);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull

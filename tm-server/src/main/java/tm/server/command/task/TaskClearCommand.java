@@ -23,7 +23,7 @@ public class TaskClearCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         getServiceLocator().getTaskService().deleteAll(session);

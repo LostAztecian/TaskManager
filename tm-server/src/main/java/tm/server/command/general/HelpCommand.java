@@ -20,7 +20,7 @@ public final class HelpCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() {
+    public void run() throws Throwable {
         final String help = getServiceLocator().getServerService().showHelp(getServiceLocator().getCurrentSession());
         System.out.println(help);
     }

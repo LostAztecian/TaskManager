@@ -9,27 +9,27 @@ import java.util.Collection;
 public interface SessionService {
 
     @NotNull
-    Collection<Session> getAll();
+    Collection<Session> getAll() throws Exception;
 
     @NotNull
-    Collection<Session> getByUserId(@Nullable String userId);
+    Collection<Session> getByUserId(@Nullable String userId) throws Exception;
 
     @Nullable
-    Session getById(@Nullable String id);
+    Session getById(@Nullable String id) throws Exception;
 
     @NotNull
-    Boolean isOpen(@Nullable String id);
+    Boolean isOpen(@Nullable String id) throws Exception;
 
     @NotNull
-    Boolean open(@Nullable Session session);
+    Boolean open(@Nullable Session session) throws Exception;
 
     @NotNull
-    Boolean closeById(@Nullable String id);
+    Boolean closeById(@Nullable String id) throws Exception;
 
     @NotNull
-    Boolean closeByUserId(@Nullable String userId);
+    Boolean closeByUserId(@Nullable String userId) throws Exception;
 
     @NotNull
-    Boolean closeAll();
+    Boolean closeAll() throws Exception;
 
 }

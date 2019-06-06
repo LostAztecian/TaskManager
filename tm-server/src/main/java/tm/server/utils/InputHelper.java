@@ -65,7 +65,7 @@ public class InputHelper {
     }
 
     @Nullable
-    public static Collection<Project> requestProjectsByName(@NotNull final Session session, @NotNull final ServiceLocator serviceLocator) throws IOException {
+    public static Collection<Project> requestProjectsByName(@NotNull final Session session, @NotNull final ServiceLocator serviceLocator) throws Throwable {
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) throw new IllegalArgumentException("null request name");
         final Collection<Project> projectsWithName = serviceLocator.getProjectService().getAllByName(session, projectName);

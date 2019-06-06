@@ -13,7 +13,7 @@ public abstract class AbstractCommand implements Command {
     private ServiceLocator serviceLocator;
 
     @Override
-    public final void execute() throws Exception {
+    public final void execute() throws Throwable {
         if (isPrivate() && serviceLocator.getCurrentSession() == null) {
             System.out.println("COMMAND IS NOT AVAILABLE WITHOUT AUTHORIZATION");
             System.out.println();
@@ -22,7 +22,7 @@ public abstract class AbstractCommand implements Command {
         run();
     }
 
-    protected abstract void run() throws Exception;
+    protected abstract void run() throws Throwable;
 
     @Override
     public abstract boolean isPrivate();

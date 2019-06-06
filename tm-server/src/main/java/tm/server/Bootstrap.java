@@ -12,6 +12,9 @@ import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
 import tm.server.repository.map.SessionRepositoryMap;
+import tm.server.repository.mysql.ProjectRepositoryMySQL;
+import tm.server.repository.mysql.SessionRepositoryMySQL;
+import tm.server.repository.mysql.TaskRepositoryMySQL;
 import tm.server.repository.mysql.UserRepositoryMySQL;
 import tm.server.service.*;
 import tm.server.utils.CypherUtil;
@@ -61,11 +64,11 @@ public class Bootstrap implements ServiceLocator {
         initConnections();
         initServices();
         initCommands(classes);
-        initUsers();
+//        initUsers();
         mainLoop();
     }
 
-    private void initUsers() {
+    private void initUsers() throws Throwable {
         final User admin = new User();
         admin.setLogin("admin");
         admin.setPasswordHash(CypherUtil.getMd5("admin"));
@@ -80,11 +83,11 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initServices() {
-        taskService = new TaskServiceImpl(new TaskRepositoryMap(), this);
-        projectService = new ProjectServiceImpl(new ProjectRepositoryMap(), this);
+        taskService = new TaskServiceImpl(new TaskRepositoryMySQL(databaseConnection), this);
+        projectService = new ProjectServiceImpl(new ProjectRepositoryMySQL(databaseConnection), this);
         userService = new UserServiceImpl(new UserRepositoryMySQL(databaseConnection), this);
         serverService = new ServerServiceImpl(this);
-        sessionService = new SessionServiceImpl(new SessionRepositoryMap(), this);
+        sessionService = new SessionServiceImpl(new SessionRepositoryMySQL(databaseConnection), this);
     }
 
     private void initCommands(@Nullable final Class[] classes) {
@@ -105,7 +108,7 @@ public class Bootstrap implements ServiceLocator {
     private void mainLoop() {
         try {
             commands.get("publish-endpoints").execute();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         System.out.println("*** WELCOME TO TASK-MANAGER SERVER ***");
@@ -121,7 +124,7 @@ public class Bootstrap implements ServiceLocator {
                     continue;
                 }
                 command.execute();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }

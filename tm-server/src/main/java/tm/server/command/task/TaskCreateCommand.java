@@ -29,7 +29,7 @@ public class TaskCreateCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[TASK CREATE]");

@@ -13,16 +13,16 @@ import javax.jws.WebService;
 public interface ServerWebService {
 
     @NotNull @WebMethod
-    String showAbout();
+    String showAbout() throws ServerException;
 
     @NotNull @WebMethod
-    Boolean shutdown(@Nullable Session session);
+    Boolean shutdown(@Nullable Session session) throws ServerException;
 
     @NotNull @WebMethod
-    String showHelp(@Nullable Session session);
+    String showHelp(@Nullable Session session) throws ServerException;
 
     @NotNull @WebMethod
-    Boolean setSortMethod(@Nullable Session session, @Nullable ComparatorType comparatorType);
+    Boolean setSortMethod(@Nullable Session session, @Nullable ComparatorType comparatorType) throws ServerException;
 
     @NotNull @WebMethod
     Boolean dataClearBinary(@Nullable Session session) throws ServerException;

@@ -27,7 +27,7 @@ public class UserShowProfileCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final String userProfile = getServiceLocator().getUserService()
                 .showUserProfile(getServiceLocator().getCurrentSession());
         System.out.println(userProfile);

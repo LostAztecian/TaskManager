@@ -8,18 +8,18 @@ import tm.common.entity.User;
 public interface UserService extends Service<User> {
 
     @Nullable
-    Session login(@Nullable String login, @Nullable String password);
+    Session login(@Nullable String login, @Nullable String password) throws Exception;
 
     @NotNull
-    Boolean logout (@Nullable Session session);
+    Boolean logout (@Nullable Session session) throws Exception;
 
     @NotNull
-    Boolean register(@Nullable String login, @Nullable String password);
+    Boolean register(@Nullable String login, @Nullable String password) throws Exception;
 
     @NotNull
-    String showUserProfile(@Nullable Session session);
+    String showUserProfile(@Nullable Session session) throws Exception;
 
     @NotNull
-    Boolean changePassword(@Nullable Session session, @Nullable String oldPassword, @Nullable String newPassword);
+    Boolean changePassword(@Nullable Session session, @Nullable String oldPassword, @Nullable String newPassword) throws Exception;
 
 }

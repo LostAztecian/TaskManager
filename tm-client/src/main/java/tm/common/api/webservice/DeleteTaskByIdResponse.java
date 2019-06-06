@@ -31,11 +31,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "deleteTaskByIdResponse", propOrder = {
     "_return"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-06T09:58:32+03:00", comments = "JAXB RI v2.3.2")
 public class DeleteTaskByIdResponse {
 
     @XmlElement(name = "return")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-06T09:58:32+03:00", comments = "JAXB RI v2.3.2")
     protected Boolean _return;
 
     /**
@@ -46,7 +46,7 @@ public class DeleteTaskByIdResponse {
      *     {@link Boolean }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-06T09:58:32+03:00", comments = "JAXB RI v2.3.2")
     public Boolean isReturn() {
         return _return;
     }
@@ -59,7 +59,7 @@ public class DeleteTaskByIdResponse {
      *     {@link Boolean }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-03T05:50:36+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-06T09:58:32+03:00", comments = "JAXB RI v2.3.2")
     public void setReturn(Boolean value) {
         this._return = value;
     }

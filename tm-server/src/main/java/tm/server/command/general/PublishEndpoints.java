@@ -26,7 +26,7 @@ public class PublishEndpoints extends AbstractCommand {
     }
 
     @Override
-    protected void run() throws Exception {
+    protected void run() throws Throwable {
         final Endpoint userEndpoint = Endpoint.create(new UserWebServiceBean(getServiceLocator().getUserService()));
         final String userServiceURL = "http://localhost:8080/userService";
         userEndpoint.publish(userServiceURL);

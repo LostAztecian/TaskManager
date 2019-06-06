@@ -22,7 +22,7 @@ public class UserLogoutCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         getServiceLocator().setCurrentSession(null);
         System.out.println("LOGGED OUT");
     }

@@ -5,16 +5,17 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.api.entity.PlannedEntity;
 import tm.common.comparator.ComparatorType;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface PlannedEntityRepository<T extends PlannedEntity> extends Repository<T> {
 
     @NotNull
-    Collection<T> findAllAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType);
+    Collection<T> findAllAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType) throws Exception;
 
     @NotNull
-    Collection<T> findByNameAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType, @NotNull String name);
+    Collection<T> findByNameAndSort(@NotNull String userId, @NotNull ComparatorType comparatorType, @NotNull String name) throws Exception;
 
     @NotNull
-    Collection<T> search(@NotNull String userId, @NotNull String searchLine);
+    Collection<T> search(@NotNull String userId, @NotNull String searchLine) throws Exception;
 }

@@ -27,7 +27,7 @@ public class DataClearJaxbJson extends AbstractCommand {
     }
 
     @Override
-    protected void run() throws IOException {
+    protected void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Boolean success = getServiceLocator().getServerService().dataClearJaxbJson(session);

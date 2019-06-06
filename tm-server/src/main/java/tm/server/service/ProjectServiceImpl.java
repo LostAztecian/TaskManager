@@ -22,27 +22,27 @@ public class ProjectServiceImpl extends AbstractService<Project> implements Proj
     }
 
     @Override
-    public Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) {
+    public Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) throws Exception {
         final Service<Task> childService = serviceLocator.getTaskService();
         return childService.deleteByIds(session, Collections.singletonList(id));
     }
 
     @Override
-    public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
+    public Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws Exception {
         final TaskService childService = serviceLocator.getTaskService();
         childService.removeTasksByProjectIds(session, ids);
         return true;
     }
 
     @Override @NotNull
-    public Collection<Project> search(@Nullable final Session session, @Nullable final String searchLine) {
+    public Collection<Project> search(@Nullable final Session session, @Nullable final String searchLine) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || searchLine == null || searchLine.isEmpty()) return Collections.emptySet();
         return ((PlannedEntityRepository<Project>)repository).search(userId, searchLine);
     }
 
     @Override @NotNull
-    public Collection<Project> getAllSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
+    public Collection<Project> getAllSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptySet();
         if (comparatorType == null) return getAll(session);
@@ -50,7 +50,7 @@ public class ProjectServiceImpl extends AbstractService<Project> implements Proj
     }
 
     @Override @NotNull
-    public Collection<Project> getAllByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) {
+    public Collection<Project> getAllByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null) return Collections.emptySet();
         if (comparatorType == null) return getAllByName(session, name);
@@ -58,7 +58,7 @@ public class ProjectServiceImpl extends AbstractService<Project> implements Proj
     }
 
     @Override
-    public @NotNull Boolean deleteProjectTasks(@Nullable final Session session, @Nullable final String projectId) {
+    public @NotNull Boolean deleteProjectTasks(@Nullable final Session session, @Nullable final String projectId) throws Exception {
         return deleteChildrenByParentId(session, projectId);
     }
 }

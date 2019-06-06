@@ -29,7 +29,7 @@ public class ProjectTaskListCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Collection<Project> projects = InputHelper.requestProjectsByName(session, getServiceLocator());
@@ -46,7 +46,9 @@ public class ProjectTaskListCommand extends AbstractCommand {
         }
         int index = 1;
         for (final Task task : tasks) {
-            System.out.printf("%d. %s.%n", index, task);
+            System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
+            System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
+            System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
         }
     }
 

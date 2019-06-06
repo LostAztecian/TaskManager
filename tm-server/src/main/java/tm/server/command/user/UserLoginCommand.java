@@ -25,7 +25,7 @@ public class UserLoginCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         System.out.println("[AUTHORIZATION]");
         final String userLogin = InputHelper.requestLine("ENTER LOGIN:", false);
         if (userLogin == null) return;

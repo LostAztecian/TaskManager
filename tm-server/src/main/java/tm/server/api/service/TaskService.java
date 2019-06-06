@@ -10,9 +10,9 @@ import java.util.Collection;
 public interface TaskService extends PlannedEntityService<Task> {
 
     @NotNull
-    Collection<Task> getTasksByProjectId(@Nullable Session session, @Nullable String projectId);
+    Collection<Task> getTasksByProjectId(@Nullable Session session, @Nullable String projectId) throws Exception;
 
     @NotNull
-    Collection<String> removeTasksByProjectIds(@Nullable Session session, @Nullable Collection<String> ids);
+    Collection<String> removeTasksByProjectIds(@Nullable Session session, @Nullable Collection<String> ids) throws Exception;
 
 }

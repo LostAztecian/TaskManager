@@ -2,6 +2,7 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tm.common.ServerException;
 import tm.common.entity.Session;
 import tm.server.api.service.UserService;
 import tm.common.api.webservice.UserWebService;
@@ -41,72 +42,128 @@ public class UserWebServiceBean implements UserWebService {
     }
 
     @Override @NotNull
-    public Collection<User> getAllUsers(@Nullable final Session session) {
-        return userService.getAll(session);
+    public Collection<User> getAllUsers(@Nullable final Session session) throws ServerException {
+        try {
+            return userService.getAll(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Collection<User> getUsersByName(@Nullable final Session session, @Nullable final String name) {
-        return userService.getAllByName(session, name);
+    public Collection<User> getUsersByName(@Nullable final Session session, @Nullable final String name) throws ServerException {
+        try {
+            return userService.getAllByName(session, name);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @Nullable
-    public User getUser(@Nullable final Session session, @Nullable final String id) {
-        return userService.get(session, id);
+    public User getUser(@Nullable final Session session, @Nullable final String id) throws ServerException {
+        try {
+            return userService.get(session, id);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean saveUser(@Nullable final Session session, @Nullable final User user) {
-        return userService.save(session, user);
+    public Boolean saveUser(@Nullable final Session session, @Nullable final User user) throws ServerException {
+        try {
+            return userService.save(session, user);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable final Session session, @Nullable final User user) {
-        return userService.delete(session, user);
+    public Boolean deleteUser(@Nullable final Session session, @Nullable final User user) throws ServerException {
+        try {
+            return userService.delete(session, user);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean deleteUser(@Nullable final Session session, @Nullable final String id) {
-        return userService.delete(session, id);
+    public Boolean deleteUser(@Nullable final Session session, @Nullable final String id) throws ServerException {
+        try {
+            return userService.delete(session, id);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByIds(@Nullable final Session session, @Nullable final Collection<String> ids) {
-        return userService.deleteByIds(session, ids);
+    public Boolean deleteUsersByIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws ServerException {
+        try {
+            return userService.deleteByIds(session, ids);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean deleteUsersByName(@Nullable final Session session, @Nullable final String name) {
-        return userService.deleteByName(session, name);
+    public Boolean deleteUsersByName(@Nullable final Session session, @Nullable final String name) throws ServerException {
+        try {
+            return userService.deleteByName(session, name);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean deleteAllUsers(@Nullable final Session session) {
-        return userService.deleteAll(session);
+    public Boolean deleteAllUsers(@Nullable final Session session) throws ServerException {
+        try {
+            return userService.deleteAll(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @Nullable
-    public Session login(@Nullable final String login, @Nullable final String password) {
-        return userService.login(login, password);
+    public Session login(@Nullable final String login, @Nullable final String password) throws ServerException {
+        try {
+            return userService.login(login, password);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean logout(@Nullable final Session session) {
-        return userService.logout(session);
+    public Boolean logout(@Nullable final Session session) throws ServerException {
+        try {
+            return userService.logout(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean changePassword(@Nullable final Session session, @Nullable final String oldPassword, @Nullable final String newPassword) {
-        return userService.changePassword(session, oldPassword, newPassword);
+    public Boolean changePassword(@Nullable final Session session, @Nullable final String oldPassword, @Nullable final String newPassword) throws ServerException {
+        try {
+            return userService.changePassword(session, oldPassword, newPassword);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public String showProfile(@Nullable final Session session) {
-        return userService.showUserProfile(session);
+    public String showProfile(@Nullable final Session session) throws ServerException {
+        try {
+            return userService.showUserProfile(session);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 
     @Override @NotNull
-    public Boolean register(@Nullable final String login, @Nullable final String password) {
-        return userService.register(login, password);
+    public Boolean register(@Nullable final String login, @Nullable final String password) throws ServerException {
+        try {
+            return userService.register(login, password);
+        } catch (Exception e) {
+            throw new ServerException(e);
+        }
     }
 }

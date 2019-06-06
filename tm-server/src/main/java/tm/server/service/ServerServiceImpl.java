@@ -46,14 +46,14 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Nullable
-    protected String getCurrentUserId(@Nullable final Session session) {
+    protected String getCurrentUserId(@Nullable final Session session) throws Exception {
         if (session == null || !SessionUtil.isValid(session)) return null;
         if (!serviceLocator.getSessionService().isOpen(session.getId())) return null;
         return session.getUserId();
     }
 
     @Override @NotNull
-    public String showAbout() {
+    public String showAbout() throws Exception {
         String out = "Sorry, unable to find config.properties";
         try (InputStream input = AboutCommand.class.getClassLoader().getResourceAsStream("application.properties")) {
             Properties prop = new Properties();
@@ -74,7 +74,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean shutdown(@Nullable final Session session) {
+    public Boolean shutdown(@Nullable final Session session) throws Exception {
         final User user = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (user == null || user.getRole() != User.Role.ADMIN) return false;
         serviceLocator.getEndpoints().forEach(Endpoint::stop);
@@ -94,7 +94,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public String showHelp(@Nullable final Session session) {
+    public String showHelp(@Nullable final Session session) throws Exception {
         final User user = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         final boolean loggedIn = user != null;
         final StringBuilder sb = new StringBuilder();
@@ -104,7 +104,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean setSortMethod(@Nullable final Session session, @Nullable final ComparatorType comparatorType) {
+    public Boolean setSortMethod(@Nullable final Session session, @Nullable final ComparatorType comparatorType) throws Exception {
         if (comparatorType == null || session == null || !SessionUtil.isValid(session)) return false;
         if (!serviceLocator.getSessionService().isOpen(session.getId())) return false;
         session.setSortMethod(comparatorType);
@@ -113,7 +113,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataClearBinary(@Nullable final Session session) throws IOException {
+    public Boolean dataClearBinary(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/binData/" + currentUser.getName());
@@ -122,7 +122,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveBinary(@Nullable final Session session) throws IOException {
+    public Boolean dataSaveBinary(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/binData/" + currentUser.getName());
@@ -145,7 +145,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadBinary(@Nullable final Session session) throws IOException, ClassNotFoundException {
+    public Boolean dataLoadBinary(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/binData/" + currentUser.getName());
@@ -173,7 +173,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbXml(@Nullable final Session session) throws IOException {
+    public Boolean dataClearJaxbXml(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + currentUser.getName());
@@ -182,7 +182,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbXml(@Nullable final Session session) throws IOException, JAXBException {
+    public Boolean dataSaveJaxbXml(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + currentUser.getName());
@@ -199,7 +199,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbXml(@Nullable final Session session) throws JAXBException {
+    public Boolean dataLoadJaxbXml(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/JAXBData/xml/" + currentUser.getName());
@@ -211,22 +211,22 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save new data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> {
+            for (Project p : userData.getProjects()) {
                 p.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getProjectService().save(session, p);
-            });
+            }
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t -> {
+            for (Task t : userData.getTasks()) {
                 t.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getTaskService().save(session, t);
-            });
+            }
         }
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbJson(@Nullable final Session session) throws IOException {
+    public Boolean dataClearJaxbJson(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + currentUser.getName());
@@ -235,7 +235,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbJson(@Nullable final Session session) throws IOException, JAXBException {
+    public Boolean dataSaveJaxbJson(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + currentUser.getName());
@@ -261,7 +261,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbJson(@Nullable final Session session) throws JAXBException {
+    public Boolean dataLoadJaxbJson(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/JAXBData/json/" + currentUser.getName());
@@ -285,22 +285,22 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save persisted data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> {
+            for (Project p : userData.getProjects()) {
                 p.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getProjectService().save(session, p);
-            });
+            }
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t -> {
+            for (Task t : userData.getTasks()) {
                 t.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getTaskService().save(session, t);
-            });
+            }
         }
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterXml(@Nullable final Session session) throws IOException {
+    public Boolean dataClearFasterXml(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + currentUser.getName());
@@ -309,7 +309,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterXml(@Nullable final Session session) throws IOException {
+    public Boolean dataSaveFasterXml(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + currentUser.getName());
@@ -325,7 +325,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterXml(@Nullable final Session session) throws IOException {
+    public Boolean dataLoadFasterXml(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/FasterXml/xml/" + currentUser.getName());
@@ -337,22 +337,22 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save new data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> {
+            for (Project p : userData.getProjects()) {
                 p.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getProjectService().save(session, p);
-            });
+            }
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t -> {
+            for (Task t : userData.getTasks()) {
                 t.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getTaskService().save(session, t);
-            });
+            }
         }
         return true;
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterJson(@Nullable final Session session) throws IOException {
+    public Boolean dataClearFasterJson(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + currentUser.getName());
@@ -361,7 +361,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterJson(@Nullable final Session session) throws IOException {
+    public Boolean dataSaveFasterJson(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + currentUser.getName());
@@ -377,7 +377,7 @@ public class ServerServiceImpl implements ServerService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterJson(@Nullable final Session session) throws IOException {
+    public Boolean dataLoadFasterJson(@Nullable final Session session) throws Exception {
         final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
         if (currentUser == null) return false;
         final Path path = Paths.get("TaskManagerSavedData/FasterXml/json/" + currentUser.getName());
@@ -390,16 +390,16 @@ public class ServerServiceImpl implements ServerService {
         serviceLocator.getProjectService().deleteAll(session);
         //save persisted data
         if (userData.getProjects() != null) {
-            userData.getProjects().forEach(p -> {
+            for (Project p : userData.getProjects()) {
                 p.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getProjectService().save(session, p);
-            });
+            }
         }
         if (userData.getTasks() != null) {
-            userData.getTasks().forEach(t ->{
+            for (Task t : userData.getTasks()) {
                 t.setUserId(currentUser.getId()); //cause users are not persisted
                 serviceLocator.getTaskService().save(session, t);
-            });
+            }
         }
         return true;
     }

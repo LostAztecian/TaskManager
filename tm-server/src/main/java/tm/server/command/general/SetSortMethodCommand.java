@@ -24,7 +24,7 @@ public class SetSortMethodCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         System.out.println("[SELECT SORT METHOD]");
         System.out.println("OPTIONS:");
         for (ComparatorType comparatorType : ComparatorType.values()) {

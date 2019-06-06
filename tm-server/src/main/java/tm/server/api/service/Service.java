@@ -10,24 +10,24 @@ import java.util.Collection;
 public interface Service<T extends Entity> {
 
     @NotNull
-    Collection<T> getAll(@Nullable Session session);
+    Collection<T> getAll(@Nullable Session session) throws Exception;
 
     @NotNull
-    Collection<T> getAllByName(@Nullable Session session, @Nullable String name);
+    Collection<T> getAllByName(@Nullable Session session, @Nullable String name) throws Exception;
 
     @Nullable
-    T get(@Nullable Session session, @Nullable String id);
+    T get(@Nullable Session session, @Nullable String id) throws Exception;
 
-    Boolean save(@Nullable Session session, @Nullable T object);
+    Boolean save(@Nullable Session session, @Nullable T object) throws Exception;
 
-    Boolean delete(@Nullable Session session, @Nullable String id);
+    Boolean delete(@Nullable Session session, @Nullable String id) throws Exception;
 
-    Boolean delete(@Nullable Session session, @Nullable T object);
+    Boolean delete(@Nullable Session session, @Nullable T object) throws Exception;
 
-    Boolean deleteByIds(@Nullable Session session, @Nullable Collection<String> ids);
+    Boolean deleteByIds(@Nullable Session session, @Nullable Collection<String> ids) throws Exception;
 
-    Boolean deleteByName(@Nullable Session session, @Nullable String name);
+    Boolean deleteByName(@Nullable Session session, @Nullable String name) throws Exception;
 
-    Boolean deleteAll(@Nullable Session session);
+    Boolean deleteAll(@Nullable Session session) throws Exception;
 
 }

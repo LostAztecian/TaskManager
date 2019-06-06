@@ -26,7 +26,7 @@ public class ProjectListCommand extends AbstractCommand {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws Throwable {
         final Session session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Collection<Project> allProjects = getServiceLocator().getProjectService().getAll(session);
@@ -35,12 +35,12 @@ public class ProjectListCommand extends AbstractCommand {
             System.out.println();
             return;
         }
-        final Collection<Project> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-        sortedProjects.addAll(allProjects);
         System.out.println("PROJECT LIST");
         int index = 1;
-        for (final Project project : sortedProjects) {
-            System.out.printf("%d. %s %n", index++, project);
+        for (final Project project : allProjects) {
+            System.out.println(index++ + " " + project.getName() + ": " + project.getDescription());
+            System.out.println("\tBelongs to user: " + project.getUserId());
+            System.out.println("\tCreated: " + project.getCreationDate() + " Start: " + project.getStartDate() + " End: " + project.getEndDate());
         }
         System.out.println();
     }
