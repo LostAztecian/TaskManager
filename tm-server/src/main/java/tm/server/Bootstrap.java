@@ -2,6 +2,7 @@ package tm.server;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
@@ -11,19 +12,18 @@ import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
-import tm.server.repository.map.SessionRepositoryMap;
-import tm.server.repository.mysql.ProjectRepositoryMySQL;
-import tm.server.repository.mysql.SessionRepositoryMySQL;
-import tm.server.repository.mysql.TaskRepositoryMySQL;
-import tm.server.repository.mysql.UserRepositoryMySQL;
+import tm.server.repository.jdbc.ProjectRepositoryMySQL;
+import tm.server.repository.jdbc.SessionRepositoryMySQL;
+import tm.server.repository.jdbc.TaskRepositoryMySQL;
+import tm.server.repository.jdbc.UserRepositoryMySQL;
+import tm.server.repository.mybatis.ProjectRepositoryMyBatis;
+import tm.server.repository.mybatis.SessionRepositoryMyBatis;
+import tm.server.repository.mybatis.UserRepositoryMyBatis;
 import tm.server.service.*;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.DatabaseConnectionUtil;
 import tm.server.utils.InputHelper;
 import tm.common.comparator.ComparatorType;
-import tm.server.repository.map.ProjectRepositoryMap;
-import tm.server.repository.map.TaskRepositoryMap;
-import tm.server.repository.map.UserRepositoryMap;
 import tm.server.utils.SessionUtil;
 
 import javax.xml.ws.Endpoint;
@@ -61,11 +61,15 @@ public class Bootstrap implements ServiceLocator {
     public void terminate() { isTerminated = true; }
 
     public void init(@Nullable final Class[] classes) {
-        initConnections();
-        initServices();
-        initCommands(classes);
-//        initUsers();
-        mainLoop();
+        try {
+            initConnections();
+            initServices();
+            initCommands(classes);
+//            initUsers();
+            mainLoop();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     private void initUsers() throws Throwable {
@@ -79,15 +83,17 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initConnections() {
-        databaseConnection = DatabaseConnectionUtil.getDatabaseConnection();
+        databaseConnection = DatabaseConnectionUtil.getJDBCConnection();
     }
 
-    private void initServices() {
+    private void initServices() throws Exception {
+        final SqlSessionFactory sessionFactory = DatabaseConnectionUtil.getSessionFactory();
+        if (sessionFactory == null) throw new Exception("can not initialize session factory");
         taskService = new TaskServiceImpl(new TaskRepositoryMySQL(databaseConnection), this);
-        projectService = new ProjectServiceImpl(new ProjectRepositoryMySQL(databaseConnection), this);
-        userService = new UserServiceImpl(new UserRepositoryMySQL(databaseConnection), this);
+        projectService = new ProjectServiceImpl(new ProjectRepositoryMyBatis(sessionFactory), this);
+        userService = new UserServiceImpl(new UserRepositoryMyBatis(sessionFactory), this);
         serverService = new ServerServiceImpl(this);
-        sessionService = new SessionServiceImpl(new SessionRepositoryMySQL(databaseConnection), this);
+        sessionService = new SessionServiceImpl(new SessionRepositoryMyBatis(sessionFactory), this);
     }
 
     private void initCommands(@Nullable final Class[] classes) {

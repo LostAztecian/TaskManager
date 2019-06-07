@@ -2,6 +2,7 @@ package tm.server.command.general;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
+import tm.server.repository.mybatis.TestRepositoryMyBatis;
 import tm.server.webservice.ProjectWebServiceBean;
 import tm.server.webservice.ServerWebServiceBean;
 import tm.server.webservice.TaskWebServiceBean;
@@ -47,6 +48,10 @@ public class PublishEndpoints extends AbstractCommand {
         taskEndpoint.publish(taskServiceURL);
         getServiceLocator().getEndpoints().add(taskEndpoint);
         System.out.println("[ENDPOINTS PUBLISHED]");
+//
+//        System.out.println("[TESTING]");
+//        new TestRepositoryMyBatis().test();
+//        System.out.println("[/TESTING]");
     }
 
 }

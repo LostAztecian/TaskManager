@@ -1,5 +1,9 @@
 package tm.server.utils;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -12,7 +16,7 @@ import java.util.Properties;
 public class DatabaseConnectionUtil {
 
     @Nullable
-    public static Connection getDatabaseConnection() {
+    public static Connection getJDBCConnection() {
         Connection connection = null;
         try (InputStream input = DatabaseConnectionUtil.class.getClassLoader().getResourceAsStream("mysql-database.properties")){
             Properties prop = new Properties();
@@ -29,5 +33,13 @@ public class DatabaseConnectionUtil {
         }
         System.out.println("[DATABASE CONNECTION ESTABLISHED]");
         return connection;
+    }
+
+    @Nullable
+    public static SqlSessionFactory getSessionFactory() throws Exception {
+        final String resource = "mybatis-config.xml";
+        try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
+            return new SqlSessionFactoryBuilder().build(inputStream);
+        }
     }
 }

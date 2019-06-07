@@ -1,4 +1,4 @@
-package tm.server.repository.mysql;
+package tm.server.repository.jdbc;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
