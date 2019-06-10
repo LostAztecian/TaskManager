@@ -18,6 +18,7 @@ import tm.server.repository.jdbc.TaskRepositoryMySQL;
 import tm.server.repository.jdbc.UserRepositoryMySQL;
 import tm.server.repository.mybatis.ProjectRepositoryMyBatis;
 import tm.server.repository.mybatis.SessionRepositoryMyBatis;
+import tm.server.repository.mybatis.TaskRepositoryMyBatis;
 import tm.server.repository.mybatis.UserRepositoryMyBatis;
 import tm.server.service.*;
 import tm.server.utils.CypherUtil;
@@ -89,7 +90,7 @@ public class Bootstrap implements ServiceLocator {
     private void initServices() throws Exception {
         final SqlSessionFactory sessionFactory = DatabaseConnectionUtil.getSessionFactory();
         if (sessionFactory == null) throw new Exception("can not initialize session factory");
-        taskService = new TaskServiceImpl(new TaskRepositoryMySQL(databaseConnection), this);
+        taskService = new TaskServiceImpl(new TaskRepositoryMyBatis(sessionFactory), this);
         projectService = new ProjectServiceImpl(new ProjectRepositoryMyBatis(sessionFactory), this);
         userService = new UserServiceImpl(new UserRepositoryMyBatis(sessionFactory), this);
         serverService = new ServerServiceImpl(this);

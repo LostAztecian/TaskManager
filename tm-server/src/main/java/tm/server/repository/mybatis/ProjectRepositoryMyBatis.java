@@ -110,6 +110,7 @@ public class ProjectRepositoryMyBatis implements ProjectRepository {
     @Override
     public @Nullable String remove(@NotNull String userId, @NotNull String id) throws Exception {
         final Project deletedProject = mapper.findOne(userId, id);
+        if (deletedProject == null) return null;
         mapper.removeById(userId, deletedProject.getId());
         session.commit();
         return deletedProject.getId();

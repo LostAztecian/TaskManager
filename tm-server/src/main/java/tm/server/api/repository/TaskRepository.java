@@ -11,7 +11,7 @@ public interface TaskRepository extends PlannedEntityRepository<Task> {
     Collection<Task> findByProjectId(@NotNull String userId, @NotNull String projectId) throws Exception;
 
     @NotNull
-    Collection<String> removeByProjectIds(@NotNull Collection<String> ids) throws Exception;
+    Collection<String> removeByProjectIds(@NotNull String userId, @NotNull Collection<String> ids) throws Exception;
 
 
 }

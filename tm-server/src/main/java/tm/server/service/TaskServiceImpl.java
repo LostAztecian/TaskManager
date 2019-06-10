@@ -39,8 +39,8 @@ public class TaskServiceImpl extends AbstractService<Task> implements TaskServic
     @Override
     public @NotNull Collection<String> removeTasksByProjectIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws Exception {
         final String userId = getCurrentUserId(session);
-        if (userId == null || ids == null || ids.isEmpty()) return Collections.emptySet();
-        return ((TaskRepository)repository).removeByProjectIds(ids);
+        if (userId == null || ids == null || ids.isEmpty() || session == null) return Collections.emptySet();
+        return ((TaskRepository)repository).removeByProjectIds(session.getUserId(), ids);
     }
 
     @Override @NotNull

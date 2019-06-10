@@ -245,7 +245,7 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<String> removeByProjectIds(@NotNull final Collection<String> ids) throws SQLException {
+    public Collection<String> removeByProjectIds(@NotNull final String userId, @NotNull final Collection<String> ids) throws SQLException {
         final Collection<String> removedIds = new HashSet<>();
         final PreparedStatement getIdStatement = connection.prepareStatement("SELECT `id` FROM `task` WHERE `projectId` = ?");
         for (final String id : ids) {

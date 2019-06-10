@@ -17,7 +17,7 @@ public class TaskRepositoryMap extends AbstractRepositoryMap<Task> implements tm
     }
 
     @Override
-    public @NotNull Collection<String> removeByProjectIds(@NotNull Collection<String> ids) {
+    public @NotNull Collection<String> removeByProjectIds(@NotNull final String userId, @NotNull Collection<String> ids) {
         final Collection<String> taskIds = new HashSet<>();
         ids.forEach(id -> map.values().stream().filter(t -> id.equals(t.getProjectId())).forEach(t -> taskIds.add(t.getId())));
         taskIds.forEach(map::remove);
