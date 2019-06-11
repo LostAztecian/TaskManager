@@ -1,7 +1,6 @@
 package tm.server.repository.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.User;
@@ -16,13 +15,10 @@ import java.util.stream.Collectors;
 
 public class UserRepositoryMyBatis implements UserRepository {
 
-    private final SqlSession session;
     private final UserMapper mapper;
 
-    public UserRepositoryMyBatis(SqlSessionFactory sessionFactory) {
-        this.session = sessionFactory.openSession();
-        session.getConfiguration().addMapper(UserMapper.class);
-        mapper = session.getMapper(UserMapper.class);
+    public UserRepositoryMyBatis(@NotNull final SqlSession sqlSession) {
+        mapper = sqlSession.getMapper(UserMapper.class);
     }
 
     @Override
@@ -57,7 +53,6 @@ public class UserRepositoryMyBatis implements UserRepository {
     @Override
     public @NotNull Boolean persist(@NotNull User user) throws Exception {
         mapper.persist(user);
-        session.commit();
         return true;
     }
 
@@ -69,7 +64,6 @@ public class UserRepositoryMyBatis implements UserRepository {
         }
         mapper.remove(user.getId());
         mapper.persist(user);
-        session.commit();
         return true;
     }
 
@@ -79,7 +73,6 @@ public class UserRepositoryMyBatis implements UserRepository {
         if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return null;
         final User deletedUser = mapper.findOne(id);
         mapper.remove(id);
-        session.commit();
         return deletedUser.getId();
     }
 
@@ -94,7 +87,6 @@ public class UserRepositoryMyBatis implements UserRepository {
         if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return Collections.emptySet();
         final List<User> deletedUsers = mapper.findByName(name);
         mapper.removeByName(name);
-        session.commit();
         return deletedUsers.stream().map(User::getId).collect(Collectors.toSet());
     }
 
@@ -104,7 +96,7 @@ public class UserRepositoryMyBatis implements UserRepository {
         if (currentUser == null || currentUser.getRole() != User.Role.ADMIN) return Collections.emptySet();
         final List<User> deletedUsers = mapper.findAll();
         mapper.removeAll();
-        session.commit();
         return deletedUsers.stream().map(User::getId).collect(Collectors.toSet());
     }
+
 }

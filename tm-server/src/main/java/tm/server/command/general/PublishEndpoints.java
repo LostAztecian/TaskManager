@@ -2,7 +2,6 @@ package tm.server.command.general;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.repository.mybatis.TestRepositoryMyBatis;
 import tm.server.webservice.ProjectWebServiceBean;
 import tm.server.webservice.ServerWebServiceBean;
 import tm.server.webservice.TaskWebServiceBean;

@@ -34,17 +34,29 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override @NotNull
     public Boolean save(@Nullable final Session session, @Nullable final User user) throws Exception {
-        if (!isValid(session, user)) return false;
-        user.setPasswordHash(CypherUtil.getMd5(user.getPasswordHash())); //checked in validation method
-        repository.merge(user.getId(), user);
-        return true;
+        try {
+            if (!isValid(session, user)) return false;
+            user.setPasswordHash(CypherUtil.getMd5(user.getPasswordHash())); //checked in validation method
+            repository.merge(user.getId(), user);
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @NotNull
     public Boolean persist(@Nullable final Session session, @Nullable final User user) throws Exception {
-        if (!isValid(session, user)) return false;
-        repository.persist(user); //checked in validation method
-        return true;
+        try {
+            if (!isValid(session, user)) return false;
+            repository.persist(user); //checked in validation method
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override @NotNull
@@ -62,11 +74,18 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Override @NotNull
     public Boolean register(@Nullable final String login, @Nullable final String password) throws Exception {
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) return false;
-        final User user = new User();
-        user.setLogin(login);
-        user.setPasswordHash(CypherUtil.getMd5(password));
-        final Session session = SessionUtil.getSessionForUser(user);
-        return persist(session, user);
+        try {
+            final User user = new User();
+            user.setLogin(login);
+            user.setPasswordHash(CypherUtil.getMd5(password));
+            final Session session = SessionUtil.getSessionForUser(user);
+            final Boolean result = persist(session, user);
+            connection.commit();
+            return result;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override @Nullable
@@ -101,11 +120,17 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override @NotNull
     public Boolean changePassword(@Nullable final Session session, @Nullable final String oldPassword, @Nullable final String newPassword) throws Exception {
-        final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
-        if (oldPassword == null || newPassword == null || newPassword.isEmpty()) return false;
-        if (currentUser == null || CypherUtil.getMd5(oldPassword).equals(currentUser.getPasswordHash())) return false;
-        currentUser.setPasswordHash(CypherUtil.getMd5(newPassword));
-        repository.merge(currentUser.getId(), currentUser);
-        return true;
+        try {
+            final User currentUser = serviceLocator.getUserService().get(session, getCurrentUserId(session));
+            if (oldPassword == null || newPassword == null || newPassword.isEmpty()) return false;
+            if (currentUser == null || CypherUtil.getMd5(oldPassword).equals(currentUser.getPasswordHash())) return false;
+            currentUser.setPasswordHash(CypherUtil.getMd5(newPassword));
+            repository.merge(currentUser.getId(), currentUser);
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 }

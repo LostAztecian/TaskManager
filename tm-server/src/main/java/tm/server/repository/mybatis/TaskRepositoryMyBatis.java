@@ -1,7 +1,6 @@
 package tm.server.repository.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
@@ -16,13 +15,10 @@ import java.util.stream.Collectors;
 
 public class TaskRepositoryMyBatis implements TaskRepository {
 
-    private final SqlSession session;
     private final TaskMapper mapper;
 
-    public TaskRepositoryMyBatis(SqlSessionFactory sessionFactory) {
-        this.session = sessionFactory.openSession();
-        session.getConfiguration().addMapper(TaskMapper.class);
-        this.mapper = session.getMapper(TaskMapper.class);
+    public TaskRepositoryMyBatis(@NotNull final SqlSession sqlSession) {
+        this.mapper = sqlSession.getMapper(TaskMapper.class);
     }
 
     @Override
@@ -100,7 +96,6 @@ public class TaskRepositoryMyBatis implements TaskRepository {
     @Override
     public @NotNull Boolean persist(@NotNull Task task) throws Exception {
         mapper.persist(task);
-        session.commit();
         return true;
     }
 
@@ -109,7 +104,6 @@ public class TaskRepositoryMyBatis implements TaskRepository {
         final Task oldTask = mapper.findOne(userId, task.getId());
         if (oldTask != null) mapper.removeById(userId, task.getId());
         mapper.persist(task);
-        session.commit();
         return true;
     }
 
@@ -118,7 +112,6 @@ public class TaskRepositoryMyBatis implements TaskRepository {
         final Task deletedTask = mapper.findOne(userId, id);
         if (deletedTask == null) return null;
         mapper.removeById(userId, deletedTask.getId());
-        session.commit();
         return deletedTask.getId();
     }
 
@@ -134,7 +127,6 @@ public class TaskRepositoryMyBatis implements TaskRepository {
             deletedTasks.addAll(mapper.findByProjectId(userId, id));
             mapper.removeByProjectId(userId, id);
         }
-        session.commit();
         return deletedTasks.stream().map(Task::getId).collect(Collectors.toSet());
     }
 
@@ -143,7 +135,6 @@ public class TaskRepositoryMyBatis implements TaskRepository {
         final Collection<Task> deletedTasks = mapper.findByName(userId, name);
         if (deletedTasks.isEmpty()) return Collections.emptySet();
         mapper.removeByName(userId, name);
-        session.commit();
         return deletedTasks.stream().map(Task::getId).collect(Collectors.toSet());
     }
 
@@ -152,7 +143,6 @@ public class TaskRepositoryMyBatis implements TaskRepository {
         final Collection<Task> deletedTasks = findAll(userId);
         if (deletedTasks.isEmpty()) return Collections.emptySet();
         mapper.clear(userId);
-        session.commit();
         return deletedTasks.stream().map(Task::getId).collect(Collectors.toSet());
     }
 

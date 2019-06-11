@@ -1,7 +1,6 @@
 package tm.server.repository.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
@@ -15,13 +14,10 @@ import java.util.stream.Collectors;
 
 public class ProjectRepositoryMyBatis implements ProjectRepository {
 
-    private final SqlSession session;
     private final ProjectMapper mapper;
 
-    public ProjectRepositoryMyBatis(SqlSessionFactory sessionFactory) {
-        this.session = sessionFactory.openSession();
-        session.getConfiguration().addMapper(ProjectMapper.class);
-        mapper = session.getMapper(ProjectMapper.class);
+    public ProjectRepositoryMyBatis(@NotNull final SqlSession sqlSession) {
+        mapper = sqlSession.getMapper(ProjectMapper.class);
     }
 
     @Override
@@ -94,7 +90,6 @@ public class ProjectRepositoryMyBatis implements ProjectRepository {
     @Override
     public @NotNull Boolean persist(@NotNull Project project) throws Exception {
         mapper.persist(project);
-        session.commit();
         return true;
     }
 
@@ -103,7 +98,6 @@ public class ProjectRepositoryMyBatis implements ProjectRepository {
         final Project oldProject = mapper.findOne(userId, project.getId());
         if (oldProject != null) mapper.removeById(userId, project.getId());
         mapper.persist(project);
-        session.commit();
         return true;
     }
 
@@ -112,7 +106,6 @@ public class ProjectRepositoryMyBatis implements ProjectRepository {
         final Project deletedProject = mapper.findOne(userId, id);
         if (deletedProject == null) return null;
         mapper.removeById(userId, deletedProject.getId());
-        session.commit();
         return deletedProject.getId();
     }
 
@@ -125,7 +118,6 @@ public class ProjectRepositoryMyBatis implements ProjectRepository {
     public @NotNull Collection<String> removeByName(@NotNull String userId, @NotNull String name) throws Exception {
         final List<Project> projects = mapper.findByName(userId, name);
         mapper.removeByName(userId, name);
-        session.commit();
         return projects.stream().map(Project::getId).collect(Collectors.toSet());
     }
 
@@ -133,7 +125,6 @@ public class ProjectRepositoryMyBatis implements ProjectRepository {
     public @NotNull Collection<String> removeAll(@NotNull String userId) throws Exception {
         final List<Project> projects = mapper.findByUserId(userId);
         mapper.clear(userId);
-        session.commit();
         return projects.stream().map(Project::getId).collect(Collectors.toSet());
     }
 

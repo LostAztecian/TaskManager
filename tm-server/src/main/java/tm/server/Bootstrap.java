@@ -2,6 +2,7 @@ package tm.server;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +28,8 @@ import tm.server.utils.InputHelper;
 import tm.common.comparator.ComparatorType;
 import tm.server.utils.SessionUtil;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.xml.ws.Endpoint;
 import java.sql.Connection;
 import java.util.*;
@@ -63,7 +66,6 @@ public class Bootstrap implements ServiceLocator {
 
     public void init(@Nullable final Class[] classes) {
         try {
-            initConnections();
             initServices();
             initCommands(classes);
 //            initUsers();
@@ -83,18 +85,33 @@ public class Bootstrap implements ServiceLocator {
         userService.register("demo", "demo");
     }
 
-    private void initConnections() {
+    private void initJdbcConnections() throws Exception {
         databaseConnection = DatabaseConnectionUtil.getJDBCConnection();
+        if (databaseConnection == null) throw new NullPointerException("database connection is null");
+        databaseConnection.setAutoCommit(false);
+    }
+
+    private SqlSession initMyBatisConnections() throws Exception {
+        final SqlSessionFactory sessionFactory = DatabaseConnectionUtil.getSessionFactory();
+        final SqlSession sqlSession = sessionFactory.openSession();
+        databaseConnection = sqlSession.getConnection();
+        databaseConnection.setAutoCommit(false);
+        return sqlSession;
+    }
+
+    private EntityManager initHibernateConnection() {
+        final EntityManagerFactory factory = DatabaseConnectionUtil.getEntityManagerFactory();
+        final EntityManager entityManager = factory.createEntityManager();
+        return entityManager;
     }
 
     private void initServices() throws Exception {
-        final SqlSessionFactory sessionFactory = DatabaseConnectionUtil.getSessionFactory();
-        if (sessionFactory == null) throw new Exception("can not initialize session factory");
-        taskService = new TaskServiceImpl(new TaskRepositoryMyBatis(sessionFactory), this);
-        projectService = new ProjectServiceImpl(new ProjectRepositoryMyBatis(sessionFactory), this);
-        userService = new UserServiceImpl(new UserRepositoryMyBatis(sessionFactory), this);
+        final SqlSession sqlSession = initMyBatisConnections();
+        taskService = new TaskServiceImpl(new TaskRepositoryMyBatis(sqlSession), this);
+        projectService = new ProjectServiceImpl(new ProjectRepositoryMyBatis(sqlSession), this);
+        userService = new UserServiceImpl(new UserRepositoryMyBatis(sqlSession), this);
         serverService = new ServerServiceImpl(this);
-        sessionService = new SessionServiceImpl(new SessionRepositoryMyBatis(sessionFactory), this);
+        sessionService = new SessionServiceImpl(new SessionRepositoryMyBatis(sqlSession), this);
     }
 
     private void initCommands(@Nullable final Class[] classes) {

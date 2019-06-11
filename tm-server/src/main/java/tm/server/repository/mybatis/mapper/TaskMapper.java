@@ -20,7 +20,7 @@ public interface TaskMapper {
             "VALUES (#{id}, #{userId}, #{projectId}, #{status}, #{name}, #{description}, #{creationDate}, #{startDate}, #{endDate})";
     String REMOVE_BY_ID  = "DELETE FROM `task` WHERE `userId` = #{userId} AND `id` = #{id}";
     String REMOVE_BY_PROJECT_ID  = "DELETE FROM `task` WHERE `userId` = #{userId} AND `projectId` = #{projectId}";
-    String REMOVE_BY_NAME  = "DELETE FROM `task`, WHERE `userId` = #{userId} AND `name` = #{name}";
+    String REMOVE_BY_NAME  = "DELETE FROM `task` WHERE `userId` = #{userId} AND `name` = #{name}";
     String REMOVE_ALL  = "DELETE FROM `task`, WHERE `userId` = #{userId}";
 
     @Results(value = {

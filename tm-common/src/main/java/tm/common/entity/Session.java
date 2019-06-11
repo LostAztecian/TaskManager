@@ -21,7 +21,7 @@ public class Session {
     @NotNull private String userLogin = "";
     @NotNull private Date creationDate = new Date();
     @NotNull private ComparatorType sortMethod = ComparatorType.BY_CREATION_DATE;
-    private String hash;
+    @Nullable private String hash;
 
     public Session(@NotNull final String userId, @NotNull final String userLogin) {
         this.userId = userId;

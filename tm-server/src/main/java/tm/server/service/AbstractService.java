@@ -9,6 +9,7 @@ import tm.server.api.repository.Repository;
 import tm.server.api.service.Service;
 import tm.server.utils.SessionUtil;
 
+import java.sql.Connection;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -18,11 +19,15 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     protected final Repository<T> repository;
     @NotNull
     final ServiceLocator serviceLocator;
+    @NotNull
+    final Connection connection;
 
     AbstractService(@NotNull final Repository<T> repository,
                     @NotNull final ServiceLocator serviceLocator) {
         this.repository = repository;
         this.serviceLocator = serviceLocator;
+        if (serviceLocator.getDatabaseConnection() == null) throw new NullPointerException("no database connection");
+        this.connection = serviceLocator.getDatabaseConnection();
     }
 
     @Nullable
@@ -56,30 +61,48 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
 
     @Override
     public Boolean save(@Nullable final Session session, @Nullable final T object) throws Exception {
-        final String userId = getCurrentUserId(session);
-        if (userId == null) return false;
-        if (object == null || object.getId().isEmpty()) return false;
-        repository.merge(userId, object);
-        return true;
+        try {
+            final String userId = getCurrentUserId(session);
+            if (userId == null) return false;
+            if (object == null || object.getId().isEmpty()) return false;
+            repository.merge(userId, object);
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override
     public Boolean delete(@Nullable final Session session, @Nullable final String id) throws Exception {
         if (id == null || id.isEmpty()) return false;
-        final String userId = getCurrentUserId(session);
-        if (userId == null) return false;
-        final String deletedId = repository.remove(userId, id);
-        deleteChildrenByParentId(session, deletedId);
-        return deletedId != null;
+        try {
+            final String userId = getCurrentUserId(session);
+            if (userId == null) return false;
+            final String deletedId = repository.remove(userId, id);
+            deleteChildrenByParentId(session, deletedId);
+            connection.commit();
+            return deletedId != null;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override
     public Boolean delete(@Nullable final Session session, @Nullable final T object) throws Exception {
-        final String userId = getCurrentUserId(session);
-        if (userId == null || object == null) return false;
-        final String deletedId = repository.remove(userId, object);
-        deleteChildrenByParentId(session, deletedId);
-        return true;
+        try {
+            final String userId = getCurrentUserId(session);
+            if (userId == null || object == null) return false;
+            final String deletedId = repository.remove(userId, object);
+            deleteChildrenByParentId(session, deletedId);
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     protected abstract Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) throws Exception;
@@ -88,11 +111,17 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
 
     @Override
     public Boolean deleteByName(@Nullable final Session session, @Nullable final String name) throws Exception {
-        final String userId = getCurrentUserId(session);
-        if (userId == null || name == null || name.isEmpty()) return false;
-        final Collection<String> deletedIds = repository.removeByName(userId, name);
-        deleteChildrenByParentIds(session, deletedIds);
-        return true;
+        try {
+            final String userId = getCurrentUserId(session);
+            if (userId == null || name == null || name.isEmpty()) return false;
+            final Collection<String> deletedIds = repository.removeByName(userId, name);
+            deleteChildrenByParentIds(session, deletedIds);
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override
@@ -108,11 +137,17 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
 
     @Override
     public Boolean deleteAll(@Nullable final Session session) throws Exception {
-        final String userId = getCurrentUserId(session);
-        if (userId == null) return false;
-        final Collection<String> deletedIds = repository.removeAll(userId);
-        deleteChildrenByParentIds(session, deletedIds);
-        return true;
+        try {
+            final String userId = getCurrentUserId(session);
+            if (userId == null) return false;
+            final Collection<String> deletedIds = repository.removeAll(userId);
+            deleteChildrenByParentIds(session, deletedIds);
+            connection.commit();
+            return true;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
 }

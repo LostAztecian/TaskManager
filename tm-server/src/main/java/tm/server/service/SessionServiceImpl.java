@@ -7,6 +7,7 @@ import tm.server.api.ServiceLocator;
 import tm.server.api.repository.SessionRepository;
 import tm.server.api.service.SessionService;
 
+import java.sql.Connection;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -14,10 +15,12 @@ public class SessionServiceImpl implements SessionService {
     
     private final SessionRepository repository;
     private final ServiceLocator serviceLocator;
+    private final Connection connection;
 
     public SessionServiceImpl(@NotNull final SessionRepository repository, @NotNull final ServiceLocator serviceLocator) {
         this.repository = repository;
         this.serviceLocator = serviceLocator;
+        this.connection = serviceLocator.getDatabaseConnection();
     }
 
     @Override @NotNull
@@ -45,24 +48,52 @@ public class SessionServiceImpl implements SessionService {
 
     @Override @NotNull
     public Boolean open(@Nullable final Session session) throws Exception {
-        if (session == null) return false;
-        return repository.persist(session);
+        try {
+            if (session == null) return false;
+            final Boolean result = repository.persist(session);
+            connection.commit();
+            return result;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override @NotNull
     public Boolean closeById(@Nullable final String id) throws Exception {
-        if (id == null || id.isEmpty()) return false;
-        return repository.deleteById(id);
+        try {
+            if (id == null || id.isEmpty()) return false;
+            final Boolean result =  repository.deleteById(id);
+            connection.commit();
+            return result;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override @NotNull
     public Boolean closeByUserId(@Nullable final String userId) throws Exception {
-        if (userId == null || userId.isEmpty()) return false;
-        return repository.deleteByUserId(userId);
+        try {
+            if (userId == null || userId.isEmpty()) return false;
+            final Boolean result =  repository.deleteByUserId(userId);
+            connection.commit();
+            return result;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 
     @Override @NotNull
     public Boolean closeAll() throws Exception {
-        return repository.deleteAll();
+        try {
+            final Boolean result =  repository.deleteAll();
+            connection.commit();
+            return result;
+        } catch (Exception e) {
+            connection.rollback();
+            throw e;
+        }
     }
 }
