@@ -15,7 +15,7 @@
 
             <dataSource type = "POOLED">
                 <property name = "driver" value = "com.mysql.jdbc.Driver"/>
-                <property name = "url" value = "jdbc:mysql://localhost:3306/taskmanager"/>
+                <property name = "url" value = "jdbc:mysql://localhost:3306/taskmanager?serverTimezone=UTC&amp;useSSL=false"/>
                 <property name = "username" value = "root"/>
                 <property name = "password" value = "root"/>
             </dataSource>
