@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.Status;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.Task;
+import tm.common.entity.TaskDTO;
 import tm.server.api.repository.TaskRepository;
 
 import java.sql.*;
@@ -20,8 +20,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @NotNull
-    private Task fetch(@NotNull final ResultSet resultSet) throws SQLException {
-        final Task task = new Task();
+    private TaskDTO fetch(@NotNull final ResultSet resultSet) throws SQLException {
+        final TaskDTO task = new TaskDTO();
         task.setId(resultSet.getString("id"));
         task.setProjectId(resultSet.getString("projectId"));
         task.setUserId(resultSet.getString("userId"));
@@ -35,8 +35,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<Task> findAll(@NotNull final String userId) throws SQLException {
-        final Collection<Task> tasks = new HashSet<>();
+    public Collection<TaskDTO> findAll(@NotNull final String userId) throws SQLException {
+        final Collection<TaskDTO> tasks = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE `userId` = ?");
         statement.setString(1, userId);
         final ResultSet resultSet = statement.executeQuery();
@@ -47,8 +47,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<Task> findAllAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType) throws SQLException {
-        final Collection<Task> tasks = new LinkedHashSet<>();
+    public Collection<TaskDTO> findAllAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType) throws SQLException {
+        final Collection<TaskDTO> tasks = new LinkedHashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE `userId` = ? ORDER BY ?");
         statement.setString(1, userId);
         switch (comparatorType) {
@@ -76,8 +76,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<Task> findByName(@NotNull final String userId, @NotNull final String name) throws SQLException {
-        final Collection<Task> tasks = new HashSet<>();
+    public Collection<TaskDTO> findByName(@NotNull final String userId, @NotNull final String name) throws SQLException {
+        final Collection<TaskDTO> tasks = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE `userId` = ? AND `name` = ?");
         statement.setString(1, userId);
         statement.setString(2, name);
@@ -89,8 +89,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<Task> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull final String name) throws SQLException {
-        final Collection<Task> tasks = new LinkedHashSet<>();
+    public Collection<TaskDTO> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull final String name) throws SQLException {
+        final Collection<TaskDTO> tasks = new LinkedHashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE `userId` = ? AND `name` = ? ORDER BY ?");
         statement.setString(1, userId);
         statement.setString(2, name);
@@ -119,8 +119,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<Task> findByProjectId(@NotNull final String userId, @NotNull final String projectId) throws SQLException {
-        final Collection<Task> tasks = new HashSet<>();
+    public Collection<TaskDTO> findByProjectId(@NotNull final String userId, @NotNull final String projectId) throws SQLException {
+        final Collection<TaskDTO> tasks = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE `userId` = ? AND `projectId` = ?");
         statement.setString(1, userId);
         statement.setString(2, projectId);
@@ -132,8 +132,8 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Collection<Task> search(@NotNull final String userId, @NotNull final String searchLine) throws SQLException {
-        final Collection<Task> tasks = new HashSet<>();
+    public Collection<TaskDTO> search(@NotNull final String userId, @NotNull final String searchLine) throws SQLException {
+        final Collection<TaskDTO> tasks = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE (`userId` = ?) " +
                 "AND (`name` LIKE CONCAT(\"%\", ?, \"%\") OR `description` LIKE LIKE CONCAT(\"%\", ?, \"%\"))");
         statement.setString(1, userId);
@@ -147,7 +147,7 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @Nullable
-    public Task findOne(@NotNull final String userId, @NotNull final String id) throws SQLException {
+    public TaskDTO findOne(@NotNull final String userId, @NotNull final String id) throws SQLException {
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `task` WHERE `userId` = ? AND `id` = ? LIMIT 1");
         statement.setString(1, userId);
         statement.setString(2, id);
@@ -157,7 +157,7 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Boolean persist(@NotNull final Task task) throws SQLException {
+    public Boolean persist(@NotNull final TaskDTO task) throws SQLException {
         final PreparedStatement checkIfExists = connection.prepareStatement("SELECT COUNT(*) AS `count` FROM `task` WHERE `id` = ? " +
                 "OR (`projectId` = ? AND `name` = ?)");
         checkIfExists.setString(1, task.getId());
@@ -182,7 +182,7 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @NotNull
-    public Boolean merge(@NotNull final String userId, @NotNull final Task task) throws SQLException {
+    public Boolean merge(@NotNull final String userId, @NotNull final TaskDTO task) throws SQLException {
         final PreparedStatement checkIfExists = connection.prepareStatement("SELECT COUNT(*) AS `count` FROM `task` WHERE `id` = ?" +
                 "OR (`projectId` = ? AND `name` = ?)");
         checkIfExists.setString(1, task.getId());
@@ -223,7 +223,7 @@ public class TaskRepositoryMySQL implements TaskRepository {
     }
 
     @Override @Nullable
-    public String remove(@NotNull final String userId, @NotNull final Task task) throws SQLException {
+    public String remove(@NotNull final String userId, @NotNull final TaskDTO task) throws SQLException {
         return remove(userId, task.getId());
     }
 

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.Status;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.Project;
+import tm.common.entity.ProjectDTO;
 import tm.server.api.repository.ProjectRepository;
 
 import java.sql.*;
@@ -20,8 +20,8 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @NotNull
-    private Project fetch(@NotNull final ResultSet resultSet) throws SQLException {
-        final Project project = new Project();
+    private ProjectDTO fetch(@NotNull final ResultSet resultSet) throws SQLException {
+        final ProjectDTO project = new ProjectDTO();
         project.setId(resultSet.getString("id"));
         project.setUserId(resultSet.getString("userId"));
         project.setName(resultSet.getString("name"));
@@ -34,8 +34,8 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Collection<Project> findAll(@NotNull final String userId) throws SQLException {
-        final Collection<Project> projects = new HashSet<>();
+    public Collection<ProjectDTO> findAll(@NotNull final String userId) throws SQLException {
+        final Collection<ProjectDTO> projects = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `project` WHERE `userId` = ?");
         statement.setString(1, userId);
         final ResultSet resultSet = statement.executeQuery();
@@ -46,8 +46,8 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Collection<Project> findAllAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType) throws SQLException {
-        final Collection<Project> projects = new LinkedHashSet<>();
+    public Collection<ProjectDTO> findAllAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType) throws SQLException {
+        final Collection<ProjectDTO> projects = new LinkedHashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `project` WHERE `userId` = ? ORDER BY ?");
         statement.setString(1, userId);
         switch (comparatorType) {
@@ -75,8 +75,8 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Collection<Project> findByName(@NotNull final String userId, @NotNull final String name) throws SQLException {
-        final Collection<Project> projects = new HashSet<>();
+    public Collection<ProjectDTO> findByName(@NotNull final String userId, @NotNull final String name) throws SQLException {
+        final Collection<ProjectDTO> projects = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `project` WHERE `userId` = ? AND `name` = ?");
         statement.setString(1, userId);
         statement.setString(2, name);
@@ -88,8 +88,8 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Collection<Project> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull final String name) throws SQLException {
-        final Collection<Project> projects = new LinkedHashSet<>();
+    public Collection<ProjectDTO> findByNameAndSort(@NotNull final String userId, @NotNull final ComparatorType comparatorType, @NotNull final String name) throws SQLException {
+        final Collection<ProjectDTO> projects = new LinkedHashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `project` WHERE `userId` = ? AND `name` = ? ORDER BY ?");
         statement.setString(1, userId);
         statement.setString(2, name);
@@ -118,8 +118,8 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Collection<Project> search(@NotNull final String userId, @NotNull final String searchLine) throws SQLException {
-        final Collection<Project> projects = new HashSet<>();
+    public Collection<ProjectDTO> search(@NotNull final String userId, @NotNull final String searchLine) throws SQLException {
+        final Collection<ProjectDTO> projects = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `project` WHERE (`userId` = ?) " +
                 "AND (`name` LIKE CONCAT(\"%\", ?, \"%\") OR `description` LIKE CONCAT(\"%\", ?, \"%\"))");
         statement.setString(1, userId);
@@ -133,7 +133,7 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @Nullable
-    public Project findOne(@NotNull final String userId, @NotNull final String id) throws SQLException {
+    public ProjectDTO findOne(@NotNull final String userId, @NotNull final String id) throws SQLException {
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `project` WHERE `userId` = ? AND `id` = ? LIMIT 1");
         statement.setString(1, userId);
         statement.setString(2, id);
@@ -145,7 +145,7 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Boolean persist(@NotNull final Project project) throws SQLException {
+    public Boolean persist(@NotNull final ProjectDTO project) throws SQLException {
         final PreparedStatement checkIfExists = connection.prepareStatement("SEARCH COUNT(*) AS `count` FROM `project` WHERE `id` = ? " +
                 "OR (`userId` = ? AND `name` = ?)");
         checkIfExists.setString(1, project.getId());
@@ -169,7 +169,7 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @NotNull
-    public Boolean merge(@NotNull final String userId, @NotNull final Project project) throws SQLException {
+    public Boolean merge(@NotNull final String userId, @NotNull final ProjectDTO project) throws SQLException {
         final PreparedStatement checkIfExists = connection.prepareStatement("SELECT COUNT(*) AS `count` FROM `project` WHERE `id` = ?" +
                 "OR (`userId` = ? AND `name` = ?)");
         checkIfExists.setString(1, project.getId());
@@ -209,7 +209,7 @@ public class ProjectRepositoryMySQL implements ProjectRepository {
     }
 
     @Override @Nullable
-    public String remove(@NotNull final String userId, @NotNull final Project project) throws SQLException {
+    public String remove(@NotNull final String userId, @NotNull final ProjectDTO project) throws SQLException {
         return remove(userId, project.getId());
     }
 

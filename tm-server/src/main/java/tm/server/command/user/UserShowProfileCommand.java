@@ -2,9 +2,6 @@ package tm.server.command.user;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.common.entity.User;
-
-import java.io.IOException;
 
 public class UserShowProfileCommand extends AbstractCommand {
 

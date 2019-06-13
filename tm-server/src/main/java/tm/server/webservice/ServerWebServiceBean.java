@@ -5,12 +5,10 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.ServerException;
 import tm.common.api.webservice.ServerWebService;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 import tm.server.api.service.ServerService;
 
 import javax.jws.WebService;
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
 
 @WebService(endpointInterface = "tm.common.api.webservice.ServerWebService")
 public class ServerWebServiceBean implements ServerWebService {
@@ -35,7 +33,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean shutdown(@Nullable final Session session) throws ServerException {
+    public Boolean shutdown(@Nullable final SessionDTO session) throws ServerException {
         try {
             return serverService.shutdown(session);
         } catch (Exception e) {
@@ -44,7 +42,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public String showHelp(@Nullable final Session session) throws ServerException {
+    public String showHelp(@Nullable final SessionDTO session) throws ServerException {
         try {
             return serverService.showHelp(session);
         } catch (Exception e) {
@@ -53,7 +51,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean setSortMethod(@Nullable final Session session, @Nullable final ComparatorType comparatorType) throws ServerException {
+    public Boolean setSortMethod(@Nullable final SessionDTO session, @Nullable final ComparatorType comparatorType) throws ServerException {
         try {
             return serverService.setSortMethod(session, comparatorType);
         } catch (Exception e) {
@@ -62,7 +60,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearBinary(@Nullable final Session session) throws ServerException {
+    public Boolean dataClearBinary(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataClearBinary(session);
@@ -73,7 +71,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveBinary(@Nullable final Session session) throws ServerException {
+    public Boolean dataSaveBinary(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataSaveBinary(session);
@@ -84,7 +82,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadBinary(@Nullable final Session session) throws ServerException {
+    public Boolean dataLoadBinary(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataLoadBinary(session);
@@ -96,7 +94,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbXml(@Nullable final Session session) throws ServerException {
+    public Boolean dataClearJaxbXml(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataClearJaxbXml(session);
@@ -108,7 +106,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbXml(@Nullable final Session session) throws ServerException {
+    public Boolean dataSaveJaxbXml(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataSaveJaxbXml(session);
@@ -120,7 +118,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbXml(@Nullable final Session session) throws ServerException {
+    public Boolean dataLoadJaxbXml(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataLoadJaxbXml(session);
@@ -132,7 +130,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearJaxbJson(@Nullable final Session session) throws ServerException {
+    public Boolean dataClearJaxbJson(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataClearJaxbJson(session);
@@ -144,7 +142,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveJaxbJson(@Nullable final Session session) throws ServerException {
+    public Boolean dataSaveJaxbJson(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataSaveJaxbJson(session);
@@ -156,7 +154,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadJaxbJson(@Nullable final Session session) throws ServerException {
+    public Boolean dataLoadJaxbJson(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataLoadJaxbJson(session);
@@ -168,7 +166,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterXml(@Nullable final Session session) throws ServerException {
+    public Boolean dataClearFasterXml(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataClearFasterXml(session);
@@ -180,7 +178,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterXml(@Nullable final Session session) throws ServerException {
+    public Boolean dataSaveFasterXml(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataSaveFasterXml(session);
@@ -192,7 +190,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterXml(@Nullable final Session session) throws ServerException {
+    public Boolean dataLoadFasterXml(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataLoadFasterXml(session);
@@ -204,7 +202,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataClearFasterJson(@Nullable final Session session) throws ServerException {
+    public Boolean dataClearFasterJson(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataClearFasterJson(session);
@@ -216,7 +214,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataSaveFasterJson(@Nullable final Session session) throws ServerException {
+    public Boolean dataSaveFasterJson(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataSaveFasterJson(session);
@@ -228,7 +226,7 @@ public class ServerWebServiceBean implements ServerWebService {
     }
 
     @Override @NotNull
-    public Boolean dataLoadFasterJson(@Nullable final Session session) throws ServerException {
+    public Boolean dataLoadFasterJson(@Nullable final SessionDTO session) throws ServerException {
         Boolean result = false;
         try {
             result = serverService.dataLoadFasterJson(session);

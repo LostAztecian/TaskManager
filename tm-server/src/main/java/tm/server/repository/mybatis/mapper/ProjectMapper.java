@@ -2,7 +2,7 @@ package tm.server.repository.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
+import tm.common.entity.ProjectDTO;
 
 import java.util.List;
 
@@ -32,28 +32,28 @@ public interface ProjectMapper {
             @Result(property = "endDate", column = "endDate"),
     })
     @Select(FIND_ALL)
-    List<Project> findAll() throws Exception;
+    List<ProjectDTO> findAll() throws Exception;
 
     @Select(FIND_ALL_SORTED)
-    List<Project> findAllAndSort(@NotNull @Param("userId") String userId, @NotNull @Param("sortMethod") String sortMethod);
+    List<ProjectDTO> findAllAndSort(@NotNull @Param("userId") String userId, @NotNull @Param("sortMethod") String sortMethod);
 
     @Select(FIND_BY_USER_ID)
-    List<Project> findByUserId(@NotNull String userId) throws Exception;
+    List<ProjectDTO> findByUserId(@NotNull String userId) throws Exception;
 
     @Select(FIND_BY_NAME)
-    List<Project> findByName(@NotNull @Param("userId") String userId, @NotNull @Param("name") String name) throws Exception;
+    List<ProjectDTO> findByName(@NotNull @Param("userId") String userId, @NotNull @Param("name") String name) throws Exception;
 
     @Select(FIND_BY_NAME_SORTED)
-    List<Project> findByNameAndSort(@NotNull @Param("userId") String userId, @NotNull @Param("name") String name, @NotNull @Param("sortMethod") String sortMethod) throws Exception;
+    List<ProjectDTO> findByNameAndSort(@NotNull @Param("userId") String userId, @NotNull @Param("name") String name, @NotNull @Param("sortMethod") String sortMethod) throws Exception;
 
     @Select(FIND_BY_ID)
-    Project findOne(@NotNull @Param("userId") String userId, @NotNull @Param("id") String id) throws Exception;
+    ProjectDTO findOne(@NotNull @Param("userId") String userId, @NotNull @Param("id") String id) throws Exception;
 
     @Select(SEARCH)
-    List<Project> search(@NotNull @Param("userId") String userId, @NotNull @Param("line") String line) throws Exception;
+    List<ProjectDTO> search(@NotNull @Param("userId") String userId, @NotNull @Param("line") String line) throws Exception;
 
     @Insert(PERSIST)
-    void persist(@NotNull Project project) throws Exception;
+    void persist(@NotNull ProjectDTO project) throws Exception;
 
     @Delete(REMOVE_BY_ID)
     void removeById(@NotNull @Param("userId") String userId, @NotNull @Param("id") String id) throws Exception;

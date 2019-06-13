@@ -3,12 +3,11 @@ package tm.client.command.project;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.api.webservice.Project;
-import tm.common.api.webservice.Session;
+import tm.common.api.webservice.ProjectDTO;
+import tm.common.api.webservice.SessionDTO;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.TreeSet;
 
 public class ProjectSearchCommand extends AbstractCommand {
 
@@ -28,11 +27,11 @@ public class ProjectSearchCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[PROJECT SEARCH]");
         final String searchRequest = InputHelper.requestLine("ENTER TEXT TO SEARCH:", true);
-        final Collection<Project> searchResult = getServiceLocator().getProjectService().searchProject(session, searchRequest);
+        final Collection<ProjectDTO> searchResult = getServiceLocator().getProjectService().searchProject(session, searchRequest);
         if (searchRequest == null || searchRequest.isEmpty()) {
             System.out.println("[FOUND NOTHING]");
             System.out.println();
@@ -40,7 +39,7 @@ public class ProjectSearchCommand extends AbstractCommand {
         }
         System.out.println("PROJECTS MATCHING CRITERIA:");
         int index = 1;
-        for (final Project project : searchResult) {
+        for (final ProjectDTO project : searchResult) {
             System.out.println(index++ + " " + project.getName() + ": " + project.getDescription());
             System.out.println("\tBelongs to user: " + project.getUserId());
             System.out.println("\tCreated: " + project.getCreationDate() + " Start: " + project.getStartDate() + " End: " + project.getEndDate());

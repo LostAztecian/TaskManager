@@ -2,7 +2,7 @@ package tm.client.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.api.webservice.Session;
+import tm.common.api.webservice.SessionDTO;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ public class DataSaveBinary extends AbstractCommand {
 
     @Override
     protected void run() throws IOException {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Boolean success = getServiceLocator().getServerService().dataSaveBinary(session);
         System.out.println(success ? "[BINARY DATA SAVED]" : "[DATA SAVE FAILURE]");

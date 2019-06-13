@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.BindHelper;
 import tm.client.utils.InputHelper;
-import tm.common.api.webservice.Project;
-import tm.common.api.webservice.Session;
+import tm.common.api.webservice.ProjectDTO;
+import tm.common.api.webservice.SessionDTO;
 
 import java.io.IOException;
 import java.util.Date;
@@ -28,12 +28,12 @@ public class ProjectCreateCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
         if (input == null) return;
-        final Project project = new Project();
+        final ProjectDTO project = new ProjectDTO();
         project.setUserId(session.getUserId());
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));

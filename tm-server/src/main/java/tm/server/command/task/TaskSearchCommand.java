@@ -1,12 +1,11 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.TaskDTO;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -28,22 +27,22 @@ public class TaskSearchCommand extends AbstractCommand {
 
     @Override
     protected void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[TASK SEARCH]");
         final String searchRequest = InputHelper.requestLine("ENTER TEXT TO SEARCH:", true);
-        final Collection<Task> searchResult = getServiceLocator().getTaskService()
+        final Collection<TaskDTO> searchResult = getServiceLocator().getTaskService()
                 .search(getServiceLocator().getCurrentSession(), searchRequest);
         if (searchRequest == null || searchRequest.isEmpty()) {
             System.out.println("[FOUND NOTHING]");
             System.out.println();
             return;
         }
-        final Collection<Task> sortedTasks = new TreeSet<>(session.getSortMethod().comparator);
+        final Collection<TaskDTO> sortedTasks = new TreeSet<>(session.getSortMethod().comparator);
         sortedTasks.addAll(searchResult);
         System.out.println("TASKS MATCHING CRITERIA:");
         int index = 1;
-        for (final Task task : sortedTasks) {
+        for (final TaskDTO task : sortedTasks) {
             System.out.printf("%d. %s %n", index++, task);
         }
         System.out.println();

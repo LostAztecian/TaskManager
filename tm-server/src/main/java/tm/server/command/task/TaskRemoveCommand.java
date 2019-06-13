@@ -1,11 +1,9 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
-
-import java.io.IOException;
 
 public class TaskRemoveCommand extends AbstractCommand {
 
@@ -25,7 +23,7 @@ public class TaskRemoveCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[TASK DELETE]");
 

@@ -1,12 +1,11 @@
 package tm.server.command.persist.bin;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.TaskDTO;
 import tm.server.command.AbstractCommand;
 
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,21 +35,21 @@ public class DataSaveBinary extends AbstractCommand {
 
     @Override
     protected void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Path path = Paths.get("TaskManagerSavedData/binData/" + session.getUserLogin());
-        final Collection<Project> projects = getServiceLocator().getProjectService().getAll(session);
-        final Collection<Task> tasks = getServiceLocator().getTaskService().getAll(session);
+        final Collection<ProjectDTO> projects = getServiceLocator().getProjectService().getAll(session);
+        final Collection<TaskDTO> tasks = getServiceLocator().getTaskService().getAll(session);
         Files.createDirectories(path.getParent());
         try(ObjectOutputStream outputStream = new ObjectOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))){
             outputStream.writeObject(getServiceLocator().getUserService().get(session, session.getUserId()));
-            System.out.println("User write: " + session.getUserLogin());
+            System.out.println("UserDTO write: " + session.getUserLogin());
             outputStream.writeInt(projects.size());
-            for (@NotNull final Project project : projects) {
+            for (@NotNull final ProjectDTO project : projects) {
                 outputStream.writeObject(project);
             }
             outputStream.writeInt(tasks.size());
-            for (@NotNull final Task task : tasks) {
+            for (@NotNull final TaskDTO task : tasks) {
                 outputStream.writeObject(task);
             }
         }

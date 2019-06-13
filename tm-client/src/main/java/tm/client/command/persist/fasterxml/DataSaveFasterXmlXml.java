@@ -2,7 +2,7 @@ package tm.client.command.persist.fasterxml;
 
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
-import tm.common.api.webservice.Session;
+import tm.common.api.webservice.SessionDTO;
 
 public class DataSaveFasterXmlXml extends AbstractCommand {
 
@@ -26,7 +26,7 @@ public class DataSaveFasterXmlXml extends AbstractCommand {
 
     @Override
     protected void run() throws Exception {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final Boolean success = getServiceLocator().getServerService().dataSaveFasterXml(session);
         System.out.println(success ? "[XML DATA SAVED]" : "[DATA LOAD FAILURE]");

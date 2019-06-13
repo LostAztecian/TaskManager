@@ -2,75 +2,119 @@ package tm.server.repository.hibernate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.server.api.repository.UserRepository;
-import tm.server.graph.User;
+import tm.common.entity.UserDTO;
+import tm.server.api.repository.jpa.UserRepositoryJPA;
+import tm.server.entity.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-public class UserRepositoryHibernate implements UserRepository {
-
+public class UserRepositoryHibernate implements UserRepositoryJPA {
+    
+    @NotNull
     private final EntityManager entityManager;
 
-    public UserRepositoryHibernate(EntityManager entityManager) {
+    public UserRepositoryHibernate(@NotNull final EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    @Override
-    public @NotNull Optional<User> validate(@NotNull String login, @NotNull String pwdHash) throws Exception {
-        final Query query = entityManager.createQuery("SELECT e FROM tm.server.graph.User e WHERE e.login = :login");
+    @Override @NotNull
+    public Optional<User> validate(@NotNull final String login, @NotNull final String pwdHash) throws Exception {
+        final TypedQuery<User> query = entityManager.createQuery(
+                "SELECT e FROM User e WHERE e.login = :login AND e.passwordHash = :pwdHash", User.class);
         query.setParameter("login", login);
-        final Optional<User> user = query.getResultStream().findAny();
-
-        return user;
+        query.setParameter("pwdHash", pwdHash);
+        return query.getResultStream().findAny();
     }
 
-    @Override
-    public @NotNull Collection<User> findAll(@NotNull String userId) throws Exception {
-        return null;
+    @Override @NotNull
+    public Collection<User> findAll(@NotNull final String userId) throws Exception {
+        final User user = entityManager.find(User.class, userId);
+        if (user == null || user.getRole() != UserDTO.Role.ADMIN) return Collections.emptyList();
+        final TypedQuery<User> query = entityManager.createQuery("SELECT e FROM User e", User.class);
+        return query.getResultList();
     }
 
-    @Override
-    public @NotNull Collection<User> findByName(@NotNull String userId, @NotNull String name) throws Exception {
-        return null;
+    @Override @NotNull
+    public Collection<User> findByName(@NotNull final String userId, @NotNull final String name) throws Exception {
+        final TypedQuery<User> query = entityManager.createQuery(
+                "SELECT e FROM User e WHERE e.login = :name", User.class);
+        query.setParameter("name", name);
+        return query.getResultList();
     }
 
-    @Nullable
-    @Override
-    public User findOne(@NotNull String userId, @NotNull String id) throws Exception {
-        return null;
+    @Override @Nullable
+    public User findOne(@NotNull final String userId, @NotNull final String id) throws Exception {
+        if (!userId.equals(id)) {
+            final User user = entityManager.find(User.class, userId);
+            if (user.getRole() != UserDTO.Role.ADMIN) return null;
+        }
+        return entityManager.find(User.class, id);
     }
 
-    @Override
-    public @NotNull Boolean persist(@NotNull User object) throws Exception {
-        return null;
+    @Override @NotNull
+    public Boolean persist(@NotNull final User user) throws Exception {
+        entityManager.persist(user);
+        return true;
     }
 
-    @Override
-    public @NotNull Boolean merge(@NotNull String userId, @NotNull User object) throws Exception {
-        return null;
+    @Override @NotNull
+    public Boolean merge(@NotNull final String userId, @NotNull final User user) throws Exception {
+        if (!userId.equals(user.getId())) {
+            final User currentUser = entityManager.find(User.class, userId);
+            if (currentUser.getRole() != UserDTO.Role.ADMIN) return false;
+        }
+        entityManager.merge(user);
+        return true;
     }
 
-    @Override
-    public @Nullable String remove(@NotNull String userId, @NotNull String id) throws Exception {
-        return null;
+    @Override @Nullable
+    public String remove(@NotNull final String userId, @NotNull final String id) throws Exception {
+        if (!userId.equals(id)) {
+            final User currentUser = entityManager.find(User.class, userId);
+            if (currentUser.getRole() != UserDTO.Role.ADMIN) return null;
+        }
+        final User user = entityManager.find(User.class, id);
+        if (user == null) return null;
+        entityManager.remove(user);
+        return user.getId();
     }
 
-    @Override
-    public @Nullable String remove(@NotNull String userId, @NotNull User object) throws Exception {
-        return null;
+    @Override @Nullable
+    public String remove(@NotNull final String userId, @NotNull final User user) throws Exception {
+        return remove(userId, user.getId());
     }
 
-    @Override
-    public @NotNull Collection<String> removeByName(@NotNull String userId, @NotNull String name) throws Exception {
-        return null;
+    @Override @NotNull
+    public Collection<String> removeByName(@NotNull final String userId, @NotNull final String name) throws Exception {
+        final User currentUser = entityManager.find(User.class, userId);
+        if (currentUser.getRole() != UserDTO.Role.ADMIN) return Collections.emptyList();
+
+        final TypedQuery<String> findQuery = entityManager.createQuery(
+                "SELECT e.id FROM User e WHERE e.login = :name", String.class);
+        findQuery.setParameter("name", name);
+        final List<String> ids = findQuery.getResultList();
+        final TypedQuery<User> deleteQuery = entityManager.createQuery(
+                "DELETE FROM User e WHERE e.login = :name", User.class);
+        deleteQuery.setParameter("name", name);
+        deleteQuery.executeUpdate();
+        return ids;
     }
 
-    @Override
-    public @NotNull Collection<String> removeAll(@NotNull String userId) throws Exception {
-        return null;
-    }
+    @Override @NotNull
+    public Collection<String> removeAll(@NotNull final String userId) throws Exception {
+        final User currentUser = entityManager.find(User.class, userId);
+        if (currentUser.getRole() != UserDTO.Role.ADMIN) return Collections.emptyList();
 
+        final TypedQuery<String> findQuery = entityManager.createQuery(
+                "SELECT e.id FROM User e", String.class);
+        final List<String> ids = findQuery.getResultList();
+        final TypedQuery<User> deleteQuery = entityManager.createQuery("DELETE FROM User e", User.class);
+        deleteQuery.executeUpdate();
+        return ids;
+    }
 }

@@ -5,8 +5,8 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.ServerException;
 import tm.common.api.webservice.ProjectWebService;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
 import tm.server.api.service.ProjectService;
 
 import javax.jws.WebService;
@@ -21,18 +21,8 @@ public class ProjectWebServiceBean implements ProjectWebService {
         this.projectService = projectService;
     }
 
-    @Override
-    public Project getNewProject() {
-        final Project project = new Project();
-        project.setName("pr-01");
-        project.setDescription("desc-01");
-        project.setUserId("-1");
-
-        return project;
-    }
-
     @Override @NotNull
-    public Collection<Project> getAllProjects(@Nullable final Session session) throws ServerException {
+    public Collection<ProjectDTO> getAllProjects(@Nullable final SessionDTO session) throws ServerException {
         try {
             return projectService.getAll(session);
         } catch (Exception e) {
@@ -41,7 +31,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Collection<Project> getAllProjectsSorted(@Nullable final Session session, @Nullable final ComparatorType comparatorType) throws ServerException {
+    public Collection<ProjectDTO> getAllProjectsSorted(@Nullable final SessionDTO session, @Nullable final ComparatorType comparatorType) throws ServerException {
         try {
             return projectService.getAllSorted(session, comparatorType);
         } catch (Exception e) {
@@ -50,7 +40,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Collection<Project> getProjectsByName(@Nullable final Session session, @Nullable final String name) throws ServerException {
+    public Collection<ProjectDTO> getProjectsByName(@Nullable final SessionDTO session, @Nullable final String name) throws ServerException {
         try {
             return projectService.getAllByName(session, name);
         } catch (Exception e) {
@@ -59,7 +49,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Collection<Project> getProjectsByNameSorted(@Nullable final Session session, @Nullable final String name, @Nullable final ComparatorType comparatorType) throws ServerException {
+    public Collection<ProjectDTO> getProjectsByNameSorted(@Nullable final SessionDTO session, @Nullable final String name, @Nullable final ComparatorType comparatorType) throws ServerException {
         try {
             return projectService.getAllByNameSorted(session, name, comparatorType);
         } catch (Exception e) {
@@ -68,7 +58,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @Nullable
-    public Project getProject(@Nullable final Session session, @Nullable final String id) throws ServerException {
+    public ProjectDTO getProject(@Nullable final SessionDTO session, @Nullable final String id) throws ServerException {
         try {
             return projectService.get(session, id);
         } catch (Exception e) {
@@ -77,7 +67,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Collection<Project> searchProject(@Nullable final Session session, @Nullable final String searchLine) throws ServerException {
+    public Collection<ProjectDTO> searchProject(@Nullable final SessionDTO session, @Nullable final String searchLine) throws ServerException {
         try {
             return projectService.search(session, searchLine);
         } catch (Exception e) {
@@ -86,7 +76,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean saveProject(@Nullable final Session session, @Nullable final Project project) throws ServerException {
+    public Boolean saveProject(@Nullable final SessionDTO session, @Nullable final ProjectDTO project) throws ServerException {
         try {
             return projectService.save(session, project);
         } catch (Exception e) {
@@ -95,7 +85,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProject(@Nullable final Session session, @Nullable final Project project) throws ServerException {
+    public Boolean deleteProject(@Nullable final SessionDTO session, @Nullable final ProjectDTO project) throws ServerException {
         try {
             return projectService.delete(session, project);
         } catch (Exception e) {
@@ -104,7 +94,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProject(@Nullable final Session session, @Nullable final String id) throws ServerException {
+    public Boolean deleteProject(@Nullable final SessionDTO session, @Nullable final String id) throws ServerException {
         try {
             return projectService.delete(session, id);
         } catch (Exception e) {
@@ -113,7 +103,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProjectsByIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws ServerException {
+    public Boolean deleteProjectsByIds(@Nullable final SessionDTO session, @Nullable final Collection<String> ids) throws ServerException {
         try {
             return projectService.deleteByIds(session, ids);
         } catch (Exception e) {
@@ -122,7 +112,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProjectsByName(@Nullable final Session session, @Nullable final String name) throws ServerException {
+    public Boolean deleteProjectsByName(@Nullable final SessionDTO session, @Nullable final String name) throws ServerException {
         try {
             return projectService.deleteByName(session, name);
         } catch (Exception e) {
@@ -131,7 +121,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteAllProjects(@Nullable final Session session) throws ServerException {
+    public Boolean deleteAllProjects(@Nullable final SessionDTO session) throws ServerException {
         try {
             return projectService.deleteAll(session);
         } catch (Exception e) {
@@ -140,7 +130,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     }
 
     @Override @NotNull
-    public Boolean deleteProjectTasks(@Nullable final Session session, @Nullable final String projectId) throws ServerException {
+    public Boolean deleteProjectTasks(@Nullable final SessionDTO session, @Nullable final String projectId) throws ServerException {
         try {
             return projectService.deleteProjectTasks(session, projectId);
         } catch (Exception e) {

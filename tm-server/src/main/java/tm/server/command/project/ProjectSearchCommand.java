@@ -1,12 +1,11 @@
 package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -28,22 +27,22 @@ public class ProjectSearchCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[PROJECT SEARCH]");
         final String searchRequest = InputHelper.requestLine("ENTER TEXT TO SEARCH:", true);
-        final Collection<Project> searchResult = getServiceLocator().getProjectService()
+        final Collection<ProjectDTO> searchResult = getServiceLocator().getProjectService()
                 .search(session, searchRequest);
         if (searchRequest == null || searchRequest.isEmpty()) {
             System.out.println("[FOUND NOTHING]");
             System.out.println();
             return;
         }
-        final Collection<Project> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
+        final Collection<ProjectDTO> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
         sortedProjects.addAll(searchResult);
         System.out.println("PROJECTS MATCHING CRITERIA:");
         int index = 1;
-        for (final Project project : sortedProjects) {
+        for (final ProjectDTO project : sortedProjects) {
             System.out.printf("%d. %s %n", index++, project);
         }
         System.out.println();

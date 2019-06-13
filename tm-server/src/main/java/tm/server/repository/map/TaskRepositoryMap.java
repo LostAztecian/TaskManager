@@ -1,18 +1,17 @@
 package tm.server.repository.map;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import tm.common.entity.Task;
+import tm.common.entity.TaskDTO;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class TaskRepositoryMap extends AbstractRepositoryMap<Task> implements tm.server.api.repository.TaskRepository {
+public class TaskRepositoryMap extends AbstractRepositoryMap<TaskDTO> implements tm.server.api.repository.TaskRepository {
 
     @Override @NotNull
-    public Collection<Task> findByProjectId(@NotNull final String userId, @NotNull final String projectId) {
+    public Collection<TaskDTO> findByProjectId(@NotNull final String userId, @NotNull final String projectId) {
         return findAll(userId).stream().filter(t -> projectId.equals(t.getProjectId())).collect(Collectors.toSet());
     }
 
@@ -25,7 +24,7 @@ public class TaskRepositoryMap extends AbstractRepositoryMap<Task> implements tm
     }
 
     @Override @NotNull
-    public Collection<Task> search(@NotNull final String userId, @NotNull final String searchLine) {
+    public Collection<TaskDTO> search(@NotNull final String userId, @NotNull final String searchLine) {
         return findAll(userId).stream().filter(t ->
                 Optional.ofNullable(t.getName()).orElse("").contains(searchLine) ||
                 Optional.ofNullable(t.getDescription()).orElse("").contains(searchLine))

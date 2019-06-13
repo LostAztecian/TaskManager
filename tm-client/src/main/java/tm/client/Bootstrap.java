@@ -14,7 +14,7 @@ import tm.common.api.webservice.ProjectService;
 import tm.common.api.webservice.ServerService;
 import tm.common.api.webservice.TaskService;
 import tm.common.api.webservice.UserService;
-import tm.common.api.webservice.Session;
+import tm.common.api.webservice.SessionDTO;
 import tm.server.webservice.ProjectWebServiceBeanService;
 import tm.server.webservice.ServerWebServiceBeanService;
 import tm.server.webservice.TaskWebServiceBeanService;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class Bootstrap implements ServiceLocator {
 
     @Getter @Setter
-    private Session currentSession = null;
+    private SessionDTO currentSession = null;
 
     @Getter
     private final Map<String, Command> commands = new LinkedHashMap<>();
@@ -54,6 +54,7 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initServices() {
+        System.setProperty("javax.xml.soap.SAAJMetaFactory", "com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl");
         userService = new UserWebServiceBeanService().getUserWebServiceBeanPort();
         projectService = new ProjectWebServiceBeanService().getProjectWebServiceBeanPort();
         taskService = new TaskWebServiceBeanService().getTaskWebServiceBeanPort();

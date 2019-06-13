@@ -3,7 +3,7 @@ package tm.server.repository.jdbc;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 import tm.server.api.repository.SessionRepository;
 
 import java.sql.*;
@@ -19,8 +19,8 @@ public class SessionRepositoryMySQL implements SessionRepository {
         this.connection = connection;
     }
 
-    private Session fetch(@NotNull final ResultSet resultSet) throws SQLException {
-        final Session session = new Session();
+    private SessionDTO fetch(@NotNull final ResultSet resultSet) throws SQLException {
+        final SessionDTO session = new SessionDTO();
         session.setId(resultSet.getString("id"));
         session.setUserId(resultSet.getString("userId"));
         session.setUserLogin(resultSet.getString("userLogin"));
@@ -31,8 +31,8 @@ public class SessionRepositoryMySQL implements SessionRepository {
     }
 
     @Override @NotNull
-    public Collection<Session> findAll() throws SQLException {
-        final Collection<Session> sessions = new HashSet<>();
+    public Collection<SessionDTO> findAll() throws SQLException {
+        final Collection<SessionDTO> sessions = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `session`");
         final ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
@@ -42,8 +42,8 @@ public class SessionRepositoryMySQL implements SessionRepository {
     }
 
     @Override @NotNull
-    public Collection<Session> findByUserId(@NotNull final String userId) throws SQLException {
-        final Collection<Session> sessions = new HashSet<>();
+    public Collection<SessionDTO> findByUserId(@NotNull final String userId) throws SQLException {
+        final Collection<SessionDTO> sessions = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `session` WHERE `userId` = ?");
         statement.setString(1, userId);
         final ResultSet resultSet = statement.executeQuery();
@@ -54,7 +54,7 @@ public class SessionRepositoryMySQL implements SessionRepository {
     }
 
     @Override @Nullable
-    public Session findById(@NotNull final String id) throws SQLException {
+    public SessionDTO findById(@NotNull final String id) throws SQLException {
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `session` WHERE `id` = ? LIMIT 1");
         statement.setString(1, id);
         final ResultSet resultSet = statement.executeQuery();
@@ -66,7 +66,7 @@ public class SessionRepositoryMySQL implements SessionRepository {
 
     @Override @NotNull
     public Boolean containsId(@NotNull final String id) throws SQLException {
-        final Collection<Session> sessions = new HashSet<>();
+        final Collection<SessionDTO> sessions = new HashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) AS `count` FROM `session` WHERE `id` = ?");
         statement.setString(1, id);
         final ResultSet resultSet = statement.executeQuery();
@@ -77,7 +77,7 @@ public class SessionRepositoryMySQL implements SessionRepository {
     }
 
     @Override @NotNull
-    public Boolean persist(@NotNull final Session session) throws SQLException {
+    public Boolean persist(@NotNull final SessionDTO session) throws SQLException {
         final PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `session` " +
                 "(`id`, `userId`, `userLogin`, `hash`, `sortMethod`, `creationDate`) VALUES (?, ?, ?, ?, ?, ?)");
         statement.setString(1, session.getId());

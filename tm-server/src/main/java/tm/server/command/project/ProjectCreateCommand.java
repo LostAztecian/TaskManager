@@ -1,12 +1,11 @@
 package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
-import java.io.IOException;
 import java.util.Date;
 
 public class ProjectCreateCommand extends AbstractCommand {
@@ -27,12 +26,12 @@ public class ProjectCreateCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[PROJECT CREATE]");
         final String input = InputHelper.requestLine("ENTER NAME:", false);
         if (input == null) return;
-        final Project project = new Project(session.getUserId());
+        final ProjectDTO project = new ProjectDTO(session.getUserId());
         project.setName(input);
         project.setDescription(InputHelper.requestLine("[ENTER DESCRIPTION]", true));
 

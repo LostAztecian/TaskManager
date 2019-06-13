@@ -1,13 +1,12 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.TaskDTO;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -30,12 +29,12 @@ public class TaskCreateCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[TASK CREATE]");
-        final Collection<Project> projects = InputHelper.requestProjectsByName(session, getServiceLocator());
+        final Collection<ProjectDTO> projects = InputHelper.requestProjectsByName(session, getServiceLocator());
         if (projects == null || projects.isEmpty()) return;
-        final Optional<Project> project = projects.stream().findFirst();
+        final Optional<ProjectDTO> project = projects.stream().findFirst();
         final String taskName = InputHelper.requestLine("ENTER NAME:", false);
         if (taskName == null) return;
 
@@ -53,7 +52,7 @@ public class TaskCreateCommand extends AbstractCommand {
             taskEndDate = new Date();
         }
 
-        final Task task = new Task(session.getUserId(), taskName);
+        final TaskDTO task = new TaskDTO(session.getUserId(), taskName);
         task.setProjectId(project.get().getId());
         task.setDescription(taskDescription);
         task.setStartDate(taskStartDate);

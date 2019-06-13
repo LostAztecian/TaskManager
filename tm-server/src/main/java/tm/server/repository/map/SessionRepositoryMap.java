@@ -2,7 +2,7 @@ package tm.server.repository.map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -11,20 +11,20 @@ import java.util.stream.Collectors;
 
 public class SessionRepositoryMap implements tm.server.api.repository.SessionRepository {
 
-    private final Map<String, Session> map = new LinkedHashMap<>();
+    private final Map<String, SessionDTO> map = new LinkedHashMap<>();
 
     @Override @NotNull
-    public Collection<Session> findAll() {
+    public Collection<SessionDTO> findAll() {
         return map.values();
     }
 
     @Override @NotNull
-    public Collection<Session> findByUserId(@NotNull final String userId) {
+    public Collection<SessionDTO> findByUserId(@NotNull final String userId) {
         return map.values().stream().filter(s -> userId.equals(s.getUserId())).collect(Collectors.toSet());
     }
 
     @Override @Nullable
-    public Session findById(@NotNull final String id) {
+    public SessionDTO findById(@NotNull final String id) {
         return map.get(id);
     }
 
@@ -34,7 +34,7 @@ public class SessionRepositoryMap implements tm.server.api.repository.SessionRep
     }
 
     @Override @NotNull
-    public Boolean persist(@NotNull final Session session) {
+    public Boolean persist(@NotNull final SessionDTO session) {
         return map.putIfAbsent(session.getId(), session) == null;
     }
 

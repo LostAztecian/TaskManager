@@ -1,13 +1,11 @@
 package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
 import tm.server.command.AbstractCommand;
 
-import java.io.IOException;
 import java.util.Collection;
-import java.util.TreeSet;
 
 public class ProjectListCommand extends AbstractCommand {
 
@@ -27,9 +25,9 @@ public class ProjectListCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
-        final Collection<Project> allProjects = getServiceLocator().getProjectService().getAll(session);
+        final Collection<ProjectDTO> allProjects = getServiceLocator().getProjectService().getAll(session);
         if (allProjects.isEmpty()) {
             System.out.println("[PROJECT LIST IS EMPTY]");
             System.out.println();
@@ -37,7 +35,7 @@ public class ProjectListCommand extends AbstractCommand {
         }
         System.out.println("PROJECT LIST");
         int index = 1;
-        for (final Project project : allProjects) {
+        for (final ProjectDTO project : allProjects) {
             System.out.println(index++ + " " + project.getName() + ": " + project.getDescription());
             System.out.println("\tBelongs to user: " + project.getUserId());
             System.out.println("\tCreated: " + project.getCreationDate() + " Start: " + project.getStartDate() + " End: " + project.getEndDate());

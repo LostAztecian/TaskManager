@@ -1,11 +1,10 @@
 package tm.server.command.task;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.TaskDTO;
 import tm.server.command.AbstractCommand;
 
-import java.io.IOException;
 import java.util.Collection;
 
 public class TaskListCommand extends AbstractCommand {
@@ -26,9 +25,9 @@ public class TaskListCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
-        final Collection<Task> allTasks = getServiceLocator().getTaskService().getAll(session);
+        final Collection<TaskDTO> allTasks = getServiceLocator().getTaskService().getAll(session);
         if (allTasks.isEmpty()) {
             System.out.println("[TASK LIST IS EMPTY]");
             System.out.println();
@@ -36,7 +35,7 @@ public class TaskListCommand extends AbstractCommand {
         }
         System.out.println("TASK LIST");
         int index = 1;
-        for (final Task task : allTasks) {
+        for (final TaskDTO task : allTasks) {
             System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
             System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
             System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());

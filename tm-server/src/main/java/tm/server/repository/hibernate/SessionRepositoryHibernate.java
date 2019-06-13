@@ -2,49 +2,72 @@ package tm.server.repository.hibernate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.entity.Session;
-import tm.server.api.repository.SessionRepository;
+import tm.server.api.repository.jpa.SessionRepositoryJPA;
+import tm.server.entity.Session;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.Collection;
 
-public class SessionRepositoryHibernate implements SessionRepository {
-    @Override
-    public @NotNull Collection<Session> findAll() throws Exception {
-        return null;
+public class SessionRepositoryHibernate implements SessionRepositoryJPA {
+    
+    private final EntityManager entityManager;
+
+    public SessionRepositoryHibernate(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
-    @Override
-    public @NotNull Collection<Session> findByUserId(@NotNull String userId) throws Exception {
-        return null;
+    @Override @NotNull
+    public Collection<Session> findAll() throws Exception {
+        final TypedQuery<Session> query = entityManager.createQuery("SELECT s FROM Session s", Session.class);
+        return query.getResultList();
     }
 
-    @Override
-    public @Nullable Session findById(@NotNull String id) throws Exception {
-        return null;
+    @Override @NotNull
+    public Collection<Session> findByUserId(@NotNull final String userId) throws Exception {
+        final TypedQuery<Session> query = entityManager.createQuery(
+                "SELECT s FROM Session s WHERE s.user.id = :userId", Session.class);
+        return query.getResultList();
     }
 
-    @Override
-    public @NotNull Boolean containsId(@NotNull String id) throws Exception {
-        return null;
+    @Override @Nullable
+    public Session findById(@NotNull final String id) throws Exception {
+        return entityManager.find(Session.class, id);
     }
 
-    @Override
-    public @NotNull Boolean persist(@NotNull Session session) throws Exception {
-        return null;
+    @Override @NotNull
+    public Boolean containsId(@NotNull final String id) throws Exception {
+        return findById(id) != null;
     }
 
-    @Override
-    public @NotNull Boolean deleteById(@NotNull String id) throws Exception {
-        return null;
+    @Override @NotNull
+    public Boolean persist(@NotNull final Session session) throws Exception {
+        entityManager.persist(session);
+        return true;
     }
 
-    @Override
-    public @NotNull Boolean deleteByUserId(@NotNull String userId) throws Exception {
-        return null;
+    @Override @NotNull
+    public Boolean deleteById(@NotNull final String id) throws Exception {
+        final Session session = entityManager.find(Session.class, id);
+        if (session == null) return false;
+        entityManager.remove(session);
+        return true;
     }
 
-    @Override
-    public @NotNull Boolean deleteAll() throws Exception {
-        return null;
+    @Override @NotNull
+    public Boolean deleteByUserId(@NotNull final String userId) throws Exception {
+        final Query query = entityManager.createQuery(
+                "DELETE FROM Session s WHERE s.user.id = :userId", Session.class);
+        final int count = query.executeUpdate();
+        return count > 0;
     }
+
+    @Override @NotNull
+    public Boolean deleteAll() throws Exception {
+        final Query query = entityManager.createQuery("DELETE FROM Session s", Session.class);
+        final int count = query.executeUpdate();
+        return count > 0;
+    }
+    
 }

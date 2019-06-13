@@ -2,13 +2,7 @@ package tm.client.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.client.api.Command;
-import tm.client.api.PlannedEntity;
-import tm.common.api.webservice.ProjectService;
-import tm.common.api.webservice.ServerService;
-import tm.common.api.webservice.TaskService;
-import tm.common.api.webservice.UserService;
-import tm.common.api.webservice.Session;
+import tm.common.api.webservice.*;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -16,9 +10,9 @@ import java.util.Map;
 public interface ServiceLocator {
 
     @Nullable
-    Session getCurrentSession();
+    SessionDTO getCurrentSession();
 
-    void setCurrentSession(@Nullable Session user);
+    void setCurrentSession(@Nullable SessionDTO user);
 
     @NotNull
     UserService getUserService();

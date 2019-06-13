@@ -3,10 +3,10 @@
 <configuration>
 
     <typeAliases>
-        <typeAlias alias = "User" type = "tm.common.entity.User"/>
-        <typeAlias alias = "Session" type = "tm.common.entity.Session"/>
-        <typeAlias alias = "Project" type = "tm.common.entity.Project"/>
-        <typeAlias alias = "Task" type = "tm.common.entity.Task"/>
+        <typeAlias alias = "User" type = "tm.common.entity.UserDTO"/>
+        <typeAlias alias = "Session" type = "tm.common.entity.SessionDTO"/>
+        <typeAlias alias = "Project" type = "tm.common.entity.ProjectDTO"/>
+        <typeAlias alias = "Task" type = "tm.common.entity.TaskDTO"/>
     </typeAliases>
 
     <environments default = "default">

@@ -2,7 +2,7 @@ package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 import tm.server.api.ServiceLocator;
 import tm.server.api.repository.SessionRepository;
 import tm.server.api.service.SessionService;
@@ -24,18 +24,18 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override @NotNull
-    public Collection<Session> getAll() throws Exception {
+    public Collection<SessionDTO> getAll() throws Exception {
         return repository.findAll();
     }
 
     @Override @NotNull
-    public Collection<Session> getByUserId(@Nullable final String userId) throws Exception {
+    public Collection<SessionDTO> getByUserId(@Nullable final String userId) throws Exception {
         if (userId == null || userId.isEmpty()) return Collections.emptySet();
         return repository.findByUserId(userId);
     }
 
     @Override @Nullable
-    public Session getById(@Nullable final String id) throws Exception {
+    public SessionDTO getById(@Nullable final String id) throws Exception {
         if (id == null || id.isEmpty()) return null;
         return repository.findById(id);
     }
@@ -47,7 +47,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override @NotNull
-    public Boolean open(@Nullable final Session session) throws Exception {
+    public Boolean open(@Nullable final SessionDTO session) throws Exception {
         try {
             if (session == null) return false;
             final Boolean result = repository.persist(session);

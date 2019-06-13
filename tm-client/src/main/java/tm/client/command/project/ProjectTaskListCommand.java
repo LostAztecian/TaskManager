@@ -3,9 +3,9 @@ package tm.client.command.project;
 import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.InputHelper;
-import tm.common.api.webservice.Project;
-import tm.common.api.webservice.Session;
-import tm.common.api.webservice.Task;
+import tm.common.api.webservice.ProjectDTO;
+import tm.common.api.webservice.SessionDTO;
+import tm.common.api.webservice.TaskDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,13 +29,13 @@ public class ProjectTaskListCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) return;
-        final Collection<Project> projects = getServiceLocator().getProjectService().getProjectsByName(session, projectName);
-        final Collection<Task> tasks = new ArrayList<>();
-        for (final Project project : projects) {
+        final Collection<ProjectDTO> projects = getServiceLocator().getProjectService().getProjectsByName(session, projectName);
+        final Collection<TaskDTO> tasks = new ArrayList<>();
+        for (final ProjectDTO project : projects) {
             tasks.addAll(getServiceLocator().getTaskService().getTasksByProjectId(session, project.getId()));
         }
         if (tasks.isEmpty()) {
@@ -44,7 +44,7 @@ public class ProjectTaskListCommand extends AbstractCommand {
             return;
         }
         int index = 1;
-        for (final Task task : tasks) {
+        for (final TaskDTO task : tasks) {
             System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
             System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
             System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());

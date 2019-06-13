@@ -3,10 +3,7 @@ package tm.server.api.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
-import tm.common.entity.Session;
-
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
+import tm.common.entity.SessionDTO;
 
 public interface ServerService {
 
@@ -14,57 +11,57 @@ public interface ServerService {
     String showAbout() throws Exception;
 
     @NotNull
-    Boolean shutdown(@Nullable Session session) throws Exception;
+    Boolean shutdown(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    String showHelp(@Nullable Session session) throws Exception;
+    String showHelp(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean setSortMethod(@Nullable Session session, @Nullable ComparatorType comparatorType) throws Exception;
+    Boolean setSortMethod(@Nullable SessionDTO session, @Nullable ComparatorType comparatorType) throws Exception;
 
     @NotNull
-    Boolean dataClearBinary(@Nullable Session session) throws Exception;
+    Boolean dataClearBinary(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataSaveBinary(@Nullable Session session) throws Exception;
+    Boolean dataSaveBinary(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataLoadBinary(@Nullable Session session) throws Exception;
+    Boolean dataLoadBinary(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataClearJaxbXml(@Nullable Session session) throws Exception;
+    Boolean dataClearJaxbXml(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataSaveJaxbXml(@Nullable Session session) throws Exception;
+    Boolean dataSaveJaxbXml(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataLoadJaxbXml(@Nullable Session session) throws Exception;
+    Boolean dataLoadJaxbXml(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataClearJaxbJson(@Nullable Session session) throws Exception;
+    Boolean dataClearJaxbJson(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataSaveJaxbJson(@Nullable Session session) throws Exception;
+    Boolean dataSaveJaxbJson(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataLoadJaxbJson(@Nullable Session session) throws Exception;
+    Boolean dataLoadJaxbJson(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataClearFasterXml(@Nullable Session session) throws Exception;
+    Boolean dataClearFasterXml(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataSaveFasterXml(@Nullable Session session) throws Exception;
+    Boolean dataSaveFasterXml(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataLoadFasterXml(@Nullable Session session) throws Exception;
+    Boolean dataLoadFasterXml(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataClearFasterJson(@Nullable Session session) throws Exception;
+    Boolean dataClearFasterJson(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataSaveFasterJson(@Nullable Session session) throws Exception;
+    Boolean dataSaveFasterJson(@Nullable SessionDTO session) throws Exception;
 
     @NotNull
-    Boolean dataLoadFasterJson(@Nullable Session session) throws Exception;
+    Boolean dataLoadFasterJson(@Nullable SessionDTO session) throws Exception;
 
 }

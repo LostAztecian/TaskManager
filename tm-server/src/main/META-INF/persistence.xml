@@ -8,10 +8,10 @@ http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
         <provider>
             org.hibernate.jpa.HibernatePersistenceProvider
         </provider>
-        <class>tm.server.graph.User</class>
-        <class>tm.server.graph.Task</class>
-        <class>tm.server.graph.Project</class>
-        <class>tm.server.graph.Session</class>
+        <class>tm.server.entity.User</class>
+        <class>tm.server.entity.Task</class>
+        <class>tm.server.entity.Project</class>
+        <class>tm.server.entity.Session</class>
         <properties>
             <property name="javax.persistence.jdbc.driver"
                       value="com.mysql.jdbc.Driver"/>

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 import tm.server.api.service.*;
 
 import javax.xml.ws.Endpoint;
@@ -34,9 +34,9 @@ public interface ServiceLocator {
     SessionService getSessionService();
 
     @Nullable
-    Session getCurrentSession();
+    SessionDTO getCurrentSession();
 
-    void setCurrentSession(@Nullable Session session);
+    void setCurrentSession(@Nullable SessionDTO session);
 
     @NotNull
     Comparator<PlannedEntity> getCurrentSortMethod();

@@ -1,12 +1,9 @@
 package tm.server.command.user;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Session;
-import tm.server.api.service.UserService;
+import tm.common.entity.SessionDTO;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
-
-import java.io.IOException;
 
 public class UserLoginCommand extends AbstractCommand {
 
@@ -34,7 +31,7 @@ public class UserLoginCommand extends AbstractCommand {
             printAuthFailed();
             return;
         }
-        final Session session = getServiceLocator().getUserService().login(userLogin, userPassword);
+        final SessionDTO session = getServiceLocator().getUserService().login(userLogin, userPassword);
         if (session == null) {
             printAuthFailed();
             return;

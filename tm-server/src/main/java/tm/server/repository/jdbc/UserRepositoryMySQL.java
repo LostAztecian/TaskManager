@@ -2,7 +2,7 @@ package tm.server.repository.jdbc;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.entity.User;
+import tm.common.entity.UserDTO;
 import tm.server.api.repository.UserRepository;
 
 import java.sql.Connection;
@@ -19,19 +19,19 @@ public class UserRepositoryMySQL implements UserRepository {
         this.connection = connection;
     }
 
-    private boolean isCorrupted(@Nullable final User user) {
+    private boolean isCorrupted(@Nullable final UserDTO user) {
         return user == null ||
                user.getId() == null ||
                user.getLogin() == null ||
                user.getRole() == null;
     }
 
-    private User fetch(@NotNull final ResultSet resultSet) throws SQLException {
-        final User user = new User();
+    private UserDTO fetch(@NotNull final ResultSet resultSet) throws SQLException {
+        final UserDTO user = new UserDTO();
         user.setId(resultSet.getString("id"));
         user.setLogin(resultSet.getString("login"));
         user.setPasswordHash(resultSet.getString("pwdHash"));
-        user.setRole(User.Role.valueOf(resultSet.getString("role")));
+        user.setRole(UserDTO.Role.valueOf(resultSet.getString("role")));
         if (isCorrupted(user)) return null;
         return user;
     }
@@ -41,11 +41,11 @@ public class UserRepositoryMySQL implements UserRepository {
         statement.setString(1, userId);
         final ResultSet resultSet = statement.executeQuery();
         if (!resultSet.next()) return false;
-        return User.Role.ADMIN.toString().equals(resultSet.getString(1));
+        return UserDTO.Role.ADMIN.toString().equals(resultSet.getString(1));
     }
 
     @Override @NotNull
-    public Optional<User> validate(@NotNull final String login, @NotNull final String pwdHash) throws SQLException {
+    public Optional<UserDTO> validate(@NotNull final String login, @NotNull final String pwdHash) throws SQLException {
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `user` WHERE `login` = ? AND `pwdHash` = ?");
         statement.setString(1, login);
         statement.setString(2, pwdHash);
@@ -55,34 +55,34 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override @NotNull
-    public Collection<User> findAll(@NotNull final String userId) throws SQLException {
+    public Collection<UserDTO> findAll(@NotNull final String userId) throws SQLException {
         if (!isAdmin(userId)) return Collections.emptySet();
-        final Collection<User> users = new LinkedHashSet<>();
+        final Collection<UserDTO> users = new LinkedHashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `user`");
         final ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            final User user = fetch(resultSet);
+            final UserDTO user = fetch(resultSet);
             if (user != null) users.add(user);
         }
         return users;
     }
 
     @Override @NotNull
-    public Collection<User> findByName(@NotNull final String userId, @NotNull final String name) throws SQLException {
+    public Collection<UserDTO> findByName(@NotNull final String userId, @NotNull final String name) throws SQLException {
         if (!isAdmin(userId)) return Collections.emptySet();
-        final Collection<User> users = new LinkedHashSet<>();
+        final Collection<UserDTO> users = new LinkedHashSet<>();
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `user` WHERE `login` = ?");
         statement.setString(1, name);
         final ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            final User user = fetch(resultSet);
+            final UserDTO user = fetch(resultSet);
             if (user != null) users.add(user);
         }
         return users;
     }
 
     @Override @Nullable
-    public User findOne(@NotNull final String userId, @NotNull final String id) throws SQLException {
+    public UserDTO findOne(@NotNull final String userId, @NotNull final String id) throws SQLException {
         if (!userId.equals(id) && !isAdmin(userId)) return null;
         final PreparedStatement statement = connection.prepareStatement("SELECT * FROM `user` WHERE `id` = ?");
         statement.setString(1, id);
@@ -94,7 +94,7 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override @NotNull
-    public Boolean persist(@NotNull final User user) throws SQLException {
+    public Boolean persist(@NotNull final UserDTO user) throws SQLException {
         final PreparedStatement statement = connection.prepareStatement("INSERT IGNORE INTO `user` (`id`, `login`, `pwdHash`, `role`) VALUES (?, ?, ?, ?)");
         statement.setString(1, user.getId());
         statement.setString(2, user.getLogin());
@@ -104,7 +104,7 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override @NotNull
-    public Boolean merge(@NotNull final String userId, @NotNull final User user) throws SQLException {
+    public Boolean merge(@NotNull final String userId, @NotNull final UserDTO user) throws SQLException {
         if (!isAdmin(userId)) return false;
         final PreparedStatement statement = connection.prepareStatement("INSERT REPLACE INTO `user` (`id`, `login`, `pwdHash`, `role`) VALUES (?, ?, ?, ?)");
         statement.setString(1, user.getId());
@@ -125,7 +125,7 @@ public class UserRepositoryMySQL implements UserRepository {
     }
 
     @Override @Nullable
-    public String remove(@NotNull final String userId, @NotNull final User user) throws SQLException {
+    public String remove(@NotNull final String userId, @NotNull final UserDTO user) throws SQLException {
         if (!isAdmin(userId)) return null;
         final PreparedStatement statement = connection.prepareStatement("DELETE FROM `user` WHERE `id` = ?");
         statement.setString(1, user.getId());

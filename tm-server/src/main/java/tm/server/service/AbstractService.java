@@ -2,7 +2,7 @@ package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 import tm.server.api.ServiceLocator;
 import tm.common.api.entity.Entity;
 import tm.server.api.repository.Repository;
@@ -31,28 +31,28 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Nullable
-    protected String getCurrentUserId(@Nullable final Session session) throws Exception {
+    protected String getCurrentUserId(@Nullable final SessionDTO session) throws Exception {
         if (session == null || !SessionUtil.isValid(session)) return null;
         if (!serviceLocator.getSessionService().isOpen(session.getId())) return null;
         return session.getUserId();
     }
 
     @Override @NotNull
-    public Collection<T> getAll(@Nullable final Session session) throws Exception {
+    public Collection<T> getAll(@Nullable final SessionDTO session) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptySet();
         return repository.findAll(userId);
     }
 
     @Override @NotNull
-    public Collection<T> getAllByName(@Nullable final Session session, @Nullable final String name) throws Exception {
+    public Collection<T> getAllByName(@Nullable final SessionDTO session, @Nullable final String name) throws Exception {
         final String userId = getCurrentUserId(session);
         if (name == null || name.isEmpty() || userId == null) return Collections.emptySet();
         return repository.findByName(userId, name);
     }
 
     @Override @Nullable
-    public T get(@Nullable final Session session, @Nullable final String id) throws Exception {
+    public T get(@Nullable final SessionDTO session, @Nullable final String id) throws Exception {
         if (id == null || id.isEmpty()) return null;
         final String userId = getCurrentUserId(session);
         if (userId == null) return null;
@@ -60,7 +60,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public Boolean save(@Nullable final Session session, @Nullable final T object) throws Exception {
+    public Boolean save(@Nullable final SessionDTO session, @Nullable final T object) throws Exception {
         try {
             final String userId = getCurrentUserId(session);
             if (userId == null) return false;
@@ -75,7 +75,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public Boolean delete(@Nullable final Session session, @Nullable final String id) throws Exception {
+    public Boolean delete(@Nullable final SessionDTO session, @Nullable final String id) throws Exception {
         if (id == null || id.isEmpty()) return false;
         try {
             final String userId = getCurrentUserId(session);
@@ -91,7 +91,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public Boolean delete(@Nullable final Session session, @Nullable final T object) throws Exception {
+    public Boolean delete(@Nullable final SessionDTO session, @Nullable final T object) throws Exception {
         try {
             final String userId = getCurrentUserId(session);
             if (userId == null || object == null) return false;
@@ -105,12 +105,12 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
         }
     }
 
-    protected abstract Boolean deleteChildrenByParentId(@Nullable final Session session, @Nullable final String id) throws Exception;
+    protected abstract Boolean deleteChildrenByParentId(@Nullable final SessionDTO session, @Nullable final String id) throws Exception;
 
-    protected abstract Boolean deleteChildrenByParentIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws Exception;
+    protected abstract Boolean deleteChildrenByParentIds(@Nullable final SessionDTO session, @Nullable final Collection<String> ids) throws Exception;
 
     @Override
-    public Boolean deleteByName(@Nullable final Session session, @Nullable final String name) throws Exception {
+    public Boolean deleteByName(@Nullable final SessionDTO session, @Nullable final String name) throws Exception {
         try {
             final String userId = getCurrentUserId(session);
             if (userId == null || name == null || name.isEmpty()) return false;
@@ -125,7 +125,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public Boolean deleteByIds(@Nullable final Session session, @Nullable final Collection<String> ids) throws Exception {
+    public Boolean deleteByIds(@Nullable final SessionDTO session, @Nullable final Collection<String> ids) throws Exception {
         if (ids == null || ids.isEmpty()) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
@@ -136,7 +136,7 @@ public abstract class AbstractService<T extends Entity> implements Service<T> {
     }
 
     @Override
-    public Boolean deleteAll(@Nullable final Session session) throws Exception {
+    public Boolean deleteAll(@Nullable final SessionDTO session) throws Exception {
         try {
             final String userId = getCurrentUserId(session);
             if (userId == null) return false;

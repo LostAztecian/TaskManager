@@ -2,7 +2,7 @@ package tm.server.repository.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.User;
+import tm.common.entity.UserDTO;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface UserMapper {
             @Result(property = "passwordHash", column = "pwdHash"),
             @Result(property = "role", column = "role")
     })
-    List<User> findAll() throws Exception;
+    List<UserDTO> findAll() throws Exception;
 
     @Select(FIND_BY_NAME)
     @Results(value = {
@@ -33,7 +33,7 @@ public interface UserMapper {
             @Result(property = "passwordHash", column = "pwdHash"),
             @Result(property = "role", column = "role")
     })
-    List<User> findByName(@NotNull String name) throws Exception;
+    List<UserDTO> findByName(@NotNull String name) throws Exception;
 
     @Select(FIND_BY_ID)
     @Results(value = {
@@ -42,7 +42,7 @@ public interface UserMapper {
             @Result(property = "passwordHash", column = "pwdHash"),
             @Result(property = "role", column = "role")
     })
-    User findOne(@NotNull String id) throws Exception;
+    UserDTO findOne(@NotNull String id) throws Exception;
 
     @Results(value = {
             @Result(property = "id", column = "id"),
@@ -51,10 +51,10 @@ public interface UserMapper {
             @Result(property = "role", column = "role")
     })
     @Select(VALIDATE)
-    User validate(@NotNull @Param("login") String name, @NotNull @Param("pwdHash") String pwdHash) throws Exception;
+    UserDTO validate(@NotNull @Param("login") String name, @NotNull @Param("pwdHash") String pwdHash) throws Exception;
 
     @Insert(PERSIST)
-    void persist(@NotNull User user) throws Exception;
+    void persist(@NotNull UserDTO user) throws Exception;
 
     @Delete(REMOVE_BY_ID)
     void remove(@NotNull String id) throws Exception;

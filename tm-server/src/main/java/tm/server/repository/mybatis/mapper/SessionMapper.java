@@ -2,7 +2,7 @@ package tm.server.repository.mybatis.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Session;
+import tm.common.entity.SessionDTO;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface SessionMapper {
             @Result(property = "hash", column = "hash")
     })
     @Select(FIND_ALL)
-    List<Session> findAll() throws Exception;
+    List<SessionDTO> findAll() throws Exception;
 
     @Results(value = {
             @Result(property = "id", column = "id"),
@@ -37,7 +37,7 @@ public interface SessionMapper {
             @Result(property = "hash", column = "hash")
     })
     @Select(FIND_BY_USER_ID)
-    List<Session> findByUserId(@NotNull String userId) throws Exception;
+    List<SessionDTO> findByUserId(@NotNull String userId) throws Exception;
 
     @Results(value = {
             @Result(property = "id", column = "id"),
@@ -48,10 +48,10 @@ public interface SessionMapper {
             @Result(property = "hash", column = "hash")
     })
     @Select(FIND_BY_ID)
-    Session findById(@NotNull String id) throws Exception;
+    SessionDTO findById(@NotNull String id) throws Exception;
 
     @Insert(PERSIST)
-    void persist(@NotNull Session session) throws Exception;
+    void persist(@NotNull SessionDTO session) throws Exception;
 
     @Delete(REMOVE_BY_ID)
     void removeById(@NotNull String id) throws Exception;

@@ -7,23 +7,20 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.api.Command;
-import tm.common.entity.Session;
-import tm.common.entity.User;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.UserDTO;
 import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
-import tm.server.repository.jdbc.ProjectRepositoryMySQL;
-import tm.server.repository.jdbc.SessionRepositoryMySQL;
-import tm.server.repository.jdbc.TaskRepositoryMySQL;
-import tm.server.repository.jdbc.UserRepositoryMySQL;
 import tm.server.repository.mybatis.ProjectRepositoryMyBatis;
 import tm.server.repository.mybatis.SessionRepositoryMyBatis;
 import tm.server.repository.mybatis.TaskRepositoryMyBatis;
 import tm.server.repository.mybatis.UserRepositoryMyBatis;
 import tm.server.service.*;
+import tm.server.service.jpa.UserServiceJPA;
 import tm.server.utils.CypherUtil;
-import tm.server.utils.DatabaseConnectionUtil;
+import tm.server.utils.DatabaseUtil;
 import tm.server.utils.InputHelper;
 import tm.common.comparator.ComparatorType;
 import tm.server.utils.SessionUtil;
@@ -44,7 +41,7 @@ public class Bootstrap implements ServiceLocator {
     private final Collection<Endpoint> endpoints = new LinkedHashSet<>();
 
     @Nullable @Getter @Setter
-    private Session currentSession;
+    private SessionDTO currentSession;
     @NotNull @Getter @Setter
     private Comparator<PlannedEntity> currentSortMethod = ComparatorType.BY_CREATION_DATE.comparator;
 
@@ -76,23 +73,23 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initUsers() throws Throwable {
-        final User admin = new User();
+        final UserDTO admin = new UserDTO();
         admin.setLogin("admin");
         admin.setPasswordHash(CypherUtil.getMd5("admin"));
-        admin.setRole(User.Role.ADMIN);
+        admin.setRole(UserDTO.Role.ADMIN);
 
         ((UserServiceImpl)userService).persist(SessionUtil.getSessionForUser(admin), admin);
         userService.register("demo", "demo");
     }
 
     private void initJdbcConnections() throws Exception {
-        databaseConnection = DatabaseConnectionUtil.getJDBCConnection();
+        databaseConnection = DatabaseUtil.getJDBCConnection();
         if (databaseConnection == null) throw new NullPointerException("database connection is null");
         databaseConnection.setAutoCommit(false);
     }
 
     private SqlSession initMyBatisConnections() throws Exception {
-        final SqlSessionFactory sessionFactory = DatabaseConnectionUtil.getSessionFactory();
+        final SqlSessionFactory sessionFactory = DatabaseUtil.getSessionFactory();
         final SqlSession sqlSession = sessionFactory.openSession();
         databaseConnection = sqlSession.getConnection();
         databaseConnection.setAutoCommit(false);
@@ -100,7 +97,7 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private EntityManager initHibernateConnection() {
-        final EntityManagerFactory factory = DatabaseConnectionUtil.getEntityManagerFactory();
+        final EntityManagerFactory factory = DatabaseUtil.getEntityManagerFactory();
         final EntityManager entityManager = factory.createEntityManager();
         return entityManager;
     }
@@ -109,7 +106,7 @@ public class Bootstrap implements ServiceLocator {
         final SqlSession sqlSession = initMyBatisConnections();
         taskService = new TaskServiceImpl(new TaskRepositoryMyBatis(sqlSession), this);
         projectService = new ProjectServiceImpl(new ProjectRepositoryMyBatis(sqlSession), this);
-        userService = new UserServiceImpl(new UserRepositoryMyBatis(sqlSession), this);
+        userService = new UserServiceJPA(DatabaseUtil.getEntityManagerFactory(), this);
         serverService = new ServerServiceImpl(this);
         sessionService = new SessionServiceImpl(new SessionRepositoryMyBatis(sqlSession), this);
     }

@@ -4,9 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import tm.client.command.AbstractCommand;
 import tm.client.utils.BindHelper;
 import tm.client.utils.InputHelper;
-import tm.common.api.webservice.Project;
-import tm.common.api.webservice.Session;
-import tm.common.api.webservice.Task;
+import tm.common.api.webservice.ProjectDTO;
+import tm.common.api.webservice.SessionDTO;
+import tm.common.api.webservice.TaskDTO;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -31,19 +31,19 @@ public class TaskCreateCommand extends AbstractCommand {
 
     @Override
     public void run() throws IOException {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
         System.out.println("[TASK CREATE]");
         final String projectName = InputHelper.requestLine("ENTER PROJECT NAME:", false);
         if (projectName == null) return;
-        final Collection<Project> projects = getServiceLocator().getProjectService().getProjectsByName(session, projectName);
+        final Collection<ProjectDTO> projects = getServiceLocator().getProjectService().getProjectsByName(session, projectName);
         if (projects.isEmpty()) {
             System.out.println("[NO SUCH PROJECT]");
             System.out.println("[END]");
             System.out.println();
             return;
         }
-        final Optional<Project> project = projects.stream().findFirst();
+        final Optional<ProjectDTO> project = projects.stream().findFirst();
         final String taskName = InputHelper.requestLine("ENTER NAME:", false);
         if (taskName == null) return;
 
@@ -61,7 +61,7 @@ public class TaskCreateCommand extends AbstractCommand {
             taskEndDate = new Date();
         }
 
-        final Task task = new Task();
+        final TaskDTO task = new TaskDTO();
         task.setUserId(session.getUserId());
         task.setName(taskName);
         task.setProjectId(project.get().getId());

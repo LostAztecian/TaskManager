@@ -1,14 +1,13 @@
 package tm.server.command.project;
 
 import org.jetbrains.annotations.NotNull;
-import tm.common.entity.Project;
-import tm.common.entity.Session;
-import tm.common.entity.Task;
+import tm.common.entity.ProjectDTO;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.TaskDTO;
 import tm.server.api.service.TaskService;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -30,12 +29,12 @@ public class ProjectTaskListCommand extends AbstractCommand {
 
     @Override
     public void run() throws Throwable {
-        final Session session = getServiceLocator().getCurrentSession();
+        final SessionDTO session = getServiceLocator().getCurrentSession();
         if (session == null) return;
-        final Collection<Project> projects = InputHelper.requestProjectsByName(session, getServiceLocator());
+        final Collection<ProjectDTO> projects = InputHelper.requestProjectsByName(session, getServiceLocator());
         if (projects == null) return;
-        final Collection<Task> tasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-        for (final Project project : projects) {
+        final Collection<TaskDTO> tasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
+        for (final ProjectDTO project : projects) {
             tasks.addAll(((TaskService)(getServiceLocator().getTaskService()))
                     .getTasksByProjectId(session, project.getId()));
         }
@@ -45,7 +44,7 @@ public class ProjectTaskListCommand extends AbstractCommand {
             return;
         }
         int index = 1;
-        for (final Task task : tasks) {
+        for (final TaskDTO task : tasks) {
             System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
             System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
             System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
