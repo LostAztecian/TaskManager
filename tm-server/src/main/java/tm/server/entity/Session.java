@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
+import tm.common.entity.SessionDTO;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -40,5 +41,24 @@ public class Session {
                 ", sortMethod=" + sortMethod +
                 ", user=" + user +
                 '}';
+    }
+
+    public Session(@NotNull final SessionDTO dto) {
+        this.id = dto.getId();
+        this.sortMethod = dto.getSortMethod();
+        this.creationDate = dto.getCreationDate();
+        this.hash = dto.getHash();
+    }
+
+    @NotNull
+    public SessionDTO toDTO() {
+        final SessionDTO dto = new SessionDTO();
+        dto.setId(this.id);
+        dto.setUserId(user.getId());
+        if (user.getLogin() != null) dto.setUserLogin(user.getLogin());
+        dto.setSortMethod(this.sortMethod);
+        dto.setHash(this.hash);
+        dto.setCreationDate(this.creationDate);
+        return dto;
     }
 }

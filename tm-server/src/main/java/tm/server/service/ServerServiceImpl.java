@@ -75,6 +75,7 @@ public class ServerServiceImpl implements ServerService {
     @Override @NotNull
     public Boolean shutdown(@Nullable final SessionDTO session) throws Exception {
         final UserDTO user = serviceLocator.getUserService().get(session, getCurrentUserId(session));
+        System.out.println(user.toString());
         if (user == null || user.getRole() != UserDTO.Role.ADMIN) return false;
         serviceLocator.getEndpoints().forEach(Endpoint::stop);
         System.out.println("[ENDPOINTS STOPPED]");

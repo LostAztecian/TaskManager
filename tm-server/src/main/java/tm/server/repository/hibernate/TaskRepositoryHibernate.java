@@ -77,9 +77,9 @@ public class TaskRepositoryHibernate implements TaskRepositoryJPA {
     public Collection<Task> search(@NotNull final String userId, @NotNull final String searchLine) throws Exception {
         final TypedQuery<Task> query = entityManager.createQuery(
                 "SELECT t FROM Task t WHERE t.project.user.id = :userId AND " +
-                        "(t.name LIKE %:searchLine% OR t.description LIKE %:searchLine%)", Task.class);
+                        "(t.name LIKE :searchLine OR t.description LIKE :searchLine)", Task.class);
         query.setParameter("userId", userId);
-        query.setParameter("searchLine", searchLine);
+        query.setParameter("searchLine", "%"+searchLine+"%");
         return query.getResultList();
     }
 

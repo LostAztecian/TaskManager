@@ -13,11 +13,15 @@ import tm.server.api.ServiceLocator;
 import tm.common.api.entity.PlannedEntity;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
+import tm.server.repository.hibernate.ProjectRepositoryHibernate;
 import tm.server.repository.mybatis.ProjectRepositoryMyBatis;
 import tm.server.repository.mybatis.SessionRepositoryMyBatis;
 import tm.server.repository.mybatis.TaskRepositoryMyBatis;
 import tm.server.repository.mybatis.UserRepositoryMyBatis;
 import tm.server.service.*;
+import tm.server.service.jpa.ProjectServiceJPA;
+import tm.server.service.jpa.SessionServiceJPA;
+import tm.server.service.jpa.TaskServiceJPA;
 import tm.server.service.jpa.UserServiceJPA;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.DatabaseUtil;
@@ -103,12 +107,13 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initServices() throws Exception {
-        final SqlSession sqlSession = initMyBatisConnections();
-        taskService = new TaskServiceImpl(new TaskRepositoryMyBatis(sqlSession), this);
-        projectService = new ProjectServiceImpl(new ProjectRepositoryMyBatis(sqlSession), this);
-        userService = new UserServiceJPA(DatabaseUtil.getEntityManagerFactory(), this);
+//        final SqlSession sqlSession = initMyBatisConnections();
+        final EntityManagerFactory factory = DatabaseUtil.getEntityManagerFactory();
+        taskService = new TaskServiceJPA(factory, this);
+        projectService = new ProjectServiceJPA(factory, this);
+        userService = new UserServiceJPA(factory, this);
         serverService = new ServerServiceImpl(this);
-        sessionService = new SessionServiceImpl(new SessionRepositoryMyBatis(sqlSession), this);
+        sessionService = new SessionServiceJPA(factory, this);
     }
 
     private void initCommands(@Nullable final Class[] classes) {

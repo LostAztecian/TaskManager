@@ -65,7 +65,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean logout(@Nullable final SessionDTO session) throws Exception {
-        if (session == null || SessionUtil.isValid(session)) return false;
+        if (session == null || !SessionUtil.isValid(session)) return false;
         return serviceLocator.getSessionService().closeById(session.getId());
     }
 
@@ -105,7 +105,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean changePassword(@Nullable final SessionDTO session, @Nullable final String oldPassword, @Nullable final String newPassword) throws Exception {
-        if (session == null || SessionUtil.isValid(session)) return false;
+        if (session == null || !SessionUtil.isValid(session)) return false;
 
         final EntityManager entityManager = factory.createEntityManager();
         final UserRepositoryJPA repository = new UserRepositoryHibernate(entityManager);
@@ -129,7 +129,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Collection<UserDTO> getAll(@Nullable final SessionDTO session) throws Exception {
-        if (session == null || SessionUtil.isValid(session)) return Collections.emptyList();
+        if (session == null || !SessionUtil.isValid(session)) return Collections.emptyList();
         final UserRepositoryJPA repository = new UserRepositoryHibernate(factory.createEntityManager());
         final String currentUserId = getCurrentUserId(session);
         if (currentUserId == null) return Collections.emptyList();
@@ -138,7 +138,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Collection<UserDTO> getAllByName(@Nullable final SessionDTO session, @Nullable final String name) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || name == null) return Collections.emptyList();
+        if (session == null || !SessionUtil.isValid(session) || name == null) return Collections.emptyList();
         final UserRepositoryJPA repository = new UserRepositoryHibernate(factory.createEntityManager());
         final String currentUserId = getCurrentUserId(session);
         if (currentUserId == null) return Collections.emptyList();
@@ -148,7 +148,8 @@ public class UserServiceJPA implements UserService {
 
     @Override @Nullable
     public UserDTO get(@Nullable final SessionDTO session, @Nullable final String id) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || id == null) return null;
+        if (session == null || !SessionUtil.isValid(session) || id == null) return null;
+        System.out.println("CHECK!");
         final UserRepositoryJPA repository = new UserRepositoryHibernate(factory.createEntityManager());
         final String currentUserId = getCurrentUserId(session);
         if (currentUserId == null) return null;
@@ -159,7 +160,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean save(@Nullable final SessionDTO session, @Nullable final UserDTO userDTO) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || userDTO == null) return false;
+        if (session == null || !SessionUtil.isValid(session) || userDTO == null) return false;
         if (!isValid(session, userDTO)) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
@@ -183,7 +184,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean delete(@Nullable final SessionDTO session, @Nullable final String id) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || id == null) return false;
+        if (session == null || !SessionUtil.isValid(session) || id == null) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
 
@@ -205,7 +206,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean delete(@Nullable final SessionDTO session, @Nullable final UserDTO userDTO) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || userDTO == null) return false;
+        if (session == null || !SessionUtil.isValid(session) || userDTO == null) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
 
@@ -227,7 +228,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean deleteByIds(@Nullable final SessionDTO session, @Nullable final Collection<String> ids) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || ids == null || ids.isEmpty()) return false;
+        if (session == null || !SessionUtil.isValid(session) || ids == null || ids.isEmpty()) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
 
@@ -251,7 +252,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean deleteByName(@Nullable final SessionDTO session, @Nullable final String name) throws Exception {
-        if (session == null || SessionUtil.isValid(session) || name == null) return false;
+        if (session == null || !SessionUtil.isValid(session) || name == null) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
 
@@ -273,7 +274,7 @@ public class UserServiceJPA implements UserService {
 
     @Override @NotNull
     public Boolean deleteAll(@Nullable final SessionDTO session) throws Exception {
-        if (session == null || SessionUtil.isValid(session)) return false;
+        if (session == null || !SessionUtil.isValid(session)) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
 

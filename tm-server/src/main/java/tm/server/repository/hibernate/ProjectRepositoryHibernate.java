@@ -67,9 +67,9 @@ public class ProjectRepositoryHibernate implements ProjectRepositoryJPA {
     public Collection<Project> search(@NotNull final String userId, @NotNull final String searchLine) throws Exception {
         final TypedQuery<Project> query = entityManager.createQuery(
                 "SELECT p FROM Project p WHERE p.user.id = :userId AND " +
-                        "(p.name LIKE %:searchLine% OR p.description LIKE %:searchLine%)", Project.class);
+                        "(p.name LIKE :searchLine OR p.description LIKE :searchLine)", Project.class);
         query.setParameter("userId", userId);
-        query.setParameter("searchLine", searchLine);
+        query.setParameter("searchLine", "%"+searchLine+"%");
         return query.getResultList();
     }
 
@@ -116,13 +116,13 @@ public class ProjectRepositoryHibernate implements ProjectRepositoryJPA {
 
     @Override @NotNull
     public Collection<String> removeAll(@NotNull final String userId) throws Exception {
-        final TypedQuery<String> query = entityManager.createQuery(
+        final TypedQuery<String> findQuery = entityManager.createQuery(
                 "SELECT p.id FROM Project p WHERE p.user.id = :userId", String.class);
-        query.setParameter("userId", userId);
-        final Collection<String> ids = query.getResultList();
+        findQuery.setParameter("userId", userId);
+        final Collection<String> ids = findQuery.getResultList();
 
         final Query deleteQuery = entityManager.createQuery("DELETE FROM Project p WHERE p.user.id = :userId");
-        query.setParameter("userId", userId);
+        deleteQuery.setParameter("userId", userId);
         deleteQuery.executeUpdate();
         return ids;
     }
