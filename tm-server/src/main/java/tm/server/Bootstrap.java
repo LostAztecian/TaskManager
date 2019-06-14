@@ -77,12 +77,7 @@ public class Bootstrap implements ServiceLocator {
     }
 
     private void initUsers() throws Throwable {
-        final UserDTO admin = new UserDTO();
-        admin.setLogin("admin");
-        admin.setPasswordHash(CypherUtil.getMd5("admin"));
-        admin.setRole(UserDTO.Role.ADMIN);
-
-        ((UserServiceImpl)userService).persist(SessionUtil.getSessionForUser(admin), admin);
+        userService.register("admin", "admin");
         userService.register("demo", "demo");
     }
 

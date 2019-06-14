@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserRepositoryHibernate implements UserRepositoryJPA {
     
@@ -94,15 +95,14 @@ public class UserRepositoryHibernate implements UserRepositoryJPA {
         final User currentUser = entityManager.find(User.class, userId);
         if (currentUser.getRole() != UserDTO.Role.ADMIN) return Collections.emptyList();
 
-        final TypedQuery<String> findQuery = entityManager.createQuery(
-                "SELECT e.id FROM User e WHERE e.login = :name", String.class);
+        final TypedQuery<User> findQuery = entityManager.createQuery(
+                "SELECT e FROM User e WHERE e.login = :name", User.class);
         findQuery.setParameter("name", name);
-        final List<String> ids = findQuery.getResultList();
-        final TypedQuery<User> deleteQuery = entityManager.createQuery(
-                "DELETE FROM User e WHERE e.login = :name", User.class);
-        deleteQuery.setParameter("name", name);
-        deleteQuery.executeUpdate();
-        return ids;
+        final List<User> users = findQuery.getResultList();
+        for (final User user : users) {
+            entityManager.remove(user);
+        }
+        return users.stream().map(User::getId).collect(Collectors.toList());
     }
 
     @Override @NotNull
@@ -110,11 +110,12 @@ public class UserRepositoryHibernate implements UserRepositoryJPA {
         final User currentUser = entityManager.find(User.class, userId);
         if (currentUser.getRole() != UserDTO.Role.ADMIN) return Collections.emptyList();
 
-        final TypedQuery<String> findQuery = entityManager.createQuery(
-                "SELECT e.id FROM User e", String.class);
-        final List<String> ids = findQuery.getResultList();
-        final TypedQuery<User> deleteQuery = entityManager.createQuery("DELETE FROM User e", User.class);
-        deleteQuery.executeUpdate();
-        return ids;
+        final TypedQuery<User> findQuery = entityManager.createQuery(
+                "SELECT e FROM User e", User.class);
+        final List<User> users = findQuery.getResultList();
+        for (final User user : users) {
+            entityManager.remove(user);
+        }
+        return users.stream().map(User::getId).collect(Collectors.toList());
     }
 }

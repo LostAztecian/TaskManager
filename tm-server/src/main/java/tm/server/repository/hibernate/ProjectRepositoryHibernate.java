@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class ProjectRepositoryHibernate implements ProjectRepositoryJPA {
 
@@ -102,28 +103,27 @@ public class ProjectRepositoryHibernate implements ProjectRepositoryJPA {
 
     @Override @NotNull
     public Collection<String> removeByName(@NotNull final String userId, @NotNull final String name) throws Exception {
-        final TypedQuery<String> query = entityManager.createQuery(
-                "SELECT p.id FROM Project p WHERE p.user.id = :userId AND p.name = :name", String.class);
+        final TypedQuery<Project> query = entityManager.createQuery(
+                "SELECT p FROM Project p WHERE p.user.id = :userId AND p.name = :name", Project.class);
         query.setParameter("userId", userId);
         query.setParameter("name", name);
-        final Collection<String> ids = query.getResultList();
-        for (final String id : ids) {
-            final Query deleteQuery = entityManager.createQuery("DELETE FROM Project p WHERE p.id = id");
-            deleteQuery.executeUpdate();
+        final Collection<Project> projects = query.getResultList();
+        for (final Project project : projects) {
+            entityManager.remove(project);
         }
-        return ids;
+        return projects.stream().map(Project::getId).collect(Collectors.toList());
     }
 
     @Override @NotNull
     public Collection<String> removeAll(@NotNull final String userId) throws Exception {
-        final TypedQuery<String> findQuery = entityManager.createQuery(
-                "SELECT p.id FROM Project p WHERE p.user.id = :userId", String.class);
+        final TypedQuery<Project> findQuery = entityManager.createQuery(
+                "SELECT p FROM Project p WHERE p.user.id = :userId", Project.class);
         findQuery.setParameter("userId", userId);
-        final Collection<String> ids = findQuery.getResultList();
+        final Collection<Project> projects = findQuery.getResultList();
 
-        final Query deleteQuery = entityManager.createQuery("DELETE FROM Project p WHERE p.user.id = :userId");
-        deleteQuery.setParameter("userId", userId);
-        deleteQuery.executeUpdate();
-        return ids;
+        for (final Project project : projects) {
+            entityManager.remove(project);
+        }
+        return projects.stream().map(Project::getId).collect(Collectors.toList());
     }
 }

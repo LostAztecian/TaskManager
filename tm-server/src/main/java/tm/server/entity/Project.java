@@ -23,7 +23,7 @@ public class Project extends AbstractPlannedEntity {
     @NotNull @OneToMany(targetEntity = Task.class, cascade = CascadeType.ALL, mappedBy = "project")
     private List<Task> tasks = new ArrayList<>();
     
-    @NotNull @ManyToOne(targetEntity = User.class, cascade = CascadeType.REMOVE)
+    @NotNull @ManyToOne(targetEntity = User.class)
     private User user;
 
     @Override

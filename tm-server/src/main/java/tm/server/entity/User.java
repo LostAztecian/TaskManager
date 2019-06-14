@@ -37,10 +37,10 @@ public class User implements tm.common.api.entity.Entity {
     @NotNull @Enumerated(EnumType.STRING)
     private UserDTO.Role role = UserDTO.Role.USER;
 
-    @NotNull @OneToMany(targetEntity = Project.class, cascade = CascadeType.ALL, mappedBy = "user")
+    @NotNull @OneToMany(targetEntity = Project.class, cascade = CascadeType.REMOVE, mappedBy = "user")
     private List<Project> projects = new ArrayList<>();
 
-    @NotNull @OneToMany(targetEntity = Session.class, mappedBy = "user")
+    @NotNull @OneToMany(targetEntity = Session.class, cascade = CascadeType.REMOVE, mappedBy = "user")
     private List<Session> sessions = new ArrayList<>();
 
     @Override
