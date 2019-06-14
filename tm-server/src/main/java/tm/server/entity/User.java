@@ -29,7 +29,8 @@ public class User implements tm.common.api.entity.Entity {
     @NotNull @Id
     private String id = UUID.randomUUID().toString();
 
-    @Nullable private String login;
+    @Nullable @Column(unique = true)
+    private String login;
 
     @Nullable @Column(name = "pwdHash")
     private String passwordHash;
