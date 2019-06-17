@@ -27,12 +27,12 @@ public class Task extends AbstractPlannedEntity {
     public Task(@NotNull final TaskDTO dto, @NotNull final Project project) {
         this.project = project;
         setId(dto.getId());
-        setName(dto.getName());
-        setDescription(dto.getDescription());
+        setName(dto.getName() == null ? "NNM" : dto.getName());
+        setDescription(dto.getDescription() == null ? "no description" : dto.getDescription());
         setStatus(dto.getStatus());
         setCreationDate(dto.getCreationDate());
-        setStartDate(dto.getStartDate());
-        setEndDate(dto.getEndDate());
+        setStartDate(dto.getStartDate() == null ? dto.getCreationDate() : dto.getStartDate());
+        setEndDate(dto.getEndDate() == null ? dto.getCreationDate() : dto.getEndDate());
     }
 
     public TaskDTO toDTO() {

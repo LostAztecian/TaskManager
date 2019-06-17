@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Jpa
+@ApplicationScoped
 public class TaskServiceJPA implements TaskService {
 
     @Inject

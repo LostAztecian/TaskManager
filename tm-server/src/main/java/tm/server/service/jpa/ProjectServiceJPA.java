@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Jpa
+@ApplicationScoped
+@SuppressWarnings("Duplicates")
 public class ProjectServiceJPA implements ProjectService {
 
     @Inject
@@ -99,7 +101,8 @@ public class ProjectServiceJPA implements ProjectService {
 
         final EntityManager entityManager = factory.createEntityManager();
         final ProjectRepositoryJPA repositoryJPA = new ProjectRepositoryHibernate(entityManager);
-        final User user = entityManager.find(User.class, projectDTO.getUserId());
+        final User user = entityManager.find(User.class, userId);
+        System.out.println(user);
         if (user == null) return false;
         final EntityTransaction transaction = entityManager.getTransaction();
         try {

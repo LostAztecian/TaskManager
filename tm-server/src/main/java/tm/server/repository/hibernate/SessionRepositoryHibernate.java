@@ -58,14 +58,14 @@ public class SessionRepositoryHibernate implements SessionRepositoryJPA {
     @Override @NotNull
     public Boolean deleteByUserId(@NotNull final String userId) throws Exception {
         final Query query = entityManager.createQuery(
-                "DELETE FROM Session s WHERE s.user.id = :userId", Session.class);
+                "DELETE FROM Session s WHERE s.user.id = :userId");
         final int count = query.executeUpdate();
         return count > 0;
     }
 
     @Override @NotNull
     public Boolean deleteAll() throws Exception {
-        final Query query = entityManager.createQuery("DELETE FROM Session s", Session.class);
+        final Query query = entityManager.createQuery("DELETE FROM Session s");
         final int count = query.executeUpdate();
         return count > 0;
     }

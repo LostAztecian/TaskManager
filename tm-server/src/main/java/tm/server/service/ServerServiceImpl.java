@@ -19,6 +19,7 @@ import tm.server.command.general.AboutCommand;
 import tm.server.dto.UserData;
 import tm.server.utils.SessionUtil;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -37,6 +38,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
+@ApplicationScoped
 public class ServerServiceImpl implements ServerService {
 
     @Inject

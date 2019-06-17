@@ -22,6 +22,7 @@ public class ExitCommand extends AbstractCommand {
     @Override
     public void run() throws Throwable {
         getServiceLocator().getServerService().shutdown(getServiceLocator().getCurrentSession());
+        getServiceLocator().getSessionService().closeAll();
     }
 
 }

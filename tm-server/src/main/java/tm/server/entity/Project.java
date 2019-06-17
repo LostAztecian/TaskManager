@@ -33,12 +33,12 @@ public class Project extends AbstractPlannedEntity {
 
     public Project(@NotNull final ProjectDTO dto, @NotNull final User user) {
         this.setId(dto.getId());
-        this.setName(dto.getName());
-        this.setDescription(dto.getDescription());
+        this.setName(dto.getName() == null ? "NNM" : dto.getName());
+        this.setDescription(dto.getDescription() == null ? "no description" : dto.getDescription());
         this.setStatus(dto.getStatus());
         this.setCreationDate(dto.getCreationDate());
-        this.setStartDate(dto.getStartDate());
-        this.setEndDate(dto.getEndDate());
+        this.setStartDate(dto.getStartDate() == null ? dto.getCreationDate() : dto.getStartDate());
+        this.setEndDate(dto.getEndDate() == null ? dto.getCreationDate() : dto.getEndDate());
         this.user = user;
     }
 

@@ -2,22 +2,28 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.exception.ServerException;
 import tm.common.api.webservice.ProjectWebService;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
+import tm.common.exception.ServerException;
+import tm.server.annotations.Jpa;
 import tm.server.api.service.ProjectService;
 
+import javax.inject.Inject;
 import javax.jws.WebService;
 import java.util.Collection;
 
 @WebService(endpointInterface = "tm.common.api.webservice.ProjectWebService")
 public class ProjectWebServiceBean implements ProjectWebService {
 
-    private final ProjectService projectService;
+//    @Inject @Jpa
+    private ProjectService projectService;
 
-    public ProjectWebServiceBean(@NotNull final ProjectService projectService) {
+    public ProjectWebServiceBean() {
+    }
+
+        public ProjectWebServiceBean(@NotNull final ProjectService projectService) {
         this.projectService = projectService;
     }
 
@@ -96,6 +102,7 @@ public class ProjectWebServiceBean implements ProjectWebService {
     @Override @NotNull
     public Boolean deleteProject(@Nullable final SessionDTO session, @Nullable final String id) throws ServerException {
         try {
+            System.out.println(session.getUserLogin() + " : " + id);
             return projectService.delete(session, id);
         } catch (Exception e) {
             throw new ServerException(e);

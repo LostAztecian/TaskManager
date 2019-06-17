@@ -16,15 +16,14 @@ import tm.server.utils.SessionUtil;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Jpa
 @SuppressWarnings("Duplicates")
+@ApplicationScoped
 public class UserServiceJPA implements UserService {
 
     @Inject
@@ -51,8 +50,8 @@ public class UserServiceJPA implements UserService {
         return session.getUserId();
     }
 
-    @Override
-    public @Nullable final SessionDTO login(@Nullable final String login, @Nullable final String password) throws Exception {
+    @Override @Nullable
+    public final SessionDTO login(@Nullable final String login, @Nullable final String password) throws Exception {
         System.out.printf("[AUTH] Login: %s, Password: %s %n", login, password);
         if (login == null || login.isEmpty()) return null;
         if (password == null || password.isEmpty()) return null;
@@ -90,6 +89,9 @@ public class UserServiceJPA implements UserService {
             
             transaction.commit();
             return result;
+        } catch (PersistenceException exists) {
+            transaction.rollback();
+            return false;
         } catch (Exception e) {
             transaction.rollback();
             throw e;
