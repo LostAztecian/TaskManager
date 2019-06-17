@@ -2,7 +2,7 @@ package tm.common.api.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.ServerException;
+import tm.common.exception.ServerException;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
 

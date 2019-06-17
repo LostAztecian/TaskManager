@@ -8,7 +8,6 @@ import tm.server.entity.Project;
 import tm.server.utils.DatabaseUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.stream.Collectors;

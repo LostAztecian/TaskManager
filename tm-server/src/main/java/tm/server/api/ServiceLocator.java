@@ -15,9 +15,6 @@ import java.util.Map;
 
 public interface ServiceLocator {
 
-    @Nullable
-    Connection getDatabaseConnection();
-
     @NotNull
     UserService getUserService();
 

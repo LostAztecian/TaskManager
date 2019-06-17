@@ -40,7 +40,7 @@ public class SetSortMethodCommand extends AbstractCommand {
         }
         if (comparatorType == null) {
             System.out.println("[INAPPROPRIATE METHOD]");
-            getServiceLocator().setCurrentSortMethod(ComparatorType.BY_CREATION_DATE.comparator);
+//            getServiceLocator().setCurrentSortMethod(ComparatorType.BY_CREATION_DATE.comparator);
             System.out.println("METHOD SET TO CREATION DATE");
             System.out.println();
             return;

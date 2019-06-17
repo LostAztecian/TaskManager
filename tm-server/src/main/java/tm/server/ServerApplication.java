@@ -1,5 +1,6 @@
 package tm.server;
 
+import tm.server.bootstrap.ServerBootstrap;
 import tm.server.command.general.*;
 import tm.server.command.persist.bin.DataClearBinary;
 import tm.server.command.persist.bin.DataLoadBinary;
@@ -9,6 +10,9 @@ import tm.server.command.persist.jaxb.*;
 import tm.server.command.project.*;
 import tm.server.command.task.*;
 import tm.server.command.user.*;
+
+import javax.enterprise.inject.se.SeContainerInitializer;
+import javax.enterprise.inject.spi.CDI;
 
 public class ServerApplication {
 
@@ -36,7 +40,8 @@ public class ServerApplication {
     };
 
     public static void main(String[] args) {
-        new Bootstrap().init(CLASSES);
+        SeContainerInitializer.newInstance().addPackages(true, ServerApplication.class).initialize();
+        CDI.current().select(ServerBootstrap.class).get().init(CLASSES);
     }
 
 }

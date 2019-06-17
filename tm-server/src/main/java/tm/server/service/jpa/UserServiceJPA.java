@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
+import tm.server.annotations.Jpa;
 import tm.server.api.ServiceLocator;
 import tm.server.api.repository.jpa.UserRepositoryJPA;
 import tm.server.api.service.UserService;
@@ -13,6 +14,8 @@ import tm.server.repository.hibernate.UserRepositoryHibernate;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.SessionUtil;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -20,16 +23,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+@Jpa
 @SuppressWarnings("Duplicates")
 public class UserServiceJPA implements UserService {
 
-    private final ServiceLocator serviceLocator;
-    private final EntityManagerFactory factory;
+    @Inject
+    private ServiceLocator serviceLocator;
 
-    public UserServiceJPA(@NotNull final EntityManagerFactory factory,
-                          @NotNull final ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
-        this.factory = factory;
+    @Inject
+    private EntityManagerFactory factory;
+
+    public UserServiceJPA() {
     }
 
     @NotNull

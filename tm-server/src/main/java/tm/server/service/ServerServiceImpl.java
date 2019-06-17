@@ -19,6 +19,7 @@ import tm.server.command.general.AboutCommand;
 import tm.server.dto.UserData;
 import tm.server.utils.SessionUtil;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -38,14 +39,14 @@ import java.util.*;
 
 public class ServerServiceImpl implements ServerService {
 
-    private final ServiceLocator serviceLocator;
+    @Inject
+    private ServiceLocator serviceLocator;
 
-    public ServerServiceImpl(@NotNull final ServiceLocator serviceLocator) {
-        this.serviceLocator = serviceLocator;
+    public ServerServiceImpl() {
     }
 
     @Nullable
-    protected String getCurrentUserId(@Nullable final SessionDTO session) throws Exception {
+    private String getCurrentUserId(@Nullable final SessionDTO session) throws Exception {
         if (session == null || !SessionUtil.isValid(session)) return null;
         if (!serviceLocator.getSessionService().isOpen(session.getId())) return null;
         return session.getUserId();
@@ -75,19 +76,9 @@ public class ServerServiceImpl implements ServerService {
     @Override @NotNull
     public Boolean shutdown(@Nullable final SessionDTO session) throws Exception {
         final UserDTO user = serviceLocator.getUserService().get(session, getCurrentUserId(session));
-        System.out.println(user.toString());
         if (user == null || user.getRole() != UserDTO.Role.ADMIN) return false;
         serviceLocator.getEndpoints().forEach(Endpoint::stop);
         System.out.println("[ENDPOINTS STOPPED]");
-        final Connection databaseConnection = serviceLocator.getDatabaseConnection();
-        if (databaseConnection != null) {
-            try {
-                databaseConnection.close();
-                System.out.println("[DATABASE CONNECTION CLOSED]");
-            } catch (SQLException e) {
-                System.out.println("[FAILED TO CLOSE DATABASE CONNECTION]");
-            }
-        }
         serviceLocator.terminate();
         System.out.println("[SERVER TERMINATED]");
         return true; //TODO check if its working after stopping endpoints

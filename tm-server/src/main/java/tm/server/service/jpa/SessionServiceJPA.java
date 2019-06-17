@@ -3,6 +3,7 @@ package tm.server.service.jpa;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.SessionDTO;
+import tm.server.annotations.Jpa;
 import tm.server.api.ServiceLocator;
 import tm.server.api.repository.jpa.SessionRepositoryJPA;
 import tm.server.api.service.SessionService;
@@ -11,6 +12,8 @@ import tm.server.entity.User;
 import tm.server.repository.hibernate.SessionRepositoryHibernate;
 import tm.server.utils.SessionUtil;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,14 +21,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+@Jpa
+@ApplicationScoped
 public class SessionServiceJPA implements SessionService {
 
-    private final EntityManagerFactory factory;
-    private final ServiceLocator serviceLocator;
+    @Inject
+    private EntityManagerFactory factory;
 
-    public SessionServiceJPA(@NotNull final EntityManagerFactory factory, @NotNull final ServiceLocator serviceLocator) {
-        this.factory = factory;
-        this.serviceLocator = serviceLocator;
+    @Inject
+    private ServiceLocator serviceLocator;
+
+    public SessionServiceJPA() {
     }
 
     @Override @NotNull

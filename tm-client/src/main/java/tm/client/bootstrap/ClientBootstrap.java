@@ -1,4 +1,4 @@
-package tm.client;
+package tm.client.bootstrap;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +20,14 @@ import tm.server.webservice.ServerWebServiceBeanService;
 import tm.server.webservice.TaskWebServiceBeanService;
 import tm.server.webservice.UserWebServiceBeanService;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Bootstrap implements ServiceLocator {
+@ApplicationScoped
+public class ClientBootstrap implements ServiceLocator {
 
     @Getter @Setter
     private SessionDTO currentSession = null;
@@ -33,13 +36,13 @@ public class Bootstrap implements ServiceLocator {
     private final Map<String, Command> commands = new LinkedHashMap<>();
     private boolean isTerminated = false;
 
-    @Getter
+    @Getter @Inject
     private UserService userService;
-    @Getter
+    @Getter @Inject
     private ProjectService projectService;
-    @Getter
+    @Getter @Inject
     private TaskService taskService;
-    @Getter
+    @Getter @Inject
     private ServerService serverService;
 
     @Getter @Setter
@@ -49,17 +52,17 @@ public class Bootstrap implements ServiceLocator {
 
     public void init(@Nullable final Class[] classes) {
         if (classes != null) initCommands(classes);
-        initServices();
+//        initServices();
         mainLoop();
     }
 
-    private void initServices() {
-        System.setProperty("javax.xml.soap.SAAJMetaFactory", "com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl");
-        userService = new UserWebServiceBeanService().getUserWebServiceBeanPort();
-        projectService = new ProjectWebServiceBeanService().getProjectWebServiceBeanPort();
-        taskService = new TaskWebServiceBeanService().getTaskWebServiceBeanPort();
-        serverService = new ServerWebServiceBeanService().getServerWebServiceBeanPort();
-    }
+//    private void initServices() {
+//        System.setProperty("javax.xml.soap.SAAJMetaFactory", "com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl");
+//        userService = new UserWebServiceBeanService().getUserWebServiceBeanPort();
+//        projectService = new ProjectWebServiceBeanService().getProjectWebServiceBeanPort();
+//        taskService = new TaskWebServiceBeanService().getTaskWebServiceBeanPort();
+//        serverService = new ServerWebServiceBeanService().getServerWebServiceBeanPort();
+//    }
 
     private void initCommands(@NotNull final Class[] classes) {
         for (@Nullable final Class clazz : classes) {

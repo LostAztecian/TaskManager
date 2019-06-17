@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
-import tm.common.entity.UserDTO;
+import tm.server.annotations.Jpa;
 import tm.server.api.ServiceLocator;
 import tm.server.api.repository.jpa.ProjectRepositoryJPA;
 import tm.server.api.service.ProjectService;
@@ -14,6 +14,8 @@ import tm.server.entity.User;
 import tm.server.repository.hibernate.ProjectRepositoryHibernate;
 import tm.server.utils.SessionUtil;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -21,14 +23,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+@Jpa
 public class ProjectServiceJPA implements ProjectService {
-    
-    private final EntityManagerFactory factory;
-    private final ServiceLocator serviceLocator;
 
-    public ProjectServiceJPA(EntityManagerFactory factory, ServiceLocator serviceLocator) {
-        this.factory = factory;
-        this.serviceLocator = serviceLocator;
+    @Inject
+    private EntityManagerFactory factory;
+
+    @Inject
+    private ServiceLocator serviceLocator;
+
+    public ProjectServiceJPA() {
     }
 
     @Nullable

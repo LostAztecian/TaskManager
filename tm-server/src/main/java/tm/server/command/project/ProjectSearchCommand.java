@@ -38,13 +38,13 @@ public class ProjectSearchCommand extends AbstractCommand {
             System.out.println();
             return;
         }
-        final Collection<ProjectDTO> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-        sortedProjects.addAll(searchResult);
-        System.out.println("PROJECTS MATCHING CRITERIA:");
-        int index = 1;
-        for (final ProjectDTO project : sortedProjects) {
-            System.out.printf("%d. %s %n", index++, project);
-        }
+//        final Collection<ProjectDTO> sortedProjects = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
+//        sortedProjects.addAll(searchResult);
+//        System.out.println("PROJECTS MATCHING CRITERIA:");
+//        int index = 1;
+//        for (final ProjectDTO project : sortedProjects) {
+//            System.out.printf("%d. %s %n", index++, project);
+//        }
         System.out.println();
     }
 

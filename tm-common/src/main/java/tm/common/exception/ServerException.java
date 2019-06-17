@@ -1,4 +1,4 @@
-package tm.common;
+package tm.common.exception;
 
 public class ServerException extends Throwable {
 
