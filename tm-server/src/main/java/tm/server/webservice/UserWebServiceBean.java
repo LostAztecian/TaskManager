@@ -6,18 +6,24 @@ import tm.common.exception.ServerException;
 import tm.common.api.webservice.UserWebService;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
+import tm.server.annotations.Jpa;
 import tm.server.api.service.UserService;
 
+import javax.inject.Inject;
 import javax.jws.WebService;
 import java.util.Collection;
 
 @WebService(endpointInterface = "tm.common.api.webservice.UserWebService")
 public class UserWebServiceBean implements UserWebService {
 
-    private final UserService userService;
+    @Inject @Jpa
+    private UserService userService;
 
     public UserWebServiceBean(@NotNull final UserService userService) {
         this.userService = userService;
+    }
+
+    public UserWebServiceBean() {
     }
 
     @Override @NotNull

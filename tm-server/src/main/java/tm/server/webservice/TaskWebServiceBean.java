@@ -5,20 +5,26 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.exception.ServerException;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.TaskDTO;
+import tm.server.annotations.Jpa;
 import tm.server.api.service.TaskService;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.comparator.ComparatorType;
 
+import javax.inject.Inject;
 import javax.jws.WebService;
 import java.util.Collection;
 
 @WebService(endpointInterface = "tm.common.api.webservice.TaskWebService")
 public class TaskWebServiceBean implements TaskWebService {
 
-    private final TaskService taskService;
+    @Inject @Jpa
+    private TaskService taskService;
 
     public TaskWebServiceBean(@NotNull final TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    public TaskWebServiceBean() {
     }
 
     @Override @NotNull

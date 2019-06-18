@@ -17,7 +17,7 @@ import java.util.Collection;
 @WebService(endpointInterface = "tm.common.api.webservice.ProjectWebService")
 public class ProjectWebServiceBean implements ProjectWebService {
 
-//    @Inject @Jpa
+    @Inject @Jpa
     private ProjectService projectService;
 
     public ProjectWebServiceBean() {

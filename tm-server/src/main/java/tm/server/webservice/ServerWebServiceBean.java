@@ -8,11 +8,13 @@ import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
 import tm.server.api.service.ServerService;
 
+import javax.inject.Inject;
 import javax.jws.WebService;
 
 @WebService(endpointInterface = "tm.common.api.webservice.ServerWebService")
 public class ServerWebServiceBean implements ServerWebService {
 
+    @Inject
     private ServerService serverService;
 
     public ServerWebServiceBean(@NotNull final ServerService serverService) throws ServerException {
@@ -21,6 +23,9 @@ public class ServerWebServiceBean implements ServerWebService {
         } catch (Exception e) {
             throw new ServerException(e);
         }
+    }
+
+    public ServerWebServiceBean() {
     }
 
     @Override @NotNull
