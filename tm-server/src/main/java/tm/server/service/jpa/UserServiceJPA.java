@@ -1,5 +1,6 @@
 package tm.server.service.jpa;
 
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.SessionDTO;
@@ -10,6 +11,7 @@ import tm.server.api.repository.jpa.UserRepositoryJPA;
 import tm.server.api.service.UserService;
 import tm.server.command.user.UserChangePasswordCommand;
 import tm.server.entity.User;
+import tm.server.repository.deltaspike.UserRepositoryDeltaspike;
 import tm.server.repository.hibernate.UserRepositoryHibernate;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.SessionUtil;
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Jpa
@@ -51,7 +54,7 @@ public class UserServiceJPA implements UserService {
     }
 
     @Override @Nullable
-    public final SessionDTO login(@Nullable final String login, @Nullable final String password) throws Exception {
+    public SessionDTO login(@Nullable final String login, @Nullable final String password) throws Exception {
         System.out.printf("[AUTH] Login: %s, Password: %s %n", login, password);
         if (login == null || login.isEmpty()) return null;
         if (password == null || password.isEmpty()) return null;

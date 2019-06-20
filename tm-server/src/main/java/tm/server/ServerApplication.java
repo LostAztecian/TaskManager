@@ -1,5 +1,8 @@
 package tm.server;
 
+import org.apache.deltaspike.cdise.api.CdiContainer;
+import org.apache.deltaspike.cdise.api.CdiContainerLoader;
+import org.apache.deltaspike.cdise.api.ContextControl;
 import tm.server.bootstrap.ServerBootstrap;
 import tm.server.command.general.*;
 import tm.server.command.persist.bin.DataClearBinary;
@@ -11,6 +14,7 @@ import tm.server.command.project.*;
 import tm.server.command.task.*;
 import tm.server.command.user.*;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.se.SeContainerInitializer;
 import javax.enterprise.inject.spi.CDI;
 
@@ -40,8 +44,16 @@ public class ServerApplication {
     };
 
     public static void main(String[] args) {
-        SeContainerInitializer.newInstance().addPackages(true, ServerApplication.class).initialize();
+        CdiContainer container = CdiContainerLoader.getCdiContainer();
+        container.boot();
+//
+        ContextControl contextControl = container.getContextControl();
+        contextControl.startContext(ApplicationScoped.class);
+
+        SeContainerInitializer.newInstance().initialize();
         CDI.current().select(ServerBootstrap.class).get().init(CLASSES);
+//
+        container.shutdown();
     }
 
 }

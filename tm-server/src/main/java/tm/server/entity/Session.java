@@ -15,7 +15,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 public class Session {
 
     @NotNull @Id
@@ -30,7 +29,7 @@ public class Session {
     @Nullable
     private String hash;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne()
     private User user;
 
     @Override
@@ -43,11 +42,15 @@ public class Session {
                 '}';
     }
 
-    public Session(@NotNull final SessionDTO dto) {
+    public Session() {
+    }
+
+    public Session(@NotNull final SessionDTO dto, final User user) {
         this.id = dto.getId();
         this.sortMethod = dto.getSortMethod();
         this.creationDate = dto.getCreationDate();
         this.hash = dto.getHash();
+        this.user = user;
     }
 
     @NotNull

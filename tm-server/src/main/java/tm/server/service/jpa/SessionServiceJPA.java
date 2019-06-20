@@ -76,7 +76,7 @@ public class SessionServiceJPA implements SessionService {
         try {
             transaction.begin();
 
-            final Session session = new Session(sessionDTO);
+            final Session session = new Session(sessionDTO, entityManager.find(User.class, sessionDTO.getUserId()));
             final User sessionUser = entityManager.find(User.class, sessionDTO.getUserId());
             if (sessionUser == null) return false;
             session.setUser(sessionUser);

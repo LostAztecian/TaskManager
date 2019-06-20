@@ -19,8 +19,8 @@ public class Task extends AbstractPlannedEntity {
     @ManyToOne
     private Project project;
 
-    @Override
-    public @Nullable String getUserId() {
+    @Override @Nullable
+    public String getUserId() {
         return project.getUserId();
     }
 

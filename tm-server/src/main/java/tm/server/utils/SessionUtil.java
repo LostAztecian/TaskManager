@@ -37,13 +37,4 @@ public class SessionUtil {
         return session;
     }
 
-    @NotNull
-    public static Session getSessionForUser(@NotNull final User user) {
-        final String userLogin = user.getLogin();
-        final Session session = new Session();
-        session.setUser(user);
-        sign(session);
-        return session;
-    }
-
 }

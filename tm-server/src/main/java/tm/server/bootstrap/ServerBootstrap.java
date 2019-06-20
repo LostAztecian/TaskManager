@@ -9,6 +9,7 @@ import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
+import tm.server.annotations.Deltaspike;
 import tm.server.annotations.Jpa;
 import tm.server.api.ServiceLocator;
 import tm.server.api.service.*;
@@ -42,13 +43,13 @@ public class ServerBootstrap implements ServiceLocator {
     @Nullable @Getter
     private Connection databaseConnection = null;
 
-    @Getter @Inject @Jpa
+    @Getter @Inject @Deltaspike
     private ProjectService projectService;
-    @Getter @Inject @Jpa
+    @Getter @Inject @Deltaspike
     private TaskService taskService;
-    @Getter @Inject @Jpa
+    @Getter @Inject @Deltaspike
     private UserService userService;
-    @Getter @Inject @Jpa
+    @Getter @Inject @Deltaspike
     private SessionService sessionService;
     @Getter @Inject
     private ServerService serverService;
