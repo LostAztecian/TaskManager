@@ -49,7 +49,7 @@ public abstract class TaskRepositoryDeltaspike {
 
     public void deleteByUserIdEqualAndIdEqual(@NotNull String userId, @NotNull String id) {
         final Task task = entityManager.find(Task.class, id);
-        if (id.equals(task.getProject().getUser().getId())) entityManager.remove(task);
+        if (userId.equals(task.getProject().getUser().getId())) entityManager.remove(task);
     }
 
     public int deleteByUserIdEqualAndNameEqual(@NotNull String userId, @NotNull String name) {

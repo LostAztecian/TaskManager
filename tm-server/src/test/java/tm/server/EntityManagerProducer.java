@@ -1,13 +1,14 @@
-package tm.server.utils;
+package tm.server;
 
+import org.apache.deltaspike.jpa.api.entitymanager.PersistenceUnitName;
+import org.apache.deltaspike.jpa.api.transaction.TransactionScoped;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import tm.common.comparator.ComparatorType;
+import tm.server.api.service.DatabasePropertyService;
 import tm.server.entity.Project;
 import tm.server.entity.Session;
 import tm.server.entity.Task;
@@ -15,25 +16,49 @@ import tm.server.entity.User;
 import tm.server.service.DatabasePropertyServiceImpl;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DatabaseUtil {
+@ApplicationScoped
+public class EntityManagerProducer {
+
+    @NotNull
+    private static final String UNIT_NAME = "ENTERPRISE";
+
+    @Inject
+    @PersistenceUnitName(UNIT_NAME)
+    private EntityManagerFactory entityManagerFactory;
 
     @NotNull
     @Produces
-//    @Alternative
+    @Alternative
+    @TransactionScoped
+    public EntityManager create() {
+        return this.entityManagerFactory.createEntityManager();
+    }
+
+    public void dispose(@Disposes EntityManager entityManager) {
+        if (entityManager.isOpen()) entityManager.close();
+    }
+
+    @NotNull
+    @Produces
+    @Alternative
     @ApplicationScoped
     public static EntityManagerFactory getEntityManagerFactory() {
-        final tm.server.api.service.DatabasePropertyService propertyService = new DatabasePropertyServiceImpl();
+        final DatabasePropertyService propertyService = new DatabasePropertyServiceImpl();
         final Map<String, String> settings = new HashMap<>();
         settings.put(Environment.DRIVER, propertyService.getJdbcDriver());
         settings.put(Environment.URL, propertyService.getJdbcUrl());
         settings.put(Environment.USER, propertyService.getJdbcUsername());
         settings.put(Environment.PASS, propertyService.getJdbcPassword());
-        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
         settings.put(Environment.HBM2DDL_AUTO, "update");
         settings.put(Environment.SHOW_SQL, "true");
         final StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
@@ -47,25 +72,5 @@ public class DatabaseUtil {
         final Metadata metadata = sources.getMetadataBuilder().build();
         return metadata.getSessionFactoryBuilder().build();
     }
-
-    @NotNull
-    public static String getSortColumn(@Nullable final ComparatorType comparatorType) {
-        if (comparatorType == null) return "creationDate";
-        switch (comparatorType) {
-            case BY_STATUS: {
-                return "status";
-            }
-            case BY_START_DATE: {
-                return "startDate";
-            }
-            case BY_END_DATE: {
-                return "endDate";
-            }
-            case BY_CREATION_DATE: {
-                return "creationDate";
-            }
-        }
-        return "creationDate";
-    }
-
 }
+
