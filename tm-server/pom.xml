@@ -14,7 +14,21 @@
 
     <properties>
         <deltaspike.version>1.9.0</deltaspike.version>
+        <deltaspike.weld.version>2.3.3.Final</deltaspike.weld.version>
+        <weld.version>3.1.1.Final</weld.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.deltaspike.distribution</groupId>
+                <artifactId>distributions-bom</artifactId>
+                <version>${deltaspike.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -89,7 +103,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-<!--            <version>1.7.26</version>-->
+            <version>1.5.5</version>
             <scope>test</scope>
         </dependency>
 
@@ -116,7 +130,7 @@
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>
-            <version>3.1.1.Final</version>
+            <version>${weld.version}</version>
         </dependency>
 
         <!--    Apache deltaspike    -->
@@ -252,6 +266,21 @@
                             <overWriteReleases>true</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteIfNewer>false</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>false</overWriteIfNewer>
+                            <outputDirectory>
+                                ${project.parent.build.directory}/tm/lib
+                            </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
