@@ -28,29 +28,26 @@ public class PublishEndpoints extends AbstractCommand {
     @Override
     protected void run() throws Throwable {
         final Endpoint userEndpoint = Endpoint.create(new UserWebServiceBean(getServiceLocator().getUserService()));
-        final String userServiceURL = "http://localhost:8080/userService";
+        final String userServiceURL = "http://localhost:"+System.getProperty("server.port")+"/userService";
         userEndpoint.publish(userServiceURL);
         getServiceLocator().getEndpoints().add(userEndpoint);
 
         final Endpoint projectEndpoint = Endpoint.create(new ProjectWebServiceBean(getServiceLocator().getProjectService()));
-        final String projectServiceURL = "http://localhost:8080/projectService";
+        final String projectServiceURL = "http://localhost:"+System.getProperty("server.port")+"/projectService";
         projectEndpoint.publish(projectServiceURL);
         getServiceLocator().getEndpoints().add(projectEndpoint);
 
         final Endpoint serverEndpoint = Endpoint.create(new ServerWebServiceBean(getServiceLocator().getServerService()));
-        final String serverServiceURL = "http://localhost:8080/serverService";
+        final String serverServiceURL = "http://localhost:"+System.getProperty("server.port")+"/serverService";
         serverEndpoint.publish(serverServiceURL);
         getServiceLocator().getEndpoints().add(serverEndpoint);
 
         final Endpoint taskEndpoint = Endpoint.create(new TaskWebServiceBean(getServiceLocator().getTaskService()));
-        final String taskServiceURL = "http://localhost:8080/taskService";
+        final String taskServiceURL = "http://localhost:"+System.getProperty("server.port")+"/taskService";
         taskEndpoint.publish(taskServiceURL);
         getServiceLocator().getEndpoints().add(taskEndpoint);
         System.out.println("[ENDPOINTS PUBLISHED]");
-//
-//        System.out.println("[TESTING]");
-//        new TestRepositoryMyBatis().test();
-//        System.out.println("[/TESTING]");
+
     }
 
 }

@@ -1,9 +1,9 @@
 package tm.server;
 
 import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
 import org.apache.deltaspike.cdise.api.CdiContainer;
 import org.apache.deltaspike.cdise.api.CdiContainerLoader;
-import org.apache.deltaspike.cdise.api.ContextControl;
 import tm.server.bootstrap.ServerBootstrap;
 import tm.server.command.general.*;
 import tm.server.command.persist.bin.DataClearBinary;
@@ -15,7 +15,6 @@ import tm.server.command.project.*;
 import tm.server.command.task.*;
 import tm.server.command.user.*;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.se.SeContainerInitializer;
 import javax.enterprise.inject.spi.CDI;
 
@@ -45,6 +44,9 @@ public class ServerApplication {
     };
 
     public static void main(String[] args) {
+
+        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
+
         CdiContainer container = CdiContainerLoader.getCdiContainer();
         container.boot();
 //        ContextControl contextControl = container.getContextControl();
@@ -54,6 +56,8 @@ public class ServerApplication {
         CDI.current().select(ServerBootstrap.class).get().init(CLASSES);
 
         container.shutdown();
+        hazelcastInstance.shutdown();
+
     }
 
 }

@@ -72,6 +72,7 @@ public class ServerServiceImpl implements ServerService {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        out += "\nRunning on port: " + System.getProperty("server.port");
         return out;
     }
 
