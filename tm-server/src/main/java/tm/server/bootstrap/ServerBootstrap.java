@@ -47,9 +47,9 @@ public class ServerBootstrap implements ServiceLocator {
     private ProjectService projectService;
     @Getter @Inject @Deltaspike
     private TaskService taskService;
-    @Getter @Inject @Deltaspike
+    @Getter @Inject @Jpa
     private UserService userService;
-    @Getter @Inject @Deltaspike
+    @Getter @Inject @Jpa
     private SessionService sessionService;
     @Getter @Inject
     private ServerService serverService;

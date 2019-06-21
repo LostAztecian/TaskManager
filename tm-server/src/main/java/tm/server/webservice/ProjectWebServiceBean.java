@@ -7,6 +7,7 @@ import tm.common.comparator.ComparatorType;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
 import tm.common.exception.ServerException;
+import tm.server.annotations.Deltaspike;
 import tm.server.annotations.Jpa;
 import tm.server.api.service.ProjectService;
 
@@ -17,7 +18,7 @@ import java.util.Collection;
 @WebService(endpointInterface = "tm.common.api.webservice.ProjectWebService")
 public class ProjectWebServiceBean implements ProjectWebService {
 
-    @Inject @Jpa
+    @Inject @Deltaspike
     private ProjectService projectService;
 
     public ProjectWebServiceBean() {

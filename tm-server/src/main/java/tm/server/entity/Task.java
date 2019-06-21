@@ -3,25 +3,26 @@ package tm.server.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.TaskDTO;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Task extends AbstractPlannedEntity {
     
     @ManyToOne
     private Project project;
 
-    @Override @Nullable
-    public String getUserId() {
-        return project.getUserId();
+    public Task() {
     }
 
     public Task(@NotNull final TaskDTO dto, @NotNull final Project project) {
@@ -48,4 +49,10 @@ public class Task extends AbstractPlannedEntity {
         dto.setEndDate(this.getEndDate());
         return dto;
     }
+
+    @Override @Nullable
+    public String getUserId() {
+        return project.getUserId();
+    }
+
 }

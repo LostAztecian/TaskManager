@@ -1,5 +1,6 @@
 package tm.server;
 
+import com.hazelcast.core.Hazelcast;
 import org.apache.deltaspike.cdise.api.CdiContainer;
 import org.apache.deltaspike.cdise.api.CdiContainerLoader;
 import org.apache.deltaspike.cdise.api.ContextControl;
@@ -46,13 +47,12 @@ public class ServerApplication {
     public static void main(String[] args) {
         CdiContainer container = CdiContainerLoader.getCdiContainer();
         container.boot();
-//
-        ContextControl contextControl = container.getContextControl();
-        contextControl.startContext(ApplicationScoped.class);
+//        ContextControl contextControl = container.getContextControl();
+//        contextControl.startContext(ApplicationScoped.class);
 
         SeContainerInitializer.newInstance().initialize();
         CDI.current().select(ServerBootstrap.class).get().init(CLASSES);
-//
+
         container.shutdown();
     }
 

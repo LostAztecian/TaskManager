@@ -3,21 +3,20 @@ package tm.server.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.ProjectDTO;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Project extends AbstractPlannedEntity {
 
     @NotNull @OneToMany(targetEntity = Task.class, cascade = CascadeType.ALL, mappedBy = "project")
@@ -25,11 +24,6 @@ public class Project extends AbstractPlannedEntity {
     
     @NotNull @ManyToOne(targetEntity = User.class)
     private User user;
-
-    @Override
-    public @Nullable String getUserId() {
-        return user.getId();
-    }
 
     public Project(@NotNull final ProjectDTO dto, @NotNull final User user) {
         this.setId(dto.getId());
@@ -40,6 +34,9 @@ public class Project extends AbstractPlannedEntity {
         this.setStartDate(dto.getStartDate() == null ? dto.getCreationDate() : dto.getStartDate());
         this.setEndDate(dto.getEndDate() == null ? dto.getCreationDate() : dto.getEndDate());
         this.user = user;
+    }
+
+    public Project() {
     }
 
     public ProjectDTO toDTO() {
@@ -53,6 +50,11 @@ public class Project extends AbstractPlannedEntity {
         dto.setStartDate(this.getStartDate());
         dto.setEndDate(this.getEndDate());
         return dto;
+    }
+
+    @Override
+    public @Nullable String getUserId() {
+        return user.getId();
     }
 
 }

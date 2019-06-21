@@ -23,32 +23,6 @@ import java.util.Map;
 public class DatabaseUtil {
 
     @NotNull
-    @Produces
-//    @Alternative
-    @ApplicationScoped
-    public static EntityManagerFactory getEntityManagerFactory() {
-        final tm.server.api.service.DatabasePropertyService propertyService = new DatabasePropertyServiceImpl();
-        final Map<String, String> settings = new HashMap<>();
-        settings.put(Environment.DRIVER, propertyService.getJdbcDriver());
-        settings.put(Environment.URL, propertyService.getJdbcUrl());
-        settings.put(Environment.USER, propertyService.getJdbcUsername());
-        settings.put(Environment.PASS, propertyService.getJdbcPassword());
-        settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
-        settings.put(Environment.HBM2DDL_AUTO, "update");
-        settings.put(Environment.SHOW_SQL, "true");
-        final StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder();
-        registryBuilder.applySettings(settings);
-        final StandardServiceRegistry registry = registryBuilder.build();
-        final MetadataSources sources = new MetadataSources(registry);
-        sources.addAnnotatedClass(Task.class);
-        sources.addAnnotatedClass(Project.class);
-        sources.addAnnotatedClass(User.class);
-        sources.addAnnotatedClass(Session.class);
-        final Metadata metadata = sources.getMetadataBuilder().build();
-        return metadata.getSessionFactoryBuilder().build();
-    }
-
-    @NotNull
     public static String getSortColumn(@Nullable final ComparatorType comparatorType) {
         if (comparatorType == null) return "creationDate";
         switch (comparatorType) {

@@ -3,6 +3,7 @@ package tm.server.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.comparator.ComparatorType;
@@ -15,6 +16,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Session {
 
     @NotNull @Id

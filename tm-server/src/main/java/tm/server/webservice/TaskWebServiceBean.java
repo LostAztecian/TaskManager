@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import tm.common.exception.ServerException;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.TaskDTO;
+import tm.server.annotations.Deltaspike;
 import tm.server.annotations.Jpa;
 import tm.server.api.service.TaskService;
 import tm.common.api.webservice.TaskWebService;
@@ -17,7 +18,7 @@ import java.util.Collection;
 @WebService(endpointInterface = "tm.common.api.webservice.TaskWebService")
 public class TaskWebServiceBean implements TaskWebService {
 
-    @Inject @Jpa
+    @Inject @Deltaspike
     private TaskService taskService;
 
     public TaskWebServiceBean(@NotNull final TaskService taskService) {

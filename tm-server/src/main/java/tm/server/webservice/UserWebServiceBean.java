@@ -6,6 +6,7 @@ import tm.common.exception.ServerException;
 import tm.common.api.webservice.UserWebService;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
+import tm.server.annotations.Deltaspike;
 import tm.server.annotations.Jpa;
 import tm.server.api.service.UserService;
 
@@ -16,7 +17,7 @@ import java.util.Collection;
 @WebService(endpointInterface = "tm.common.api.webservice.UserWebService")
 public class UserWebServiceBean implements UserWebService {
 
-    @Inject @Jpa
+    @Inject @Deltaspike
     private UserService userService;
 
     public UserWebServiceBean(@NotNull final UserService userService) {

@@ -3,6 +3,7 @@ package tm.server.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.UserDTO;
@@ -16,7 +17,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements tm.common.api.entity.Entity {
 
     public User(@NotNull final UserDTO userDTO) {
@@ -24,6 +26,9 @@ public class User implements tm.common.api.entity.Entity {
         this.login = userDTO.getLogin();
         this.passwordHash = userDTO.getPasswordHash();
         this.role = userDTO.getRole();
+    }
+
+    public User() {
     }
 
     @NotNull @Id
