@@ -27,23 +27,25 @@ public class PublishEndpoints extends AbstractCommand {
 
     @Override
     protected void run() throws Throwable {
+        String port = System.getProperty("server.port");
+        if (port == null || port.isEmpty()) port = "8080";
         final Endpoint userEndpoint = Endpoint.create(new UserWebServiceBean(getServiceLocator().getUserService()));
-        final String userServiceURL = "http://localhost:"+System.getProperty("server.port")+"/userService";
+        final String userServiceURL = "http://localhost:"+port+"/userService";
         userEndpoint.publish(userServiceURL);
         getServiceLocator().getEndpoints().add(userEndpoint);
 
         final Endpoint projectEndpoint = Endpoint.create(new ProjectWebServiceBean(getServiceLocator().getProjectService()));
-        final String projectServiceURL = "http://localhost:"+System.getProperty("server.port")+"/projectService";
+        final String projectServiceURL = "http://localhost:"+port+"/projectService";
         projectEndpoint.publish(projectServiceURL);
         getServiceLocator().getEndpoints().add(projectEndpoint);
 
         final Endpoint serverEndpoint = Endpoint.create(new ServerWebServiceBean(getServiceLocator().getServerService()));
-        final String serverServiceURL = "http://localhost:"+System.getProperty("server.port")+"/serverService";
+        final String serverServiceURL = "http://localhost:"+port+"/serverService";
         serverEndpoint.publish(serverServiceURL);
         getServiceLocator().getEndpoints().add(serverEndpoint);
 
         final Endpoint taskEndpoint = Endpoint.create(new TaskWebServiceBean(getServiceLocator().getTaskService()));
-        final String taskServiceURL = "http://localhost:"+System.getProperty("server.port")+"/taskService";
+        final String taskServiceURL = "http://localhost:"+port+"/taskService";
         taskEndpoint.publish(taskServiceURL);
         getServiceLocator().getEndpoints().add(taskEndpoint);
         System.out.println("[ENDPOINTS PUBLISHED]");

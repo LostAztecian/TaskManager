@@ -31,11 +31,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "saveProjectResponse", propOrder = {
     "_return"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
 public class SaveProjectResponse {
 
     @XmlElement(name = "return")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     protected Boolean _return;
 
     /**
@@ -46,7 +46,7 @@ public class SaveProjectResponse {
      *     {@link Boolean }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public Boolean isReturn() {
         return _return;
     }
@@ -59,7 +59,7 @@ public class SaveProjectResponse {
      *     {@link Boolean }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public void setReturn(Boolean value) {
         this._return = value;
     }

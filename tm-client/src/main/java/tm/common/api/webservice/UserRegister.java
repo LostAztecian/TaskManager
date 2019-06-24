@@ -32,12 +32,12 @@ import javax.xml.bind.annotation.XmlType;
     "arg0",
     "arg1"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
 public class UserRegister {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected String arg0;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected String arg1;
 
     /**
@@ -48,7 +48,7 @@ public class UserRegister {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public String getArg0() {
         return arg0;
     }
@@ -61,7 +61,7 @@ public class UserRegister {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(String value) {
         this.arg0 = value;
     }
@@ -74,7 +74,7 @@ public class UserRegister {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public String getArg1() {
         return arg1;
     }
@@ -87,7 +87,7 @@ public class UserRegister {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public void setArg1(String value) {
         this.arg1 = value;
     }

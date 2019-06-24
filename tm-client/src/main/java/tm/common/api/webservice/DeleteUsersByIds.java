@@ -34,12 +34,12 @@ import javax.xml.bind.annotation.XmlType;
     "arg0",
     "arg1"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
 public class DeleteUsersByIds {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected SessionDTO arg0;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected List<String> arg1;
 
     /**
@@ -50,7 +50,7 @@ public class DeleteUsersByIds {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public SessionDTO getArg0() {
         return arg0;
     }
@@ -63,7 +63,7 @@ public class DeleteUsersByIds {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(SessionDTO value) {
         this.arg0 = value;
     }
@@ -90,7 +90,7 @@ public class DeleteUsersByIds {
      * 
      * 
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public List<String> getArg1() {
         if (arg1 == null) {
             arg1 = new ArrayList<String>();

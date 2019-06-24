@@ -33,11 +33,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "searchProjectResponse", propOrder = {
     "_return"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
 public class SearchProjectResponse {
 
     @XmlElement(name = "return")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     protected List<ProjectDTO> _return;
 
     /**
@@ -62,7 +62,7 @@ public class SearchProjectResponse {
      * 
      * 
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:29+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public List<ProjectDTO> getReturn() {
         if (_return == null) {
             _return = new ArrayList<ProjectDTO>();

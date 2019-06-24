@@ -16,7 +16,7 @@
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
-            <version>2.3.0</version>
+            <version>2.2.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.sun.istack</groupId>
@@ -38,6 +38,11 @@
             <scope>test</scope>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-nop</artifactId>-->
+<!--            <version>1.6.0</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
@@ -169,7 +174,7 @@
                                     <wsdlOptions>
                                         <wsdlOption>
                                             <wsdl>
-                                                http://localhost:8080/taskService/?wsdl
+                                                http://127.0.0.1:80/taskService/?wsdl
                                             </wsdl>
                                             <extraargs>
                                                 <extraarg>-mark-generated</extraarg>
@@ -177,7 +182,7 @@
                                         </wsdlOption>
                                         <wsdlOption>
                                             <wsdl>
-                                                http://localhost:8080/projectService/?wsdl
+                                                http://127.0.0.1:80/projectService/?wsdl
                                             </wsdl>
                                             <extraargs>
                                                 <extraarg>-mark-generated</extraarg>
@@ -185,7 +190,7 @@
                                         </wsdlOption>
                                         <wsdlOption>
                                             <wsdl>
-                                                http://localhost:8080/userService/?wsdl
+                                                http://127.0.0.1:80/userService/?wsdl
                                             </wsdl>
                                             <extraargs>
                                                 <extraarg>-mark-generated</extraarg>
@@ -193,7 +198,7 @@
                                         </wsdlOption>
                                         <wsdlOption>
                                             <wsdl>
-                                                http://localhost:8080/serverService/?wsdl
+                                                http://127.0.0.1:80/serverService/?wsdl
                                             </wsdl>
                                             <extraargs>
                                                 <extraarg>-mark-generated</extraarg>

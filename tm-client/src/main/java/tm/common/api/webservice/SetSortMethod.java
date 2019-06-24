@@ -33,13 +33,13 @@ import javax.xml.bind.annotation.XmlType;
     "arg0",
     "arg1"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
 public class SetSortMethod {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected SessionDTO arg0;
     @XmlSchemaType(name = "string")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected ComparatorType arg1;
 
     /**
@@ -50,7 +50,7 @@ public class SetSortMethod {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public SessionDTO getArg0() {
         return arg0;
     }
@@ -63,7 +63,7 @@ public class SetSortMethod {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(SessionDTO value) {
         this.arg0 = value;
     }
@@ -76,7 +76,7 @@ public class SetSortMethod {
      *     {@link ComparatorType }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public ComparatorType getArg1() {
         return arg1;
     }
@@ -89,7 +89,7 @@ public class SetSortMethod {
      *     {@link ComparatorType }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public void setArg1(ComparatorType value) {
         this.arg1 = value;
     }

@@ -35,15 +35,15 @@ import javax.xml.bind.annotation.XmlType;
     "arg1",
     "arg2"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
 public class GetTasksByNameSorted {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     protected SessionDTO arg0;
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     protected String arg1;
     @XmlSchemaType(name = "string")
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     protected ComparatorType arg2;
 
     /**
@@ -54,7 +54,7 @@ public class GetTasksByNameSorted {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public SessionDTO getArg0() {
         return arg0;
     }
@@ -67,7 +67,7 @@ public class GetTasksByNameSorted {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(SessionDTO value) {
         this.arg0 = value;
     }
@@ -80,7 +80,7 @@ public class GetTasksByNameSorted {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public String getArg1() {
         return arg1;
     }
@@ -93,7 +93,7 @@ public class GetTasksByNameSorted {
      *     {@link String }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public void setArg1(String value) {
         this.arg1 = value;
     }
@@ -106,7 +106,7 @@ public class GetTasksByNameSorted {
      *     {@link ComparatorType }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public ComparatorType getArg2() {
         return arg2;
     }
@@ -119,7 +119,7 @@ public class GetTasksByNameSorted {
      *     {@link ComparatorType }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:28+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:26+03:00", comments = "JAXB RI v2.3.2")
     public void setArg2(ComparatorType value) {
         this.arg2 = value;
     }

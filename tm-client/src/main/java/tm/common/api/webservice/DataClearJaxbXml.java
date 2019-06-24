@@ -30,10 +30,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "dataClearJaxbXml", propOrder = {
     "arg0"
 })
-@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+@Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
 public class DataClearJaxbXml {
 
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     protected SessionDTO arg0;
 
     /**
@@ -44,7 +44,7 @@ public class DataClearJaxbXml {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public SessionDTO getArg0() {
         return arg0;
     }
@@ -57,7 +57,7 @@ public class DataClearJaxbXml {
      *     {@link SessionDTO }
      *     
      */
-    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-13T11:00:30+03:00", comments = "JAXB RI v2.3.2")
+    @Generated(value = "com.sun.tools.xjc.Driver", date = "2019-06-24T11:01:27+03:00", comments = "JAXB RI v2.3.2")
     public void setArg0(SessionDTO value) {
         this.arg0 = value;
     }
