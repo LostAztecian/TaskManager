@@ -2,19 +2,19 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.exception.ServerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.api.webservice.ServerWebService;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
+import tm.common.exception.ServerException;
 import tm.server.api.service.ServerService;
 
-import javax.inject.Inject;
 import javax.jws.WebService;
 
 @WebService(endpointInterface = "tm.common.api.webservice.ServerWebService")
 public class ServerWebServiceBean implements ServerWebService {
 
-    @Inject
+    @Autowired
     private ServerService serverService;
 
     public ServerWebServiceBean(@NotNull final ServerService serverService) throws ServerException {

@@ -1,8 +1,7 @@
 package tm.server;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.TaskDTO;
@@ -11,18 +10,20 @@ import tm.server.api.service.ProjectService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
 
-import javax.inject.Inject;
-
 import static org.junit.Assert.*;
 
-@RunWith(CdiTestRunner.class)
 public class ServiceTests {
 
-    @Inject @Deltaspike
+    @Autowired
+    @Deltaspike
     private UserService userService;
-    @Inject @Deltaspike
+
+    @Autowired
+    @Deltaspike
     private ProjectService projectService;
-    @Inject @Deltaspike
+
+    @Autowired
+    @Deltaspike
     private TaskService taskService;
 
     @Test

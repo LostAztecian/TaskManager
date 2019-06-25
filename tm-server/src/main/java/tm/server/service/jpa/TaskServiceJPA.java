@@ -2,6 +2,8 @@ package tm.server.service.jpa;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.TaskDTO;
@@ -14,8 +16,6 @@ import tm.server.entity.Task;
 import tm.server.repository.hibernate.TaskRepositoryHibernate;
 import tm.server.utils.SessionUtil;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -24,13 +24,13 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Jpa
-@ApplicationScoped
+@Service
 public class TaskServiceJPA implements TaskService {
 
-    @Inject
+    @Autowired
     private EntityManagerFactory factory;
 
-    @Inject
+    @Autowired
     private ServiceLocator serviceLocator;
 
     public TaskServiceJPA() {

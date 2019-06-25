@@ -1,74 +1,46 @@
 package tm.server.repository.deltaspike;
 
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.QueryParam;
-import org.apache.deltaspike.data.api.Repository;
-import org.apache.deltaspike.data.api.mapping.MappingConfig;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import tm.common.entity.TaskDTO;
 import tm.server.entity.Project;
 import tm.server.entity.Task;
-import tm.server.repository.deltaspike.mapper.TaskMapper;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-@MappingConfig(TaskMapper.class)
-@Repository(forEntity = Task.class)
-public abstract class TaskRepositoryDeltaspike {
-
-    @Inject
-    private EntityManager entityManager;
+@Repository
+public interface TaskRepositoryDeltaspike extends CrudRepository<Task, String> {
 
     @Query("SELECT e FROM Task e WHERE e.project.user.id = :userId")
-    public abstract List<TaskDTO> findByUserId(@QueryParam("userId") @NotNull String userId);
+    public abstract List<Task> findByUserId(@NotNull @Param("userId") String userId);
 
     @Query(value = "SELECT e FROM Task e WHERE e.project.user.id = ?1 ORDER BY ?2")
-    public abstract List<TaskDTO> findByUserIdEqualOrderBy(@NotNull String userId, @NotNull String sortColumn);
+    public abstract List<Task> findByUserIdEqualOrderBy(@NotNull String userId, @NotNull String sortColumn);
 
     @Query(value = "SELECT e FROM Task e WHERE e.project.user.id = ?1 AND e.name = ?2")
-    public abstract List<TaskDTO> findByUserIdEqualAndNameEqual(@NotNull String userId, @NotNull String name);
-    
+    public abstract List<Task> findByUserIdEqualAndNameEqual(@NotNull String userId, @NotNull String name);
+
     @Query(value = "SELECT e FROM Task e WHERE e.project.user.id = ?1 AND e.project.id = ?2")
-    public abstract List<TaskDTO> findByUserIdEqualAndProjectIdEqual(@NotNull String userId, @NotNull String projectId);
+    public abstract List<Task> findByUserIdEqualAndProjectIdEqual(@NotNull String userId, @NotNull String projectId);
 
     @Query(value = "SELECT e FROM Task e WHERE e.project.user.id = ?1 AND e.name = ?2 ORDER BY ?3")
-    public abstract List<TaskDTO> findByUserIdEqualAndNameEqualOrderBy(@NotNull String userId, @NotNull String name,  @NotNull String sortColumn);
+    public abstract List<Task> findByUserIdEqualAndNameEqualOrderBy(@NotNull String userId, @NotNull String name,  @NotNull String sortColumn);
 
     @Query(value = "SELECT e FROM Task e WHERE e.project.user.id = ?1 and e.id = ?2")
-    public abstract TaskDTO findAnyByUserIdEqualAndIdEqual(@NotNull String userId, @NotNull String id);
+    public abstract Task findAnyByUserIdEqualAndIdEqual(@NotNull String userId, @NotNull String id);
 
     @Query("SELECT e FROM Task e WHERE (e.project.user.id = :userId) AND (e.name LIKE :line OR e.description LIKE :line)")
-    public abstract List<TaskDTO> search(@NotNull @QueryParam("userId") String userId, @NotNull @QueryParam("line") String searchLine);
+    public abstract List<Task> search(@NotNull @Param("userId") String userId, @NotNull @Param("line") String searchLine);
 
-    public void merge(@NotNull TaskDTO taskDTO) {
-        final Project project = entityManager.find(Project.class, taskDTO.getProjectId());
-        entityManager.merge(new Task(taskDTO, project));
-    }
+    public void deleteByProject_User_IdAndId(@NotNull String userId, @NotNull String id);
 
-    public void deleteByUserIdEqualAndIdEqual(@NotNull String userId, @NotNull String id) {
-        final Task task = entityManager.find(Task.class, id);
-        if (userId.equals(task.getProject().getUser().getId())) entityManager.remove(task);
-    }
+    public int deleteByProject_User_IdAndName(@NotNull String userId, @NotNull String name);
 
-    public int deleteByUserIdEqualAndNameEqual(@NotNull String userId, @NotNull String name) {
-        final List<Task> tasks = entityManager
-                .createQuery("SELECT e FROM Task e WHERE e.name = ?1", Task.class)
-                .setParameter(1, name)
-                .getResultList();
-        tasks.removeIf(t -> !userId.equals(t.getProject().getUser().getId()));
-        tasks.forEach(entityManager::remove);
-        return tasks.size();
-    }
-
-    public int deleteByUserIdEqual(@NotNull String userId) {
-        final List<Task> tasks = entityManager
-                .createQuery("SELECT e FROM Task e", Task.class)
-                .getResultList();
-        tasks.removeIf(t -> !userId.equals(t.getProject().getUser().getId()));
-        tasks.forEach(entityManager::remove);
-        return tasks.size();
-    }
+    public int deleteByProject_User_Id(@NotNull String userId);
     
 }

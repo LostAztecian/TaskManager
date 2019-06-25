@@ -2,22 +2,22 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.exception.ServerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.api.webservice.UserWebService;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
+import tm.common.exception.ServerException;
 import tm.server.annotations.Deltaspike;
-import tm.server.annotations.Jpa;
 import tm.server.api.service.UserService;
 
-import javax.inject.Inject;
 import javax.jws.WebService;
 import java.util.Collection;
 
 @WebService(endpointInterface = "tm.common.api.webservice.UserWebService")
 public class UserWebServiceBean implements UserWebService {
 
-    @Inject @Deltaspike
+    @Autowired
+    @Deltaspike
     private UserService userService;
 
     public UserWebServiceBean(@NotNull final UserService userService) {

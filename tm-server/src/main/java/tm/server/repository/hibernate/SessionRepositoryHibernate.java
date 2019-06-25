@@ -2,6 +2,7 @@ package tm.server.repository.hibernate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.server.api.repository.jpa.SessionRepositoryJPA;
 import tm.server.entity.Session;
 
@@ -14,6 +15,7 @@ public class SessionRepositoryHibernate implements SessionRepositoryJPA {
     
     private final EntityManager entityManager;
 
+    @Autowired
     public SessionRepositoryHibernate(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

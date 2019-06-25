@@ -5,24 +5,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import tm.common.api.Command;
 import tm.common.api.entity.PlannedEntity;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
-import tm.server.annotations.Deltaspike;
-import tm.server.annotations.Jpa;
 import tm.server.api.ServiceLocator;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
 import tm.server.utils.InputHelper;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.xml.ws.Endpoint;
 import java.sql.Connection;
 import java.util.*;
 
-@ApplicationScoped
+@Component("bootstrap")
 @NoArgsConstructor
 public class ServerBootstrap implements ServiceLocator {
 
@@ -43,15 +42,15 @@ public class ServerBootstrap implements ServiceLocator {
     @Nullable @Getter
     private Connection databaseConnection = null;
 
-    @Getter @Inject @Deltaspike
+    @Getter @Autowired @Qualifier("spring")
     private ProjectService projectService;
-    @Getter @Inject @Deltaspike
-    private TaskService taskService;
-    @Getter @Inject @Jpa
-    private UserService userService;
-    @Getter @Inject @Jpa
+    @Getter @Autowired @Qualifier("spring")
     private SessionService sessionService;
-    @Getter @Inject
+    @Getter @Autowired @Qualifier("spring")
+    private TaskService taskService;
+    @Getter @Autowired @Qualifier("spring")
+    private UserService userService;
+    @Getter @Autowired
     private ServerService serverService;
 
     public void terminate() { isTerminated = true; }

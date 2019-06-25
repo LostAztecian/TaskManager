@@ -8,6 +8,8 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tm.common.comparator.ComparatorType;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
@@ -19,8 +21,6 @@ import tm.server.command.general.AboutCommand;
 import tm.server.dto.UserData;
 import tm.server.utils.SessionUtil;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -34,14 +34,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
-@ApplicationScoped
+@Service
 public class ServerServiceImpl implements ServerService {
 
-    @Inject
+    @Autowired
     private ServiceLocator serviceLocator;
 
     public ServerServiceImpl() {

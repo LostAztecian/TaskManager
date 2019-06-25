@@ -2,23 +2,23 @@ package tm.server.webservice;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tm.common.exception.ServerException;
-import tm.common.entity.SessionDTO;
-import tm.common.entity.TaskDTO;
-import tm.server.annotations.Deltaspike;
-import tm.server.annotations.Jpa;
-import tm.server.api.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.api.webservice.TaskWebService;
 import tm.common.comparator.ComparatorType;
+import tm.common.entity.SessionDTO;
+import tm.common.entity.TaskDTO;
+import tm.common.exception.ServerException;
+import tm.server.annotations.Deltaspike;
+import tm.server.api.service.TaskService;
 
-import javax.inject.Inject;
 import javax.jws.WebService;
 import java.util.Collection;
 
 @WebService(endpointInterface = "tm.common.api.webservice.TaskWebService")
 public class TaskWebServiceBean implements TaskWebService {
 
-    @Inject @Deltaspike
+    @Autowired
+    @Deltaspike
     private TaskService taskService;
 
     public TaskWebServiceBean(@NotNull final TaskService taskService) {

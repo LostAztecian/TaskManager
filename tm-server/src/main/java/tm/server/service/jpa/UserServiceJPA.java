@@ -1,8 +1,9 @@
 package tm.server.service.jpa;
 
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
 import tm.server.annotations.Jpa;
@@ -11,28 +12,27 @@ import tm.server.api.repository.jpa.UserRepositoryJPA;
 import tm.server.api.service.UserService;
 import tm.server.command.user.UserChangePasswordCommand;
 import tm.server.entity.User;
-import tm.server.repository.deltaspike.UserRepositoryDeltaspike;
 import tm.server.repository.hibernate.UserRepositoryHibernate;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.SessionUtil;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Jpa
 @SuppressWarnings("Duplicates")
-@ApplicationScoped
+@Service
 public class UserServiceJPA implements UserService {
 
-    @Inject
+    @Autowired
     private ServiceLocator serviceLocator;
 
-    @Inject
+    @Autowired
     private EntityManagerFactory factory;
 
     public UserServiceJPA() {

@@ -2,6 +2,8 @@ package tm.server.service.jpa;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tm.common.entity.SessionDTO;
 import tm.server.annotations.Jpa;
 import tm.server.api.ServiceLocator;
@@ -12,8 +14,6 @@ import tm.server.entity.User;
 import tm.server.repository.hibernate.SessionRepositoryHibernate;
 import tm.server.utils.SessionUtil;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -22,13 +22,13 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Jpa
-@ApplicationScoped
+@Service
 public class SessionServiceJPA implements SessionService {
 
-    @Inject
+    @Autowired
     private EntityManagerFactory factory;
 
-    @Inject
+    @Autowired
     private ServiceLocator serviceLocator;
 
     public SessionServiceJPA() {

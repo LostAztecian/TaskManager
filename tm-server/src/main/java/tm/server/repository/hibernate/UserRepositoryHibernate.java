@@ -2,6 +2,7 @@ package tm.server.repository.hibernate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.entity.UserDTO;
 import tm.server.api.repository.jpa.UserRepositoryJPA;
 import tm.server.entity.User;
@@ -19,6 +20,7 @@ public class UserRepositoryHibernate implements UserRepositoryJPA {
     @NotNull
     private final EntityManager entityManager;
 
+    @Autowired
     public UserRepositoryHibernate(@NotNull final EntityManager entityManager) {
         this.entityManager = entityManager;
     }

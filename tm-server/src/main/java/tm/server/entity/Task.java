@@ -10,6 +10,7 @@ import tm.common.entity.TaskDTO;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Getter
@@ -19,7 +20,8 @@ import javax.persistence.ManyToOne;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Task extends AbstractPlannedEntity {
     
-    @ManyToOne
+    @ManyToOne(targetEntity = Project.class)
+    @JoinColumn(name = "project_id")
     private Project project;
 
     public Task() {

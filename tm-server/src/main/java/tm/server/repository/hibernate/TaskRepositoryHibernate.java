@@ -2,6 +2,7 @@ package tm.server.repository.hibernate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.comparator.ComparatorType;
 import tm.server.api.repository.jpa.TaskRepositoryJPA;
 import tm.server.entity.Task;
@@ -17,6 +18,7 @@ public class TaskRepositoryHibernate implements TaskRepositoryJPA {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public TaskRepositoryHibernate(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

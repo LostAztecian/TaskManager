@@ -2,6 +2,7 @@ package tm.server.repository.hibernate;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 import tm.common.comparator.ComparatorType;
 import tm.server.api.repository.jpa.ProjectRepositoryJPA;
 import tm.server.entity.Project;
@@ -16,6 +17,7 @@ public class ProjectRepositoryHibernate implements ProjectRepositoryJPA {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public ProjectRepositoryHibernate(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

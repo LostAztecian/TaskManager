@@ -1,9 +1,8 @@
 package tm.server;
 
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
-import org.apache.deltaspike.cdise.api.CdiContainer;
-import org.apache.deltaspike.cdise.api.CdiContainerLoader;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import tm.server.api.ServiceLocator;
 import tm.server.bootstrap.ServerBootstrap;
 import tm.server.command.general.*;
 import tm.server.command.persist.bin.DataClearBinary;
@@ -14,9 +13,6 @@ import tm.server.command.persist.jaxb.*;
 import tm.server.command.project.*;
 import tm.server.command.task.*;
 import tm.server.command.user.*;
-
-import javax.enterprise.inject.se.SeContainerInitializer;
-import javax.enterprise.inject.spi.CDI;
 
 public class ServerApplication {
 
@@ -45,18 +41,13 @@ public class ServerApplication {
 
     public static void main(String[] args) {
 
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
+//        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
 
-        CdiContainer container = CdiContainerLoader.getCdiContainer();
-        container.boot();
-//        ContextControl contextControl = container.getContextControl();
-//        contextControl.startContext(ApplicationScoped.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("tm.server", "tm.server.repository");
+        ServiceLocator serviceLocator = context.getBean("bootstrap", ServerBootstrap.class);
+        serviceLocator.init(CLASSES);
 
-        SeContainerInitializer.newInstance().initialize();
-        CDI.current().select(ServerBootstrap.class).get().init(CLASSES);
-
-        container.shutdown();
-        hazelcastInstance.shutdown();
+//        hazelcastInstance.shutdown();
 
     }
 

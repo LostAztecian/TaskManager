@@ -1,50 +1,45 @@
-package tm.server.utils;
+package tm.server.config;
 
-import org.apache.deltaspike.jpa.api.transaction.TransactionScoped;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
-import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import tm.server.entity.Project;
 import tm.server.entity.Session;
 import tm.server.entity.Task;
 import tm.server.entity.User;
 import tm.server.service.DatabasePropertyServiceImpl;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Disposes;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import java.util.HashMap;
 import java.util.Map;
 
-@ApplicationScoped
+//@Configuration
 public class EntityManagerProducer {
 
-    @PersistenceUnit @Inject
+//    @PersistenceUnit @Autowired
     private EntityManagerFactory entityManagerFactory;
 
-    @Produces @TransactionScoped// you can also make this @RequestScoped
+//    @Bean
     public EntityManager create() {
         return entityManagerFactory.createEntityManager();
     }
 
-    public void close(@Disposes EntityManager em) {
+    public void close(EntityManager em) {
         if (em.isOpen()) {
             em.close();
         }
     }
 
-    @NotNull
-    @Produces
-//    @Alternative
-    @ApplicationScoped
+//    @NotNull @Bean
     public static EntityManagerFactory getEntityManagerFactory() {
         final tm.server.api.service.DatabasePropertyService propertyService = new DatabasePropertyServiceImpl();
         final Map<String, String> settings = new HashMap<>();

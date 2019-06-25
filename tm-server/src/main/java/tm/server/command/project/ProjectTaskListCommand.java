@@ -33,22 +33,22 @@ public class ProjectTaskListCommand extends AbstractCommand {
         if (session == null) return;
         final Collection<ProjectDTO> projects = InputHelper.requestProjectsByName(session, getServiceLocator());
         if (projects == null) return;
-//        final Collection<TaskDTO> tasks = new TreeSet<>(getServiceLocator().getCurrentSortMethod());
-//        for (final ProjectDTO project : projects) {
-//            tasks.addAll(((TaskService)(getServiceLocator().getTaskService()))
-//                    .getTasksByProjectId(session, project.getId()));
-//        }
-//        if (tasks.isEmpty()) {
-//            System.out.println("[PROJECT HAS NO TASKS]");
-//            System.out.println();
-//            return;
-//        }
-//        int index = 1;
-//        for (final TaskDTO task : tasks) {
-//            System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
-//            System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
-//            System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
-//        }
+        final Collection<TaskDTO> tasks = new TreeSet<>(session.getSortMethod().comparator);
+        for (final ProjectDTO project : projects) {
+            tasks.addAll(((TaskService)(getServiceLocator().getTaskService()))
+                    .getTasksByProjectId(session, project.getId()));
+        }
+        if (tasks.isEmpty()) {
+            System.out.println("[PROJECT HAS NO TASKS]");
+            System.out.println();
+            return;
+        }
+        int index = 1;
+        for (final TaskDTO task : tasks) {
+            System.out.println(index++ + " " + task.getName() + ": " + task.getDescription());
+            System.out.println("\tBelongs to project: " + task.getProjectId() + " user: " + task.getUserId());
+            System.out.println("\tCreated: " + task.getCreationDate() + " Start: " + task.getStartDate() + " End: " + task.getEndDate());
+        }
     }
 
 }

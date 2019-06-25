@@ -1,30 +1,34 @@
 package tm.server.service.deltaspike;
 
-import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
-import tm.server.annotations.Deltaspike;
 import tm.server.api.ServiceLocator;
 import tm.server.api.service.UserService;
 import tm.server.command.user.UserChangePasswordCommand;
+import tm.server.entity.User;
 import tm.server.repository.deltaspike.UserRepositoryDeltaspike;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.SessionUtil;
 
-import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
-@Deltaspike
+@Service
+@Qualifier("spring")
 @Transactional
 public class UserServiceDeltaspike implements UserService {
 
-    @Inject
+    @Autowired
     private ServiceLocator serviceLocator;
 
-    @Inject
+    @Autowired
     private UserRepositoryDeltaspike userRepository;
 
     @Nullable
@@ -40,9 +44,9 @@ public class UserServiceDeltaspike implements UserService {
         if (password == null || password.isEmpty()) return null;
 
         final String passwordHash = CypherUtil.getMd5(password);
-        final UserDTO userDTO = userRepository.findByLoginEqualAndPasswordHashEqual(login, passwordHash);
-        if (userDTO == null) return null;
-        final SessionDTO sessionDTO = SessionUtil.getSessionForUser(userDTO);
+        final User user = userRepository.findByLoginAndPasswordHash(login, passwordHash);
+        if (user == null) return null;
+        final SessionDTO sessionDTO = SessionUtil.getSessionForUser(user.toDTO());
         serviceLocator.getSessionService().open(sessionDTO);
         return sessionDTO;
     }
@@ -57,12 +61,12 @@ public class UserServiceDeltaspike implements UserService {
     public @NotNull Boolean register(@Nullable String login, @Nullable String password) throws Exception {
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) return false;
 
-        final boolean exists = !userRepository.findByLoginEqual(login).isEmpty();
+        final boolean exists = !userRepository.findByLogin(login).isEmpty();
         if (exists) return false;
         final UserDTO userDTO = new UserDTO();
         userDTO.setLogin(login);
         userDTO.setPasswordHash(CypherUtil.getMd5(password));
-        userRepository.persist(userDTO);
+        userRepository.save(new User(userDTO));
         return true;
     }
 
@@ -82,24 +86,24 @@ public class UserServiceDeltaspike implements UserService {
         if (session == null || !SessionUtil.isValid(session)) return false;
         final String userId = getCurrentUserId(session);
         if (userId == null) return false;
-        final UserDTO userDTO = userRepository.findAnyByIdEqual(userId);
+        final User user = userRepository.findAnyById(userId);
         if (oldPassword == null || newPassword == null || newPassword.isEmpty()) return false;
-        if (userDTO == null || !CypherUtil.getMd5(oldPassword).equals(userDTO.getPasswordHash())) return false;
-        userDTO.setPasswordHash(CypherUtil.getMd5(newPassword));
-        userRepository.save(userDTO);
+        if (user == null || !CypherUtil.getMd5(oldPassword).equals(user.getPasswordHash())) return false;
+        user.setPasswordHash(CypherUtil.getMd5(newPassword));
+        userRepository.save(user);
         return true;
     }
 
     @Override
     public @NotNull Collection<UserDTO> getAll(@Nullable SessionDTO session) throws Exception {
         if (session == null || !SessionUtil.isValid(session)) return Collections.emptyList();
-        return userRepository.findAll();
+        return ((Collection<User>)userRepository.findAll()).stream().map(User::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public @NotNull Collection<UserDTO> getAllByName(@Nullable SessionDTO session, @Nullable String name) throws Exception {
         if (session == null || name == null || name.isEmpty() || !SessionUtil.isValid(session)) return Collections.emptyList();
-        return userRepository.findByLoginEqual(name);
+        return userRepository.findByLogin(name).stream().map(User::toDTO).collect(Collectors.toList());
     }
 
     @Nullable
@@ -107,26 +111,26 @@ public class UserServiceDeltaspike implements UserService {
     public UserDTO get(@Nullable SessionDTO session, @Nullable String id) throws Exception {
         if (session == null || id == null ||
                 id.isEmpty() || !SessionUtil.isValid(session)) return null;
-        return userRepository.findAnyByIdEqual(id);
+        return userRepository.findAnyById(id).toDTO();
     }
 
     @Override
-    public Boolean save(@Nullable SessionDTO session, @Nullable UserDTO object) throws Exception {
-        if (session == null || !SessionUtil.isValid(session) || object == null) return false;
-        return userRepository.save(object) != null;
+    public Boolean save(@Nullable SessionDTO session, @Nullable UserDTO userDTO) throws Exception {
+        if (session == null || !SessionUtil.isValid(session) || userDTO == null) return false;
+        return userRepository.save(new User(userDTO)) != null;
     }
 
     @Override
     public Boolean delete(@Nullable SessionDTO session, @Nullable String id) throws Exception {
         if (session == null || id == null ||
                 id.isEmpty() || !SessionUtil.isValid(session)) return null;
-        return userRepository.removeByIdEqual(id) != null;
+        return userRepository.removeById(id) != null;
     }
 
     @Override
     public Boolean delete(@Nullable SessionDTO session, @Nullable UserDTO object) throws Exception {
         if (session == null || object == null || !SessionUtil.isValid(session)) return null;
-        return userRepository.removeByIdEqual(object.getId()) != null;
+        return userRepository.removeById(object.getId()) != null;
     }
 
     @Override
@@ -134,7 +138,7 @@ public class UserServiceDeltaspike implements UserService {
         if (session == null || ids == null ||
                 ids.isEmpty() || !SessionUtil.isValid(session)) return null;
         for (final String id : ids) {
-            userRepository.removeByIdEqual(id);
+            userRepository.removeById(id);
         }
         return true;
     }
@@ -143,12 +147,13 @@ public class UserServiceDeltaspike implements UserService {
     public Boolean deleteByName(@Nullable SessionDTO session, @Nullable String name) throws Exception {
         if (session == null || name == null ||
                 name.isEmpty() || !SessionUtil.isValid(session)) return null;
-        return !userRepository.removeByNameEqual(name).isEmpty();
+        return !userRepository.removeByLogin(name).isEmpty();
     }
 
     @Override
     public Boolean deleteAll(@Nullable SessionDTO session) throws Exception {
         if (session == null || !SessionUtil.isValid(session)) return null;
-        return !userRepository.removeAll().isEmpty();
+        userRepository.deleteAll();
+        return true;
     }
 }
