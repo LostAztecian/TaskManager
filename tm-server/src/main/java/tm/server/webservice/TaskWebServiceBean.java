@@ -8,7 +8,6 @@ import tm.common.comparator.ComparatorType;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.TaskDTO;
 import tm.common.exception.ServerException;
-import tm.server.annotations.Deltaspike;
 import tm.server.api.service.TaskService;
 
 import javax.jws.WebService;
@@ -18,7 +17,6 @@ import java.util.Collection;
 public class TaskWebServiceBean implements TaskWebService {
 
     @Autowired
-    @Deltaspike
     private TaskService taskService;
 
     public TaskWebServiceBean(@NotNull final TaskService taskService) {

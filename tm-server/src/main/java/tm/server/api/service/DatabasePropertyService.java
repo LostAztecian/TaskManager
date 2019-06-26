@@ -8,5 +8,6 @@ public interface DatabasePropertyService {
     @NotNull String getJdbcPassword();
     @NotNull String getJdbcUrl();
     @NotNull String getJdbcDriver();
+    @NotNull String getHibernateDialect();
 
 }

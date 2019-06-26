@@ -1,4 +1,4 @@
-package tm.server.service.deltaspike;
+package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +14,7 @@ import tm.server.api.service.TaskService;
 import tm.server.entity.Project;
 import tm.server.entity.Task;
 import tm.server.entity.User;
-import tm.server.repository.deltaspike.TaskRepositoryDeltaspike;
+import tm.server.repository.TaskRepositorySpring;
 import tm.server.utils.DatabaseUtil;
 import tm.server.utils.SessionUtil;
 
@@ -25,12 +25,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Qualifier("spring")
 @Transactional
-public class TaskServiceDeltaspike implements TaskService {
+@Qualifier("spring")
+public class TaskServiceSpring implements TaskService {
 
     @Autowired
-    private TaskRepositoryDeltaspike repositoryDeltaspike;
+    private TaskRepositorySpring repositoryDeltaspike;
 
     @Autowired
     private ServiceLocator serviceLocator;
@@ -46,14 +46,14 @@ public class TaskServiceDeltaspike implements TaskService {
     public Collection<TaskDTO> getAll(@Nullable SessionDTO session) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptyList();
-        return repositoryDeltaspike.findByUserId(userId).stream().map(Task::toDTO).collect(Collectors.toList());
+        return repositoryDeltaspike.findByProject_User_Id(userId).stream().map(Task::toDTO).collect(Collectors.toList());
     }
 
     @Override @NotNull
     public Collection<TaskDTO> getAllSorted(@Nullable SessionDTO session, @Nullable ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptyList();
-        return repositoryDeltaspike.findByUserIdEqualOrderBy(userId, DatabaseUtil.getSortColumn(comparatorType))
+        return repositoryDeltaspike.findByProject_User_IdOrderBy(userId, DatabaseUtil.getSortColumn(comparatorType))
                 .stream().map(Task::toDTO).collect(Collectors.toList());
     }
 
@@ -61,7 +61,7 @@ public class TaskServiceDeltaspike implements TaskService {
     public Collection<TaskDTO> getAllByName(@Nullable SessionDTO session, @Nullable String name) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null || userId.isEmpty() || name.isEmpty()) return Collections.emptyList();
-        return repositoryDeltaspike.findByUserIdEqualAndNameEqual(userId, name)
+        return repositoryDeltaspike.findByProject_User_IdAndName(userId, name)
                 .stream().map(Task::toDTO).collect(Collectors.toList());
     }
 
@@ -69,7 +69,7 @@ public class TaskServiceDeltaspike implements TaskService {
     public Collection<TaskDTO> getAllByNameSorted(@Nullable SessionDTO session, @Nullable String name, @Nullable ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null || userId.isEmpty() || name.isEmpty()) return Collections.emptyList();
-        return repositoryDeltaspike.findByUserIdEqualAndNameEqualOrderBy(userId, name, DatabaseUtil.getSortColumn(comparatorType))
+        return repositoryDeltaspike.findByProject_User_IdAndNameOrderBy(userId, name, DatabaseUtil.getSortColumn(comparatorType))
                 .stream().map(Task::toDTO).collect(Collectors.toList());
     }
 
@@ -77,7 +77,7 @@ public class TaskServiceDeltaspike implements TaskService {
     public Collection<TaskDTO> getTasksByProjectId(@Nullable SessionDTO session, @Nullable String projectId) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || projectId == null || userId.isEmpty() || projectId.isEmpty()) return Collections.emptyList();
-        return repositoryDeltaspike.findByUserIdEqualAndProjectIdEqual(userId, projectId)
+        return repositoryDeltaspike.findByProject_User_IdAndProject_Id(userId, projectId)
                 .stream().map(Task::toDTO).collect(Collectors.toList());
     }
 
@@ -85,7 +85,7 @@ public class TaskServiceDeltaspike implements TaskService {
     public TaskDTO get(@Nullable SessionDTO session, @Nullable String id) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || id == null || userId.isEmpty() || id.isEmpty()) return null;
-        return repositoryDeltaspike.findAnyByUserIdEqualAndIdEqual(userId, id).toDTO();
+        return repositoryDeltaspike.findAnyByProject_User_IdAndId(userId, id).toDTO();
     }
 
     @Override @NotNull

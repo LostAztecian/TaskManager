@@ -1,4 +1,4 @@
-package tm.server.service.deltaspike;
+package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +12,7 @@ import tm.server.api.ServiceLocator;
 import tm.server.api.service.UserService;
 import tm.server.command.user.UserChangePasswordCommand;
 import tm.server.entity.User;
-import tm.server.repository.deltaspike.UserRepositoryDeltaspike;
+import tm.server.repository.UserRepositorySpring;
 import tm.server.utils.CypherUtil;
 import tm.server.utils.SessionUtil;
 
@@ -21,15 +21,15 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Service
-@Qualifier("spring")
 @Transactional
-public class UserServiceDeltaspike implements UserService {
+@Qualifier("spring")
+public class UserServiceSpring implements UserService {
 
     @Autowired
     private ServiceLocator serviceLocator;
 
     @Autowired
-    private UserRepositoryDeltaspike userRepository;
+    private UserRepositorySpring userRepository;
 
     @Nullable
     private String getCurrentUserId(@Nullable final SessionDTO session) throws Exception {

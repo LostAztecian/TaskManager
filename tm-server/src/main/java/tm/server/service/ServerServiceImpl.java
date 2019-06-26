@@ -54,7 +54,7 @@ public class ServerServiceImpl implements ServerService {
 
     @Override @NotNull
     public String showAbout() throws Exception {
-        String out = "Sorry, unable to find config.properties";
+        String out = "Sorry, unable to find configuration.properties";
         try (InputStream input = AboutCommand.class.getClassLoader().getResourceAsStream("application.properties")) {
             Properties prop = new Properties();
             if (input == null) {

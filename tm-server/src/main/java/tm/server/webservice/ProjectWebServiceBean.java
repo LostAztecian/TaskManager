@@ -8,7 +8,6 @@ import tm.common.comparator.ComparatorType;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
 import tm.common.exception.ServerException;
-import tm.server.annotations.Deltaspike;
 import tm.server.api.service.ProjectService;
 
 import javax.jws.WebService;
@@ -18,7 +17,6 @@ import java.util.Collection;
 public class ProjectWebServiceBean implements ProjectWebService {
 
     @Autowired
-    @Deltaspike
     private ProjectService projectService;
 
     public ProjectWebServiceBean() {

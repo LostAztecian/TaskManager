@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import tm.client.api.Command;
 import tm.client.api.PlannedEntity;
 import tm.client.api.ServiceLocator;
@@ -12,13 +14,11 @@ import tm.client.comparator.ComparatorType;
 import tm.client.utils.InputHelper;
 import tm.common.api.webservice.*;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@ApplicationScoped
+@Component
 public class ClientBootstrap implements ServiceLocator {
 
     @Getter @Setter
@@ -28,13 +28,13 @@ public class ClientBootstrap implements ServiceLocator {
     private final Map<String, Command> commands = new LinkedHashMap<>();
     private boolean isTerminated = false;
 
-    @Getter @Inject
+    @Getter @Autowired
     private UserService userService;
-    @Getter @Inject
+    @Getter @Autowired
     private ProjectService projectService;
-    @Getter @Inject
+    @Getter @Autowired
     private TaskService taskService;
-    @Getter @Inject
+    @Getter @Autowired
     private ServerService serverService;
 
     @Getter @Setter

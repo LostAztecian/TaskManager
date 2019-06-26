@@ -1,30 +1,60 @@
 package tm.server;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import tm.common.entity.ProjectDTO;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.TaskDTO;
-import tm.server.annotations.Deltaspike;
 import tm.server.api.service.ProjectService;
 import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
+import tm.server.configuration.SpringJpaConfig;
+import tm.server.service.ServerServiceImpl;
+import tm.server.service.ProjectServiceSpring;
+import tm.server.service.SessionServiceSpring;
+import tm.server.service.TaskServiceSpring;
+import tm.server.service.UserServiceSpring;
 
 import static org.junit.Assert.*;
 
+@ContextConfiguration(loader= AnnotationConfigContextLoader.class,
+        classes={
+                SpringJpaConfig.class,
+                ProjectServiceSpring.class,
+                TaskServiceSpring.class,
+                UserServiceSpring.class,
+                SessionServiceSpring.class,
+                ServerServiceImpl.class
+        })
+@RunWith(SpringRunner.class)
 public class ServiceTests {
 
-    @Autowired
-    @Deltaspike
+    @Autowired @Qualifier("spring")
     private UserService userService;
 
-    @Autowired
-    @Deltaspike
+    @Autowired @Qualifier("spring")
     private ProjectService projectService;
 
-    @Autowired
-    @Deltaspike
+    @Autowired @Qualifier("spring")
     private TaskService taskService;
+
+    private static ApplicationContext applicationContext;
+
+    @BeforeClass
+    public static void beforeSuite() {
+        applicationContext = new AnnotationConfigApplicationContext("tm.server", "tm.server.repository");
+    }
+
+    public void afterSuite() {
+    }
 
     @Test
     public void testUserService() throws Exception {

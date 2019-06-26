@@ -7,7 +7,6 @@ import tm.common.api.webservice.UserWebService;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
 import tm.common.exception.ServerException;
-import tm.server.annotations.Deltaspike;
 import tm.server.api.service.UserService;
 
 import javax.jws.WebService;
@@ -17,7 +16,6 @@ import java.util.Collection;
 public class UserWebServiceBean implements UserWebService {
 
     @Autowired
-    @Deltaspike
     private UserService userService;
 
     public UserWebServiceBean(@NotNull final UserService userService) {

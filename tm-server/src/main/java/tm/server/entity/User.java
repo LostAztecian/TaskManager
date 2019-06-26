@@ -18,6 +18,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Cacheable
+@Table(name = "user")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements tm.common.api.entity.Entity {
 

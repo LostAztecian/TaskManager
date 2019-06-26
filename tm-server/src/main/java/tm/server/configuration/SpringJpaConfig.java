@@ -1,7 +1,8 @@
-package tm.server.config;
+package tm.server.configuration;
 
+import org.hibernate.cfg.Environment;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -10,23 +11,27 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import tm.server.api.service.DatabasePropertyService;
 import tm.server.bootstrap.ServerBootstrap;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"tm.server.repository.deltaspike"})
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = {"tm.server.repository"})
 public class SpringJpaConfig {
+
+    @NotNull
+    private final DatabasePropertyService dbProperties = new DatabasePropertyServiceImpl();
 
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/taskmanager?serverTimezone=UTC&useSSL=false");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName(dbProperties.getJdbcDriver());
+        dataSource.setUrl(dbProperties.getJdbcUrl());
+        dataSource.setUsername(dbProperties.getJdbcUsername());
+        dataSource.setPassword(dbProperties.getJdbcPassword());
         return dataSource;
     }
 
@@ -37,12 +42,19 @@ public class SpringJpaConfig {
         factoryBean.setPackagesToScan("tm.server.repository.deltaspike");
         factoryBean.setDataSource(dataSource);
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        factoryBean.setPackagesToScan("tm.server");
+        factoryBean.setPackagesToScan("tm.server.entity", "tm.server.repository");
         final Properties properties = new Properties();
-        properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect",
-                "org.hibernate.dialect.MySQL8Dialect");
+        properties.put(Environment.HBM2DDL_AUTO, "update");
+        properties.put(Environment.SHOW_SQL, "true");
+        properties.put(Environment.USE_SECOND_LEVEL_CACHE, "true");
+        properties.put(Environment.USE_QUERY_CACHE, "true");
+        properties.put(Environment.CACHE_REGION_PREFIX, "taskmanager-server");
+        properties.put(Environment.CACHE_PROVIDER_CONFIG, "hazelcast.xml");
+        properties.put(Environment.CACHE_REGION_FACTORY, "com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory");
+        properties.put(Environment.IMPLICIT_NAMING_STRATEGY, "jpa");
+//        properties.put(Environment.USE_MINIMAL_PUTS, "true");
+//        properties.put("hibernate.cache.hazelcast.use_lite_member", "true"); //does not contain any data
+        properties.put("hibernate.dialect", this.dbProperties.getHibernateDialect());
         factoryBean.setJpaProperties(properties);
         return factoryBean;
     }

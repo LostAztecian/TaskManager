@@ -1,4 +1,4 @@
-package tm.server.service.deltaspike;
+package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +11,7 @@ import tm.server.api.ServiceLocator;
 import tm.server.api.service.SessionService;
 import tm.server.entity.Session;
 import tm.server.entity.User;
-import tm.server.repository.deltaspike.SessionRepositoryDeltaspike;
+import tm.server.repository.SessionRepositorySpring;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,12 +19,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Qualifier("spring")
 @Transactional
-public class SessionServiceDeltaspike implements SessionService {
+@Qualifier("spring")
+public class SessionServiceSpring implements SessionService {
 
     @Autowired
-    private SessionRepositoryDeltaspike repositoryDeltaspike;
+    private SessionRepositorySpring repositoryDeltaspike;
 
     @Autowired
     private ServiceLocator serviceLocator;

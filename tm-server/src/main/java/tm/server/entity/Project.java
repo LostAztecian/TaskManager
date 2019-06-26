@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 @Cacheable
+@Table(name = "project")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Project extends AbstractPlannedEntity {
 

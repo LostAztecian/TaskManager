@@ -17,6 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Cacheable
+@Table(name = "session")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Session {
 

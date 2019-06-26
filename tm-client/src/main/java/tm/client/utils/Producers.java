@@ -1,5 +1,8 @@
 package tm.client.utils;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import tm.common.api.webservice.ProjectService;
 import tm.common.api.webservice.ServerService;
 import tm.common.api.webservice.TaskService;
@@ -9,27 +12,26 @@ import tm.server.webservice.ServerWebServiceBeanService;
 import tm.server.webservice.TaskWebServiceBeanService;
 import tm.server.webservice.UserWebServiceBeanService;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-
+@Configuration
+@ComponentScan(basePackages = "tm.client")
 public class Producers {
 
-    @ApplicationScoped @Produces
+    @Bean
     public static UserService getUserService() {
         return new UserWebServiceBeanService().getUserWebServiceBeanPort();
     }
 
-    @ApplicationScoped @Produces
+    @Bean
     public static ServerService getServerService() {
         return new ServerWebServiceBeanService().getServerWebServiceBeanPort();
     }
 
-    @ApplicationScoped @Produces
+    @Bean
     public static ProjectService getProjectService() {
         return new ProjectWebServiceBeanService().getProjectWebServiceBeanPort();
     }
 
-    @ApplicationScoped @Produces
+    @Bean
     public static TaskService getTaskService() {
         return new TaskWebServiceBeanService().getTaskWebServiceBeanPort();
     }

@@ -1,4 +1,4 @@
-package tm.server.service.deltaspike;
+package tm.server.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +13,7 @@ import tm.server.api.ServiceLocator;
 import tm.server.api.service.ProjectService;
 import tm.server.entity.Project;
 import tm.server.entity.User;
-import tm.server.repository.deltaspike.ProjectRepositoryDeltaspike;
+import tm.server.repository.ProjectRepositorySpring;
 import tm.server.utils.DatabaseUtil;
 import tm.server.utils.SessionUtil;
 
@@ -24,15 +24,15 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Qualifier("spring")
-public class ProjectServiceDeltaspike implements ProjectService {
+public class ProjectServiceSpring implements ProjectService {
 
-    private ProjectRepositoryDeltaspike projectRepositoryDeltaspike;
+    private ProjectRepositorySpring projectRepositorySpring;
 
     private ServiceLocator serviceLocator;
 
     @Autowired
-    public void setProjectRepositoryDeltaspike(ProjectRepositoryDeltaspike projectRepositoryDeltaspike) {
-        this.projectRepositoryDeltaspike = projectRepositoryDeltaspike;
+    public void setProjectRepositorySpring(ProjectRepositorySpring projectRepositorySpring) {
+        this.projectRepositorySpring = projectRepositorySpring;
     }
 
     @Autowired
@@ -51,14 +51,14 @@ public class ProjectServiceDeltaspike implements ProjectService {
     public Collection<ProjectDTO> getAll(@Nullable SessionDTO session) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptyList();
-        return projectRepositoryDeltaspike.findByUserId(userId).stream().map(Project::toDTO).collect(Collectors.toList());
+        return projectRepositorySpring.findByUser_Id(userId).stream().map(Project::toDTO).collect(Collectors.toList());
     }
 
     @Override @NotNull
     public Collection<ProjectDTO> getAllSorted(@Nullable SessionDTO session, @Nullable ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null) return Collections.emptyList();
-        return projectRepositoryDeltaspike.findByUserIdEqualOrderBy(userId, DatabaseUtil.getSortColumn(comparatorType)).stream()
+        return projectRepositorySpring.findByUser_IdOrderBy(userId, DatabaseUtil.getSortColumn(comparatorType)).stream()
                 .map(Project::toDTO).collect(Collectors.toList());
     }
 
@@ -66,7 +66,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
     public Collection<ProjectDTO> getAllByName(@Nullable SessionDTO session, @Nullable String name) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null || userId.isEmpty() || name.isEmpty()) return Collections.emptyList();
-        return projectRepositoryDeltaspike.findByUserIdEqualAndNameEqual(userId, name).stream().map(Project::toDTO)
+        return projectRepositorySpring.findByUser_IdAndName(userId, name).stream().map(Project::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -74,7 +74,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
     public Collection<ProjectDTO> getAllByNameSorted(@Nullable SessionDTO session, @Nullable String name, @Nullable ComparatorType comparatorType) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null || userId.isEmpty() || name.isEmpty()) return Collections.emptyList();
-        return projectRepositoryDeltaspike.findByUserIdEqualAndNameEqualOrderBy(userId, name, DatabaseUtil.getSortColumn(comparatorType))
+        return projectRepositorySpring.findByUser_IdAndNameOrderBy(userId, name, DatabaseUtil.getSortColumn(comparatorType))
                 .stream().map(Project::toDTO).collect(Collectors.toList());
     }
 
@@ -82,7 +82,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
     public ProjectDTO get(@Nullable SessionDTO session, @Nullable String id) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || id == null || userId.isEmpty() || id.isEmpty()) return null;
-        return projectRepositoryDeltaspike.findAnyByUserIdEqualAndIdEqual(userId, id).toDTO();
+        return projectRepositorySpring.findAnyByUser_IdAndId(userId, id).toDTO();
     }
 
     @Override @NotNull
@@ -90,7 +90,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
         final String userId = getCurrentUserId(session);
         if (userId == null || searchLine == null || userId.isEmpty() || searchLine.isEmpty()) return Collections.emptyList();
         searchLine = "%" + searchLine + "%";
-        return projectRepositoryDeltaspike.search(userId, searchLine).stream().map(Project::toDTO).collect(Collectors.toList());
+        return projectRepositorySpring.search(userId, searchLine).stream().map(Project::toDTO).collect(Collectors.toList());
     }
 
     @Override @NotNull
@@ -98,7 +98,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
         final String userId = getCurrentUserId(session);
         if (userId == null || projectDTO == null || userId.isEmpty()) return false;
         if (!userId.equals(projectDTO.getUserId())) return false;
-        projectRepositoryDeltaspike.save(new Project(projectDTO, new User(serviceLocator.getUserService().get(session, userId))));
+        projectRepositorySpring.save(new Project(projectDTO, new User(serviceLocator.getUserService().get(session, userId))));
         return true;
     }
 
@@ -106,7 +106,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
     public Boolean delete(@Nullable SessionDTO session, @Nullable String id) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || id == null || userId.isEmpty() || id.isEmpty()) return false;
-        projectRepositoryDeltaspike.deleteByUser_IdAndId(userId, id);
+        projectRepositorySpring.deleteByUser_IdAndId(userId, id);
         return true;
     }
 
@@ -121,7 +121,7 @@ public class ProjectServiceDeltaspike implements ProjectService {
         final String userId = getCurrentUserId(session);
         if (userId == null || ids == null || userId.isEmpty() || ids.isEmpty()) return false;
         for (final String id : ids) {
-            projectRepositoryDeltaspike.deleteByUser_IdAndId(userId, id);
+            projectRepositorySpring.deleteByUser_IdAndId(userId, id);
         }
         return true;
     }
@@ -130,14 +130,14 @@ public class ProjectServiceDeltaspike implements ProjectService {
     public Boolean deleteByName(@Nullable SessionDTO session, @Nullable String name) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || name == null || userId.isEmpty() || name.isEmpty()) return false;
-        return projectRepositoryDeltaspike.deleteByUser_IdAndName(userId, name) > 0;
+        return projectRepositorySpring.deleteByUser_IdAndName(userId, name) > 0;
     }
 
     @Override @NotNull
     public Boolean deleteAll(@Nullable SessionDTO session) throws Exception {
         final String userId = getCurrentUserId(session);
         if (userId == null || userId.isEmpty()) return false;
-        return projectRepositoryDeltaspike.deleteByUser_Id(userId) > 0;
+        return projectRepositorySpring.deleteByUser_Id(userId) > 0;
     }
 
     @Override @NotNull

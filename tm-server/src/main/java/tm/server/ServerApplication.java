@@ -1,5 +1,7 @@
 package tm.server;
 
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import tm.server.api.ServiceLocator;
@@ -41,13 +43,13 @@ public class ServerApplication {
 
     public static void main(String[] args) {
 
-//        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
+        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("tm.server", "tm.server.repository");
         ServiceLocator serviceLocator = context.getBean("bootstrap", ServerBootstrap.class);
         serviceLocator.init(CLASSES);
 
-//        hazelcastInstance.shutdown();
+        hazelcastInstance.shutdown();
 
     }
 
