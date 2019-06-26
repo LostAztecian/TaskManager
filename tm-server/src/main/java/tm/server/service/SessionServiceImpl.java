@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Qualifier("spring")
-public class SessionServiceSpring implements SessionService {
+public class SessionServiceImpl implements SessionService {
 
     @Autowired
     private SessionRepositorySpring repositoryDeltaspike;

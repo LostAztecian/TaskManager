@@ -1,4 +1,4 @@
-package tm.server.utils;
+package tm.server.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

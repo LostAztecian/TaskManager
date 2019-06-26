@@ -3,9 +3,7 @@ package tm.server.command.general;
 import org.jetbrains.annotations.NotNull;
 import tm.common.comparator.ComparatorType;
 import tm.server.command.AbstractCommand;
-import tm.server.utils.InputHelper;
-
-import java.io.IOException;
+import tm.server.util.InputHelper;
 
 public class SetSortMethodCommand extends AbstractCommand {
 

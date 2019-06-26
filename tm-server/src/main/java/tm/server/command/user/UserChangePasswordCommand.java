@@ -2,9 +2,7 @@ package tm.server.command.user;
 
 import org.jetbrains.annotations.NotNull;
 import tm.server.command.AbstractCommand;
-import tm.server.utils.InputHelper;
-
-import java.io.IOException;
+import tm.server.util.InputHelper;
 
 public class UserChangePasswordCommand extends AbstractCommand {
 

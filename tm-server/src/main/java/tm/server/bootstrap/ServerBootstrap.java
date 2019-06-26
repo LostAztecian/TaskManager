@@ -15,7 +15,7 @@ import tm.common.entity.SessionDTO;
 import tm.server.api.ServiceLocator;
 import tm.server.api.service.*;
 import tm.server.command.AbstractCommand;
-import tm.server.utils.InputHelper;
+import tm.server.util.InputHelper;
 
 import javax.xml.ws.Endpoint;
 import java.sql.Connection;

@@ -15,8 +15,8 @@ import tm.server.entity.Project;
 import tm.server.entity.Task;
 import tm.server.entity.User;
 import tm.server.repository.TaskRepositorySpring;
-import tm.server.utils.DatabaseUtil;
-import tm.server.utils.SessionUtil;
+import tm.server.util.DatabaseUtil;
+import tm.server.util.SessionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Qualifier("spring")
-public class TaskServiceSpring implements TaskService {
+public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskRepositorySpring repositoryDeltaspike;

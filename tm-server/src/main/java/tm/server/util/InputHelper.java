@@ -1,4 +1,4 @@
-package tm.server.utils;
+package tm.server.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

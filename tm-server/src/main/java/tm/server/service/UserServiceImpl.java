@@ -13,8 +13,8 @@ import tm.server.api.service.UserService;
 import tm.server.command.user.UserChangePasswordCommand;
 import tm.server.entity.User;
 import tm.server.repository.UserRepositorySpring;
-import tm.server.utils.CypherUtil;
-import tm.server.utils.SessionUtil;
+import tm.server.util.CypherUtil;
+import tm.server.util.SessionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Qualifier("spring")
-public class UserServiceSpring implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private ServiceLocator serviceLocator;

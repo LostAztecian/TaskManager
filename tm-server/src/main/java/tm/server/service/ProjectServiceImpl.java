@@ -14,8 +14,8 @@ import tm.server.api.service.ProjectService;
 import tm.server.entity.Project;
 import tm.server.entity.User;
 import tm.server.repository.ProjectRepositorySpring;
-import tm.server.utils.DatabaseUtil;
-import tm.server.utils.SessionUtil;
+import tm.server.util.DatabaseUtil;
+import tm.server.util.SessionUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @Qualifier("spring")
-public class ProjectServiceSpring implements ProjectService {
+public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepositorySpring projectRepositorySpring;
 

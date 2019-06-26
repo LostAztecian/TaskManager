@@ -19,7 +19,7 @@ import tm.server.api.ServiceLocator;
 import tm.server.api.service.ServerService;
 import tm.server.command.general.AboutCommand;
 import tm.server.dto.UserData;
-import tm.server.utils.SessionUtil;
+import tm.server.util.SessionUtil;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

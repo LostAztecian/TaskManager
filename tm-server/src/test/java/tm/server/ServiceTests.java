@@ -18,20 +18,20 @@ import tm.server.api.service.TaskService;
 import tm.server.api.service.UserService;
 import tm.server.configuration.SpringJpaConfig;
 import tm.server.service.ServerServiceImpl;
-import tm.server.service.ProjectServiceSpring;
-import tm.server.service.SessionServiceSpring;
-import tm.server.service.TaskServiceSpring;
-import tm.server.service.UserServiceSpring;
+import tm.server.service.ProjectServiceImpl;
+import tm.server.service.SessionServiceImpl;
+import tm.server.service.TaskServiceImpl;
+import tm.server.service.UserServiceImpl;
 
 import static org.junit.Assert.*;
 
 @ContextConfiguration(loader= AnnotationConfigContextLoader.class,
         classes={
                 SpringJpaConfig.class,
-                ProjectServiceSpring.class,
-                TaskServiceSpring.class,
-                UserServiceSpring.class,
-                SessionServiceSpring.class,
+                ProjectServiceImpl.class,
+                TaskServiceImpl.class,
+                UserServiceImpl.class,
+                SessionServiceImpl.class,
                 ServerServiceImpl.class
         })
 @RunWith(SpringRunner.class)

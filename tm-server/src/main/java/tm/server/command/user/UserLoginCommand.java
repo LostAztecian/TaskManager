@@ -3,7 +3,7 @@ package tm.server.command.user;
 import org.jetbrains.annotations.NotNull;
 import tm.common.entity.SessionDTO;
 import tm.server.command.AbstractCommand;
-import tm.server.utils.InputHelper;
+import tm.server.util.InputHelper;
 
 public class UserLoginCommand extends AbstractCommand {
 

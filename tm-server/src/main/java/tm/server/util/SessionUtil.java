@@ -1,11 +1,10 @@
-package tm.server.utils;
+package tm.server.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tm.common.entity.SessionDTO;
 import tm.common.entity.UserDTO;
 import tm.server.entity.Session;
-import tm.server.entity.User;
 
 public class SessionUtil {
 
